@@ -18,18 +18,6 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
 
 STATIC_URL = '/static/'
-if DEBUG:
-    STATIC_DIR = os.path.join(BASE_DIR, 'static')
-    STATICFILES_DIRS = [
-        STATIC_DIR,
-        '/home/django/lawyer/static/',
-    ]
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-    STATICFILES_FINDERS = (
-        'django.contrib.staticfiles.finders.FileSystemFinder',
-        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    )
 MEDIA_URL = '/media/'
 
 TEMPLATES = [
