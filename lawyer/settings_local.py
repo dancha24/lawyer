@@ -9,6 +9,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 # Application definition
 
