@@ -6,7 +6,7 @@ from lawyer.settings import *
 SECRET_KEY = 'u8aivuxo8!avrtop+*xw#g=94ra#-(%u@k-&&w$xc18ut)ds8s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
