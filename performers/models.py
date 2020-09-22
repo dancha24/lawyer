@@ -70,3 +70,15 @@ class Performers(models.Model):
     class Meta:
         verbose_name = 'Исполнитель'
         verbose_name_plural = 'Исполнители'
+
+
+class PerformersDoc(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Номер договора')
+    performer = models.ForeignKey(Performers, on_delete=models.DO_NOTHING, verbose_name='Исполнитель')
+
+    def __str__(self):
+        return self.name + ' ' + self.performer.fio_min()
+
+    class Meta:
+        verbose_name = 'Договор с исполнителями'
+        verbose_name_plural = 'Договора с исполнителем'
