@@ -21,16 +21,16 @@ STATUS_PRISE = (
 
 
 class Affairs(models.Model):
-    name = models.CharField(max_length=200, verbose_name='Название дела')
+    name = models.CharField(max_length=200, verbose_name='Номер договора')
     deal = models.CharField(max_length=200, verbose_name='Ссылка на сделку Битрикс')
     date_in = models.DateField(default=timezone.now, verbose_name='Дата начала сделки')
     date_out = models.DateField(verbose_name='Дата окончания сделки', blank=True, null=True)
     customers = models.ForeignKey(Customers, default=None, on_delete=models.DO_NOTHING, verbose_name='Клиент')
-    performer = models.ForeignKey(Performers, default=None, on_delete=models.DO_NOTHING, verbose_name='Исполнитель')
+    performer = models.ForeignKey(Performers, default=None, on_delete=models.DO_NOTHING, verbose_name='Исполнитель', blank=True, null=True)
     jobcategories = models.ForeignKey(JobCategories, default=None, on_delete=models.DO_NOTHING,
-                                      verbose_name='Вид')
+                                      verbose_name='Категория дела')
     prise = models.FloatField(verbose_name='Цена')
-    priseperformer = models.FloatField(verbose_name='Вознаграждение для исполнителя')
+    priseperformer = models.FloatField(verbose_name='Вознаграждение для исполнителя', blank=True, null=True)
     prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
     priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
