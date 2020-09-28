@@ -1,0 +1,13 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+<div class="col-md-12 margin-bottom-20">
+<a href="{% url 'receipt_add' %}" class="save btn btn-default">Приход</a>
+<a href="{% url 'spending_add' %}" class="save btn btn-default">Расход</a>
+<a href="{% url 'debt_add' %}" class="save btn btn-default">Долги</a>
+<a href="{% url 'oweus_add' %}" class="save btn btn-default">Должники</a>
+</div>
+
+{% endblock %}

@@ -19,6 +19,7 @@ from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('finansy/', include('finansy.urls')),
 ]
 if settings.DEBUG:
     import debug_toolbar

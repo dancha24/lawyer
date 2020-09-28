@@ -1,0 +1,12 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+<div class="col-md-12 margin-bottom-20">
+<a href="{% url 'zp_all' %}" class="save btn btn-default">Записи</a>
+<a href="{% url 'var_fuel' %}" class="save btn btn-default">Виды топлива</a>
+<a href="{% url 'var_zp' %}" class="save btn btn-default">Виды ЗП</a>
+</div>
+
+{% endblock %}

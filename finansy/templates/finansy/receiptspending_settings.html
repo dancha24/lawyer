@@ -1,0 +1,30 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+    <h2>Настройки</h2>
+
+<a href="{% url 'finansy_type_all' %}" class="save btn btn-default">Виды вижения средств</a>
+    <h4>Приход</h4>
+<div class="col-md-12 margin-bottom-20">
+<a href="{% url 'receipt_categories_all' %}" class="save btn btn-default">Категории</a>
+</div>
+    <h4>Расход</h4>
+<div class="col-md-12 margin-bottom-20">
+<a href="{% url 'spending_categories_all' %}" class="save btn btn-default">Категории</a>
+</div>
+{#    <h4>Долги</h4>#}
+{#<div class="col-md-12 margin-bottom-20">#}
+{#<a href="{% url 'receipt_add' %}" class="save btn btn-default">Виды</a>#}
+{#<a href="{% url 'spending_add' %}" class="save btn btn-default">Категории</a>#}
+{#<a href="{% url 'debt_add' %}" class="save btn btn-default">Подкатегории</a>#}
+{#</div>#}
+{#    <h4>Должники</h4>#}
+{#<div class="col-md-12 margin-bottom-20">#}
+{#<a href="{% url 'receipt_add' %}" class="save btn btn-default">Виды</a>#}
+{#<a href="{% url 'spending_add' %}" class="save btn btn-default">Категории</a>#}
+{#<a href="{% url 'debt_add' %}" class="save btn btn-default">Подкатегории</a>#}
+{#</div>#}
+
+{% endblock %}

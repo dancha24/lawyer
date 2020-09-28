@@ -1,0 +1,16 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-success">Сохранить</button>
+        {% if next != False %}
+            <button name="addp" value="addp" type="submit" class="save btn btn-success">Сохранить и добавить еще
+            </button>
+        {% endif %}
+        <a href="javascript:history.go(-1)" class="save btn btn-danger">Отмена</a>
+    </form>
+
+{% endblock %}

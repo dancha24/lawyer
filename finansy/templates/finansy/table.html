@@ -1,0 +1,54 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+<div class="col-md-12 margin-bottom-20">
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        {% if variant == 'finansy_type_all' %}
+        <li role="presentation"><a href="{% url 'finansy_type_add' %}" role="tab" aria-controls="Добавить" >Добавить</a></li>
+        <li role="presentation" class="active"><a href="{% url 'finansy_type_all' %}" role="tab" aria-controls="Виды прихода" >Виды прихода</a></li>
+        {% endif %}
+        {% if variant == 'receipt_categories_all' %}
+        <li role="presentation"><a href="{% url 'receipt_categories_add' %}" role="tab" aria-controls="Добавить" >Добавить</a></li>
+        <li role="presentation" class="active"><a href="{% url 'receipt_categories_all' %}" role="tab" aria-controls="Категории" >Категории</a></li>
+        {% endif %}
+        {% if variant == 'spending_categories_all' %}
+        <li role="presentation"><a href="{% url 'spending_categories_add' %}" role="tab" aria-controls="Добавить" >Добавить</a></li>
+        <li role="presentation" class="active"><a href="{% url 'spending_categories_all' %}" role="tab" aria-controls="Категории" >Категории</a></li>
+        {% endif %}
+        </ul>
+    <!-- /.nav-tabs -->
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <table id="example" class="table table-striped table-bordered display" style="width:100%">
+						<thead>
+							<tr>
+								<th>Название</th>
+                                <th>Подробнее</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>Название</th>
+                                <th>Подробнее</th>
+							</tr>
+						</tfoot>
+						<tbody>
+                         {% for item in for_table %}
+							<tr>
+								<td style="vertical-align: middle">{{ item.name }}</td>
+                                <th style="vertical-align: middle">
+                                    {% if variant == 'finansy_type_all' %}<a class="btn btn-danger btn-xs waves-effect waves-light" href="{% url 'finansy_type_del' type_id=item.id %}">Удалить</a>{% endif %}
+                                    {% if variant == 'receipt_categories_all' %}<a class="btn btn-danger btn-xs waves-effect waves-light" href="{% url 'receipt_categories_del' categories_id=item.id %}">Удалить</a>{% endif %}
+                                    {% if variant == 'spending_categories_all' %}<a class="btn btn-danger btn-xs waves-effect waves-light" href="{% url 'spending_categories_del' categories_id=item.id %}">Удалить</a>{% endif %}
+                                </th>
+							</tr>
+                         {% endfor %}
+						</tbody>
+					</table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

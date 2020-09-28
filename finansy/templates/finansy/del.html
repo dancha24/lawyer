@@ -1,0 +1,25 @@
+{% extends 'control.html' %}
+{% load static %}
+{% block content %}
+<div class="example-content text-center">
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Удаление</h4>
+                </div>
+                <div class="modal-body">
+                    <h5>Объект: <strong>{{ object }}</strong></h5>
+                </div>
+                <div class="modal-footer">
+                    <form style="display: inline" action="" method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-sm waves-effect waves-light">Удалить</button>
+                    </form>
+                    <a href="javascript:history.go(-1)" class="btn btn-primary btn-sm waves-effect waves-light">Отмена</a>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</div>
+{% endblock %}

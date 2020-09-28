@@ -1,0 +1,40 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-success">Сохранить</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Сохранить и добавить другое <span class="caret"></span></button>
+            <ul style="border: none; box-shadow: none" class="dropdown-menu">
+                <li>
+                    <button class="btn btn-xs btn-success width-100 margin-bottom-10" name="add_rec" value="add_rec"
+                            type="submit">Приход
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-xs btn-success width-100 margin-bottom-10" name="add_spe" value="add_spe"
+                            type="submit">Расход
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-xs btn-success width-100" name="add_owe" value="add_owe" type="submit">
+                        Должник
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <a href="{% url 'oweus_all' %}" class="save btn btn-danger">Отмена</a>
+    </form>
+
+{% endblock %}
+{% block script %}
+    <script>
+        document.getElementById('num').addEventListener('mousewheel', function (e) {
+            e.preventDefault();
+        });
+    </script>
+{% endblock %}

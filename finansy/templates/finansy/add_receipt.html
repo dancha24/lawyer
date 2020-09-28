@@ -1,0 +1,102 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+    <form method="post" class="form-horizontal">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.sum.id_for_label }}" class="col-sm-2 control-label">{{ form.sum.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.sum }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.type.id_for_label }}" class="col-sm-2 control-label">{{ form.type.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.type }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.category.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.category.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.category }}
+            </div>
+        </div>
+
+
+        <div id="car" style="display:block;" class="form-group">
+            <label for="{{ form.car.id_for_label }}" class="col-sm-2 control-label">{{ form.car.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.car }}
+            </div>
+        </div>
+        <div id="dolg" style="display:block;" class="form-group">
+            <label for="{{ form.owe_us.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.owe_us.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.owe_us }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.user_do.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.user_do.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.user_do }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.com.id_for_label }}" class="col-sm-2 control-label">{{ form.com.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.com }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.date.id_for_label }}" class="col-sm-2 control-label">{{ form.date.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.date }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.city.id_for_label }}" class="col-sm-2 control-label">{{ form.city.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.city }}
+            </div>
+        </div>
+
+
+        <button type="submit" class="save btn btn-success">Сохранить</button>
+        <div class="btn-group">
+            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">Сохранить и добавить другое <span class="caret"></span></button>
+            <ul style="border: none; box-shadow: none" class="dropdown-menu">
+                <li>
+                    <button class="btn btn-xs btn-success width-100 margin-bottom-10" name="add_rec" value="add_rec"
+                            type="submit">Приход
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-xs btn-success width-100 margin-bottom-10" name="add_spe" value="add_spe"
+                            type="submit">Расход
+                    </button>
+                </li>
+                <li>
+                    <button class="btn btn-xs btn-success width-100" name="add_owe" value="add_owe" type="submit">
+                        Должник
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <a href="{% url 'finansy_today_all' %}" class="save btn btn-danger">Отмена</a>
+    </form>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static "myplug/other/for_add_receipt.js" %}"></script>
+
+    <script>
+        document.getElementById('num').addEventListener('mousewheel', function (e) {
+            e.preventDefault();
+        });
+    </script>
+{% endblock %}

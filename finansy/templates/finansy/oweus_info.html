@@ -1,0 +1,98 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+<div class="row small-spacing">
+    <div class="row text-left">
+        <div class="col-md-12 col-xs-12">
+            <div class="box-content card">
+							<h4 class="box-title"><i class="ico fa fa-file-text"></i>Сведения</h4>
+							<!-- /.box-title -->
+							<div class="dropdown js__drop_down">
+								<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+								<ul class="sub-menu">
+									<li><a href="">Изменить</a></li>
+									<li class="split"></li>
+									<li >
+                                            <a href="{% url 'oweus_del' pk=object.id %}" style="border:none; padding-left: 20px; padding-right: 20px; padding-top: 6px;
+                                             padding-bottom: 6px;background-color:transparent;" type="submit" class="text-danger">Удалить</a>
+                                    </li>
+								</ul>
+								<!-- /.sub-menu -->
+							</div>
+							<!-- /.card-content -->
+								<table class="table table-bordered margin-bottom-0">
+							<tbody>
+                                <tr>
+									<th>Должник</th>
+                                    {% if object.person is not Null %}
+									<td><a href="{% url 'drivers_info' driver_id=object.person.id %}">{{ object.person }}</a></td>
+                                    {% endif %}
+                                    {% if object.org is not Null %}
+									<td><a href="{% url 'organizations_info' organization_id=object.org.id %}">{{ object.org }}</a></td>
+                                    {% endif %}
+								</tr>
+                                <tr>
+									<th>Комментарий</th>
+									<td>{{ object.com }}</td>
+								</tr>
+                                <tr>
+									<th>Сумма долга</th>
+									<td>{{ object.sum }}</td>
+								</tr>
+                                <tr>
+									<th>Отдал</th>
+									<td>{{ object.sum_now }}</td>
+								</tr>
+                                <tr>
+									<th>Остаток долга</th>
+									<td>{{ object.ostatok }}</td>
+								</tr>
+							</tbody>
+						</table>
+						</div>
+        </div>
+        <div class="col-md-12 col-xs-12">
+            <div class="box-content card">
+							<h4 class="box-title"><i class="ico fa fa-file-text"></i>Платежи</h4>
+							<!-- /.box-title -->
+							<div class="dropdown js__drop_down">
+								<a href="#" class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+								<ul class="sub-menu">
+									<li><a href="edit">Изменить</a></li>
+									<li class="split"></li>
+									<li type="button">
+                                        <form method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" id="namedel" name="namedel" value="">
+                                            <button style="border:none; padding-left: 20px; padding-right: 20px; padding-top: 6px;
+                                             padding-bottom: 6px;background-color:transparent;" type="submit" class="text-danger">Удалить</button>
+{#                                        <a class="text-danger" href="#">Удалить</a>#}
+                                        </form>
+                                    </li>
+								</ul>
+								<!-- /.sub-menu -->
+							</div>
+							<!-- /.card-content -->
+                <table class="table table-bordered margin-bottom-0">
+                    <thead>
+                    <th>Дата внесения</th>
+                    <th>Сумма</th>
+                    <th>Коментарий</th>
+                    </thead>
+							<tbody>
+                            {% for rep in receipts %}
+                                <tr>
+									<td>{{ rep.date }}</td>
+									<td>{{ rep.sum }}</td>
+									<td>{{ rep.com }}</td>
+								</tr>
+                            {% endfor %}
+							</tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
