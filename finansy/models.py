@@ -87,7 +87,7 @@ class Receipt(models.Model):
             summ += deal.sum
         return (summ)
 
-    # Фильтр прихода
+    # Фильтр прихода.
     @staticmethod
     def receipt_in_filter(request):
         year = request.GET.get('date__year')
