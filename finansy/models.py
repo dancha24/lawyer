@@ -1,10 +1,18 @@
+from django.db.models import Q
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
 from affairs.models import Affairs
 from django.contrib.auth.models import User
+from datetime import datetime, date, time
+from django.http import request, HttpResponse ,HttpRequest
+from django.shortcuts import render
+from django.contrib.admin import options
 
+d = datetime.now()  # or whatever you want
+DATE = date
+ON = 'ON'
 CASH = 'CH'
 CARD = 'CD'
 BANK = 'BK'
@@ -40,6 +48,113 @@ class Receipt(models.Model):
     class Meta:
         verbose_name = 'Запись прихода'
         verbose_name_plural = 'Записи прихода'
+
+    # Дел в работе сегодня
+    @staticmethod
+    def receipt_in():
+        return Receipt.objects.filter(date=datetime.now())
+
+    # Дел в работе кол-во сегодня
+    @staticmethod
+    def receipt_in_count():
+        return Receipt.receipt_in().count()
+
+    # Дел в работе на сумму сегодня
+    @staticmethod
+    def receipt_in_prise_sum():
+        summ = 0
+        deals = Receipt.receipt_in()
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
+
+    # Дел в работе месяц
+    @staticmethod
+    def receipt_in_mount():
+        return Receipt.objects.filter(date__month=d.month)
+
+    # Дел в работе месяц
+    @staticmethod
+    def receipt_in_count_mount():
+        return Receipt.receipt_in_mount().count()
+
+    # Дел в работе на сумму
+    @staticmethod
+    def receipt_in_prise_sum_mount():
+        summ = 0
+        deals = Receipt.receipt_in_mount()
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
+
+    # Фильтр прихода
+    @staticmethod
+    def receipt_in_filter(request):
+        year = request.GET.get('date__year')
+        month = request.GET.get('date__month')
+        day = request.GET.get('date__day')
+        deal = request.GET.get('deal__id__exact')
+        type_exact = request.GET.get('type__exact')
+        if year == None and month == None and day == None and deal == None and type_exact == None:
+            found = Receipt.objects.filter()
+        elif year == None and month == None and day == None and deal == None:
+            found = Receipt.objects.filter(type=type_exact)
+        elif month == None and day == None and deal == None and type_exact == None:
+            found = Receipt.objects.filter(date__year=year)
+        elif year == None and month == None and day == None and type_exact == None:
+            found = Receipt.objects.filter(deal__id=deal)
+        elif year == None and month == None and day == None:
+            found = Receipt.objects.filter(deal__id=deal).filter(type=type_exact)
+        elif day == None and type_exact == None and deal == None:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month)
+        elif month == None and day == None and type_exact == None:
+            found = Receipt.objects.filter(date__year=year).filter(deal__id=deal)
+        elif month == None and day == None and deal == None:
+            found = Receipt.objects.filter(date__year=year).filter(type=type_exact)
+        elif month == None and day == None:
+            found = Receipt.objects.filter(date__year=year).filter(deal__id=deal).filter(type=type_exact)
+        elif day == None and deal == None :
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(type=type_exact)
+        elif day == None and type_exact == None:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal)
+        elif deal == None and type_exact == None:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day)
+        elif deal == None:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(type=type_exact)
+        elif day == None:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(type=type_exact)
+        else:
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
+                filter(deal__id=deal).filter(type=type_exact)
+        return found
+
+    #Фильтр
+    @staticmethod
+    def filter(request):
+        summ = 0
+        deals = Receipt.receipt_in_filter(request)
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
+
+    # Дел в работе все время
+    @staticmethod
+    def receipt_in_all_time():
+        return Receipt.objects.filter()
+
+    # Дел в работе кол-во все время
+    @staticmethod
+    def receipt_in_count_all_time():
+        return Receipt.receipt_in_all_time().count()
+
+    # Дел в работе на сумму все время
+    @staticmethod
+    def receipt_in_prise_sum_all_time():
+        summ = 0
+        deals = Receipt.receipt_in_all_time()
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
 
 
 @receiver(post_save, sender=Receipt)
