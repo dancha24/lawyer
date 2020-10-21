@@ -116,6 +116,9 @@ class Receipt(models.Model):
         elif deal == None:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
                 type=type_exact)
+        elif type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
+                deal__id=deal)
         elif day == None:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
                 type=type_exact)
@@ -208,6 +211,60 @@ class Spending(models.Model):
     class Meta:
         verbose_name = 'Запись расхода'
         verbose_name_plural = 'Записи расхода'
+
+    # Фильтр прихода.
+    @staticmethod
+    def receipt_in_filter(request):
+        year = request.GET.get('date__year')
+        month = request.GET.get('date__month')
+        day = request.GET.get('date__day')
+        deal = request.GET.get('deal__id__exact')
+        type_exact = request.GET.get('type__exact')
+        if year == None and month == None and day == None and deal == None and type_exact == None:
+            found = Spending.objects.filter()
+        elif year == None and month == None and day == None and deal == None:
+            found = Spending.objects.filter(type=type_exact)
+        elif month == None and day == None and deal == None and type_exact == None:
+            found = Spending.objects.filter(date__year=year)
+        elif year == None and month == None and day == None and type_exact == None:
+            found = Spending.objects.filter(deal__id=deal)
+        elif year == None and month == None and day == None:
+            found = Spending.objects.filter(deal__id=deal).filter(type=type_exact)
+        elif day == None and type_exact == None and deal == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month)
+        elif month == None and day == None and type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(deal__id=deal)
+        elif month == None and day == None and deal == None:
+            found = Spending.objects.filter(date__year=year).filter(type=type_exact)
+        elif month == None and day == None:
+            found = Spending.objects.filter(date__year=year).filter(deal__id=deal).filter(type=type_exact)
+        elif day == None and deal == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(type=type_exact)
+        elif day == None and type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal)
+        elif deal == None and type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day)
+        elif deal == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
+                type=type_exact)
+        elif type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal)
+        elif day == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
+                type=type_exact)
+        else:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
+                filter(deal__id=deal).filter(type=type_exact)
+        return found
+
+    # Фильтр
+    @staticmethod
+    def filter(request):
+        summ = 0
+        deals = Spending.receipt_in_filter(request)
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
 
 
 @receiver(post_save, sender=Spending)
