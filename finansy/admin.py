@@ -25,8 +25,8 @@ class UserAccessAdmin(admin.ModelAdmin):
 @admin.register(Receipt)
 class UserAccessAdmin(admin.ModelAdmin):
     change_list_template = 'admin/receipt.html'
-    add_form = DateForm
-    form = DateForm
+    add_forms = DateForm
+    forms = DateForm
     list_display = ('com', 'category', 'date', 'type', 'deal', 'sum')
     search_fields = ['com', 'category', 'date', 'type', 'deal', 'sum']
     autocomplete_fields = ['deal', 'category']
@@ -48,9 +48,15 @@ class UserAccessAdmin(admin.ModelAdmin):
 
 @admin.register(Spending)
 class UserAccessAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/spending.html'
+    add_forms = DateForm
+    forms = DateForm
     list_display = ('com', 'user_do', 'category', 'date', 'type', 'deal', 'sum')
     search_fields = ['com', 'user_do', 'category', 'date', 'type', 'deal', 'sum']
     autocomplete_fields = ['deal', 'category']
     list_filter = ('category', 'type', 'deal')
     date_hierarchy = 'date'
-
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        extra_context['filter'] = Spending.filter(request)
+        return super().changelist_view(request, extra_context=extra_context)

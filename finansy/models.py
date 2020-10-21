@@ -1,18 +1,12 @@
-from django.db.models import Q
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
 from affairs.models import Affairs
 from django.contrib.auth.models import User
-from datetime import datetime, date, time
-from django.http import request, HttpResponse ,HttpRequest
-from django.shortcuts import render
-from django.contrib.admin import options
+from datetime import datetime
 
-d = datetime.now()  # or whatever you want
-DATE = date
-ON = 'ON'
+da = datetime.now()
 CASH = 'CH'
 CARD = 'CD'
 BANK = 'BK'
@@ -71,7 +65,7 @@ class Receipt(models.Model):
     # Дел в работе месяц
     @staticmethod
     def receipt_in_mount():
-        return Receipt.objects.filter(date__month=d.month)
+        return Receipt.objects.filter(date__month=da.month)
 
     # Дел в работе месяц
     @staticmethod
@@ -113,22 +107,24 @@ class Receipt(models.Model):
             found = Receipt.objects.filter(date__year=year).filter(type=type_exact)
         elif month == None and day == None:
             found = Receipt.objects.filter(date__year=year).filter(deal__id=deal).filter(type=type_exact)
-        elif day == None and deal == None :
+        elif day == None and deal == None:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(type=type_exact)
         elif day == None and type_exact == None:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal)
         elif deal == None and type_exact == None:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day)
         elif deal == None:
-            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(type=type_exact)
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
+                type=type_exact)
         elif day == None:
-            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(type=type_exact)
+            found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
+                type=type_exact)
         else:
             found = Receipt.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
                 filter(deal__id=deal).filter(type=type_exact)
         return found
 
-    #Фильтр
+    # Фильтр
     @staticmethod
     def filter(request):
         summ = 0

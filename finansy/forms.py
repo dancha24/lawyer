@@ -2,7 +2,7 @@ from django import forms
 from .models import *
 
 
-class DateForm(forms.ModelForm):
+class DateForm(forms.Form):
     gaga = forms.CharField(label='')
 
     def __init__(self, *args, **kwargs):
