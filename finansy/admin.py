@@ -59,4 +59,10 @@ class UserAccessAdmin(admin.ModelAdmin):
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         extra_context['filter'] = Spending.filter(request)
+        extra_context['spending_in_count'] = Spending.spending_in_count()
+        extra_context['spending_in_prise_sum'] = Spending.spending_in_prise_sum()
+        extra_context['spending_in_count_mount'] = Spending.spending_in_count_mount()
+        extra_context['spending_in_prise_sum_mount'] = Spending.spending_in_prise_sum_mount()
+        extra_context['spending_in_count_all_time'] = Spending.spending_in_count_all_time()
+        extra_context['spending_in_prise_sum_all_time'] = Spending.spending_in_prise_sum_all_time()
         return super().changelist_view(request, extra_context=extra_context)

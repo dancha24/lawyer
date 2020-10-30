@@ -214,13 +214,14 @@ class Spending(models.Model):
 
     # Фильтр прихода.
     @staticmethod
-    def receipt_in_filter(request):
+    def spending_in_filter(request):
         year = request.GET.get('date__year')
         month = request.GET.get('date__month')
         day = request.GET.get('date__day')
         deal = request.GET.get('deal__id__exact')
         type_exact = request.GET.get('type__exact')
-        if year == None and month == None and day == None and deal == None and type_exact == None:
+        category = request.GET.get('category__id__exact')
+        if year == None and month == None and day == None and deal == None and type_exact == None and category == None:
             found = Spending.objects.filter()
         elif year == None and month == None and day == None and deal == None:
             found = Spending.objects.filter(type=type_exact)
@@ -242,8 +243,12 @@ class Spending(models.Model):
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(type=type_exact)
         elif day == None and type_exact == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal)
-        elif deal == None and type_exact == None:
+        elif day == None and category == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(type=type_exact)
+        elif deal == None and type_exact == None and category == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day)
+        elif deal == None and type_exact == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(category__id=category)
         elif deal == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
                 type=type_exact)
@@ -251,6 +256,16 @@ class Spending(models.Model):
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal)
         elif day == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
+                type=type_exact)
+        elif year == None and month == None and day == None and deal == None and type_exact == None and category == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal).filter(
+                type=type_exact).filter(category_id=category)
+        elif year == None and month == None and day == None and deal == None:
+            found = Spending.objects.filter(type=type_exact).filter(category_id=category)
+        elif year == None and month == None and day == None and deal == None and type_exact == None:
+            found = Spending.objects.filter(category__id=category)
+        elif category == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal).filter(
                 type=type_exact)
         else:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
@@ -261,11 +276,65 @@ class Spending(models.Model):
     @staticmethod
     def filter(request):
         summ = 0
-        deals = Spending.receipt_in_filter(request)
+        deals = Spending.spending_in_filter(request)
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
+    # Дел в работе все время
+    @staticmethod
+    def spending_in_all_time():
+        return Spending.objects.filter()
+
+    # Дел в работе кол-во все время
+    @staticmethod
+    def spending_in_count_all_time():
+        return Spending.spending_in_all_time().count()
+
+    # Дел в работе на сумму все время
+    @staticmethod
+    def spending_in_prise_sum_all_time():
+        summ = 0
+        deals = Spending.spending_in_all_time()
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
+    # Дел в работе сегодня
+    @staticmethod
+    def spending_in():
+        return Spending.objects.filter(date=datetime.now())
+
+    # Дел в работе кол-во сегодня
+    @staticmethod
+    def spending_in_count():
+        return Spending.spending_in().count()
+
+    # Дел в работе на сумму сегодня
+    @staticmethod
+    def spending_in_prise_sum():
+        summ = 0
+        deals = Spending.spending_in()
         for deal in deals:
             summ += deal.sum
         return (summ)
 
+    # Дел в работе месяц
+    @staticmethod
+    def spending_in_mount():
+        return Spending.objects.filter(date__month=da.month)
+
+    # Дел в работе месяц
+    @staticmethod
+    def spending_in_count_mount():
+        return Spending.spending_in_mount().count()
+
+    # Дел в работе на сумму
+    @staticmethod
+    def spending_in_prise_sum_mount():
+        summ = 0
+        deals = Spending.spending_in_mount()
+        for deal in deals:
+            summ += deal.sum
+        return (summ)
 
 @receiver(post_save, sender=Spending)
 def edit_balanse_add_spe(instance, created, **kwargs):

@@ -41,6 +41,9 @@
 {% block coltype %}flex{% endblock %}
 
 {% block content %}
+    <p><b>Общая сумма прихода за сегодня: </b> {{ spending_in_prise_sum }}</p>
+    <p><b>Общая сумма прихода за месяц: </b> {{ spending_in_prise_sum_mount }}</p>
+    <p><b>Общая сумма прихода все время: </b> {{ spending_in_prise_sum_all_time }}</p>
     <p><b>Общая сумма по фильтру: </b> {{ filter }}</p>
 
     <div id="content-main">
