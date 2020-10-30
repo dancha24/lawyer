@@ -248,7 +248,15 @@ class Spending(models.Model):
         elif deal == None and type_exact == None and category == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day)
         elif deal == None and type_exact == None:
-            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(category__id=category)
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(category_id=category)
+        elif year == None and month == None and day == None and deal == None and type_exact == None and category == None:
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
+                deal__id=deal).filter(
+                type=type_exact).filter(category_id=category)
+        elif year == None and month == None and day == None and deal == None:
+            found = Spending.objects.filter(type=type_exact).filter(category_id=category)
+        elif year == None and month == None and day == None and deal == None and type_exact == None:
+            found = Spending.objects.filter(category_id=category)
         elif deal == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
                 type=type_exact)
@@ -257,13 +265,6 @@ class Spending(models.Model):
         elif day == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
                 type=type_exact)
-        elif year == None and month == None and day == None and deal == None and type_exact == None and category == None:
-            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal).filter(
-                type=type_exact).filter(category_id=category)
-        elif year == None and month == None and day == None and deal == None:
-            found = Spending.objects.filter(type=type_exact).filter(category_id=category)
-        elif year == None and month == None and day == None and deal == None and type_exact == None:
-            found = Spending.objects.filter(category__id=category)
         elif category == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(deal__id=deal).filter(
                 type=type_exact)
