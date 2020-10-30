@@ -269,7 +269,7 @@ class Spending(models.Model):
                 type=type_exact)
         else:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
-                filter(deal__id=deal).filter(type=type_exact)
+                filter(deal__id=deal).filter(type=type_exact).filter(category__id=category)
         return found
 
     # Фильтр
