@@ -1,0 +1,272 @@
+{% extends 'control.html' %}
+{% load static %}
+{#{% load mathfilters %}#}
+{% block content %}
+<a style="width: 100%" onclick="history.back();" class="btn btn-xs btn-primary">Назад</a>
+    <!--<div class="col-md-12 margin-bottom-20">
+        {#        <a href="{% url 'receiptspending_settings' %}" class="save btn btn-default">Настройки</a>#}
+        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal"
+                data-target="#boostrapModal-2">Сводка
+        </button>
+        <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal"
+                data-target="#report">Отчеты
+        </button>
+    </div>-->
+    <div class="col-md-12 margin-bottom-20">
+        <form class="pb-5" method="post">
+            {% csrf_token %}
+            <label for="datepicker-autoclose">Выбрать дату (гггг-мм-дд):</label>
+            <div class="input-group col-md-3 margin-bottom-10">
+                <input type="date" style="width: 100%" id="testovii" name="trip-start">
+                <input type="date" style="width: 100%" id="testovi" name="trip-start2">
+                <span class="input-group-addon bg-primary text-white"><i class="fa fa-calendar"></i></span>
+            </div>
+            <div class="input-group col-md-3 margin-bottom-20">
+                <button name="other" style="width: 100%" class="btn btn-xs btn-primary">Применить</button>
+            </div>
+        </form>
+
+        <!--<ul class="nav nav-tabs nav-justified" role="tablist">
+            <li role="presentation" class="dropdown">
+                <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown"
+                   aria-controls="myTabDrop1-contents" aria-expanded="true">Добавить <span class="caret"></span></a>
+                <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
+                    {#                    <li><a href="{% url 'receipt_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Приход</a>#}
+                    {#                    </li>#}
+                    {#                    <li><a href="{% url 'spending_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Расход</a>#}
+                    {#                    </li>#}
+                    {#                    <li><a href="{% url 'oweus_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Должник</a>#}
+                    {#                    </li>#}
+                </ul>
+            </li>
+            <li role="presentation" {% if variant == 'finansy_today_all' %}class="active"{% endif %}><a
+                    href="{% url 'finansy_today_all' %}" role="tab" aria-controls="Сегодня">Приход/Расход</a></li>
+            {#            <li role="presentation" {% if variant == 'oweus_all' %}class="active"{% endif %}><a#}
+            {#                    href="{% url 'oweus_all' %}" role="tab" aria-controls="Должники">Должники</a></li>#}
+        </ul>-->
+        <h4>Приход от {{ d }}.{{ m }}.{{ y }} до {{ d2 }}.{{ m2 }}.{{ y2 }}</h4>
+        <table id="example2" class="table table-striped table-bordered display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="vertical-align: middle">Приход</td>
+                <td style="vertical-align: middle">{{ sum_all_rec }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle">Расход</td>
+                <td style="vertical-align: middle">{{ sum_all_spe }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle">Итог</td>
+                <td style="vertical-align: middle">{{ ost_all }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <h4>Балансы на данный момент:</h4>
+        <table id="example2" class="table table-striped table-bordered display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Вид</th>
+                <th>Сумма</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="vertical-align: middle">Наличка</td>
+                <td style="vertical-align: middle">{{ balances_kem_nal }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle">Счет</td>
+                <td style="vertical-align: middle">{{ balances_kem_ya }}</td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle">Карта</td>
+                <td style="vertical-align: middle">{{ balances_kem_card }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- /.nav-tabs -->
+        {#        <div class="tab-content">#}
+        {#            <div class="tab-pane fade in active">#}
+        {#        TODO: сделать таблицу с пагинацией на разную высоту#}
+        <table id="example2" class="table table-striped table-bordered display" style="width:100%">
+            <thead>
+            <tr>
+                <th>Вид</th>
+                <th>Категория</th>
+                <th>Сумма</th>
+                <th>Коментарий</th>
+                <th>Ответсвенный</th>
+            </tr>
+            </thead>
+            <tfoot>
+            <tr>
+                <th>Вид</th>
+                <th>Категория</th>
+                <th>Сумма</th>
+                <th>Коментарий</th>
+                <th>Ответсвенный</th>
+            </tr>
+            </tfoot>
+            <tbody>
+            {% for item in for_table %}
+                <tr style="background-color: #8dff9f">
+                    <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
+                        {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
+                    <td style="vertical-align: middle">{{ item.category }}</td>
+                    <td style="vertical-align: middle">{{ item.sum }}</td>
+                    <td style="vertical-align: middle">{{ item.com }}</td>
+                    <td style="vertical-align: middle">{{ item.user_do }}</td>
+                </tr>
+            {% endfor %}
+            {% for item in for_table2 %}
+                <tr style="background-color: #ffc0b2">
+                    <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
+                        {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
+                    <td style="vertical-align: middle">{{ item.category }}</td>
+                    <td style="vertical-align: middle">-{{ item.sum }}</td>
+                    <td style="vertical-align: middle">{{ item.com }}</td>
+                    <td style="vertical-align: middle">{{ item.user_do }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {#        </div>#}
+    {#    </div>#}
+
+{% endblock %}
+{% block modal %}
+
+    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">Сводка</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>За сегодня</h4>
+                    <table id="example2" class="table table-striped table-bordered display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Кемерово</th>
+                            <th>Новокузнецк</th>
+                            <th>Вместе</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="vertical-align: middle">Приход</td>
+                            <td style="vertical-align: middle">{{ sum_kem_rec }}</td>
+                            <td style="vertical-align: middle">{{ sum_nkz_rec }}</td>
+                            <td style="vertical-align: middle">{{ sum_all_rec }}</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle">Расход</td>
+                            <td style="vertical-align: middle">{{ sum_kem_spe }}</td>
+                            <td style="vertical-align: middle">{{ sum_nkz_spe }}</td>
+                            <td style="vertical-align: middle">{{ sum_all_spe }}</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle">Итог</td>
+                            <td style="vertical-align: middle">{{ ost_kem }}</td>
+                            <td style="vertical-align: middle">{{ ost_nkz }}</td>
+                            <td style="vertical-align: middle">{{ ost_all }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <h4>Балансы на данный момент:</h4>
+                    <table id="example2" class="table table-striped table-bordered display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Вид</th>
+                            <th>Кемерово</th>
+                            <th>Новокузнецк</th>
+                            <th>Вместе</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="vertical-align: middle">Наличка</td>
+                            <td style="vertical-align: middle">{{ balances_kem_nal }}</td>
+                            <td style="vertical-align: middle">{{ balances_nkz_nal }}</td>
+                            <td style="vertical-align: middle">{{ balances_all_nal }}</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle">Яндекс</td>
+                            <td style="vertical-align: middle">{{ balances_kem_ya }}</td>
+                            <td style="vertical-align: middle">{{ balances_nkz_ya }}</td>
+                            <td style="vertical-align: middle">{{ balances_all_ya }}</td>
+                        </tr>
+                        <tr>
+                            <td style="vertical-align: middle">Карта</td>
+                            <td style="vertical-align: middle">{{ balances_kem_card }}</td>
+                            <td style="vertical-align: middle">{{ balances_nkz_card }}</td>
+                            <td style="vertical-align: middle">{{ balances_all_card }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="report">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">Отчет</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <select id="report_var" name="report_var" class="row form-control select2_1 width-300">
+                                <option value="-">-------------------------</option>
+                                <optgroup label="Долги">
+                                    <option value="owe_all">Все</option>
+                                    <option value="owe_now">Только не погашеные</option>
+                                </optgroup>
+                                <optgroup label="Приход/расход">
+                                    <option value="finansy_day">За день</option>
+                                    <option value="finansy_day_active">За день + активность</option>
+                                    <option value="finansy_range">За период</option>
+                                </optgroup>
+                            </select>
+                        </div>
+                        <div id="date_finansy_day" class="form-group">
+                            <label for="datepicker-autoclose2">Дата</label>
+                            <input autocomplete="off" name="date_finansy_day" type="text" class="form-control"
+                                   placeholder="Дата"
+                                   id="datepicker-autoclose2">
+                        </div>
+                        <div id="city_finansy_day" class="form-group">
+                            <select name="city_finansy_day" class="row form-control select2_1 width-300">
+                                <option value="all">Все города</option>
+                                <option value="1">Кемерово</option>
+                                <option value="2">Новокузнецк</option>
+                            </select>
+                        </div>
+                        <button type="submit" name="report" class="btn btn-success waves-effect waves-light">Отчет
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+    <script src="{% static "myplug/other/receiptspending_all.js" %}"></script>
+{% endblock %}
