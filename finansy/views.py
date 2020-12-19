@@ -8,6 +8,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Sum
 # from report.defs import report_receiptspending, report_owe_us, report_car_of_day
 import datetime
+from datetime import datetime
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
@@ -27,13 +28,15 @@ def finansy_today_date(request, y=timezone.datetime.now().year, m=timezone.datet
     balances_kem_card = balances.get(type='CD').sum
 
     if request.method == "POST" and 'other' in request.POST:
-        form = forms.DateForm(request.POST)
-        if form.is_valid():
-            fa = form.cleaned_data['gaga']
-            date = datetime.datetime.strptime(fa, '%Y-%m-%d')
-            y = date.year
-            m = date.month
-            d = date.day
+        trip_start = request.POST['trip-start']
+        trip_date = datetime.strptime(trip_start, "%Y-%m-%d")
+        #form = forms.DateForm(request.POST)
+        if trip_date != date:
+            #fa = form.cleaned_data['gaga']
+            #date = datetime.datetime.strptime(fa, '%Y-%m-%d')
+            y = trip_date.year
+            m = trip_date.month
+            d = trip_date.day
             return redirect('finansy_today_date', y=y, m=m, d=d)
     else:
         form = forms.DateForm()

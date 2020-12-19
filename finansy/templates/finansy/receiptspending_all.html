@@ -17,7 +17,7 @@
             {% csrf_token %}
             <label for="datepicker-autoclose">Выбрать дату (гггг-мм-дд):</label>
             <div class="input-group col-md-3 margin-bottom-10">
-                {{ DateForm }}
+                <input type="date" style="width: 100%" id="testovii" name="trip-start">
                 <span class="input-group-addon bg-primary text-white"><i class="fa fa-calendar"></i></span>
             </div>
             <div class="input-group col-md-3 margin-bottom-20">
