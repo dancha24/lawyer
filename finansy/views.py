@@ -77,9 +77,9 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
                        d=timezone.datetime.now().day,y2=timezone.datetime.now().year, m2=timezone.datetime.now().month,
                        d2=timezone.datetime.now().day):
     date = str(y) + '-' + str(m) + '-' + str(d)
-    date2 = str(y2) + '-' + str(m2) + '-' + str(d2)
-    date3 = '2020-10-10'
-    date4 = '2020-10-10'
+    #date2 = str(y2) + '-' + str(m2) + '-' + str(d2)
+    date3 = str(y) + '-' + str(m) + '-' + str(d)
+    date4 = str(y2) + '-' + str(m2) + '-' + str(d2)
     receipts = Receipt.objects.select_related().filter(date=date)
     spendings = Spending.objects.select_related().filter(date=date)
     balances = FinansyBalance.objects.select_related()
@@ -114,7 +114,7 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
     if sum_all_spe is None:
         sum_all_spe = 0
     context = {
-        'titlepage': 'Приход/Расход от ' + str(date) + ' до ' + str(date2),
+        'titlepage': 'Приход/Расход от ' + str(date3) + ' до ' + str(date4),
         'for_table': receipts,
         'for_table2': spendings,
         'variant': "finansy_today_all",
