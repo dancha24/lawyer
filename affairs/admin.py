@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Affairs
+from .models import Affairs, ExtraAffairs, ExtraPerformer
 from .forms import AffairsForm
 
 
@@ -11,7 +11,7 @@ class UserAccessAdmin(admin.ModelAdmin):
     form = AffairsForm
     list_display = ('name', 'customers', 'performer', 'jobcategories')
     list_filter = ('deal_status', 'prise_status', 'customers', 'performer', 'jobcategories')
-    search_fields = ['name', 'customers', 'performer', 'jobcategories']
+    search_fields = ['name']
     autocomplete_fields = ['customers', 'performer', 'jobcategories']
     ordering = ('date_in',)
     date_hierarchy = 'date_in'
@@ -29,3 +29,5 @@ class UserAccessAdmin(admin.ModelAdmin):
         extra_context['osm_data'] = Affairs.objects.get(pk=object_id)
         return super(UserAccessAdmin, self).change_view(request, object_id,
                                                         form_url, extra_context=extra_context)
+
+
