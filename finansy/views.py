@@ -117,6 +117,8 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
         'titlepage': 'Приход/Расход от ' + str(date3) + ' до ' + str(date4),
         'for_table': receipts,
         'for_table2': spendings,
+        'for_table3': receipts2,
+        'for_table4': spendings2,
         'variant': "finansy_today_all",
         'sum_all_rec': sum_all_rec,
         'sum_all_spe': sum_all_spe,

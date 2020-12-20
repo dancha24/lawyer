@@ -114,7 +114,7 @@
             </tr>
             </tfoot>
             <tbody>
-            {% for item in for_table %}
+            {% for item in for_table3 %}
                 <tr style="background-color: #8dff9f">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
@@ -124,7 +124,7 @@
                     <td style="vertical-align: middle">{{ item.user_do }}</td>
                 </tr>
             {% endfor %}
-            {% for item in for_table2 %}
+            {% for item in for_table4 %}
                 <tr style="background-color: #ffc0b2">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
