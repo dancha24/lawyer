@@ -24,6 +24,8 @@ class UserAccessAdmin(admin.ModelAdmin):
 
 @admin.register(Performers)
 class UserAccessAdmin(admin.ModelAdmin):
+    change_list_template = 'admin/performers_list.html'
+    # change_form_template = 'admin/performers_view.html'
     list_display = ('fio_min', 'all_sum', 'all_sum_already', 'all_debt')
     search_fields = ['name', 'surname', 'patronymic', ]
     inlines = (PerformersInline,)
