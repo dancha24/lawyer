@@ -11,6 +11,7 @@ class UserAccessAdmin(admin.ModelAdmin):
     form = AffairsForm
     list_display = ('name', 'customers', 'performer',  'jobcategories')
     list_filter = ('deal_status', 'prise_status', 'customers', 'performer', 'jobcategories')
+    list_editable = ['customers']
     search_fields = ['name']
     autocomplete_fields = ['customers', 'performer', 'jobcategories']
     ordering = ('date_in',)
