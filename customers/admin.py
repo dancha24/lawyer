@@ -3,14 +3,10 @@ from .models import *
 from affairs.models import Affairs
 
 
-class PerformersInline(admin.StackedInline):
+class CustomersInline(admin.StackedInline):
     model = Affairs
     extra = 0
-    # fk_name = 'customers'
     show_change_link = True
-    # readonly_fields = ('name',)
-    # list_display = ('name',)
-    # fields = ('name',)
     exclude = (
         'name', 'prisealready', 'priseperformeralready', 'deal_status', 'prise_status',
         'performer', 'jobcategories', 'prise', 'date_in', 'date_out', 'priseperformer', 'deal')
@@ -28,7 +24,7 @@ class UserAccessAdmin(admin.ModelAdmin):
     list_display = ('fio_min', 'all_sum', 'all_sum_already', 'all_debt')
     search_fields = ['name', 'surname', 'patronymic', ]
     # list_filter = ('fio_min',)
-    inlines = (PerformersInline,)
+    inlines = (CustomersInline,)
 
     # def get_queryset(self, request):
     #     qs = super(UserAccessAdmin, self).get_queryset(request)
