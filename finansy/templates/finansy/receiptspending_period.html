@@ -97,7 +97,8 @@
         <table id="example2" class="table table-striped table-bordered display" style="width:100%">
             <thead>
             <tr>
-                <th>Вид</th>
+                <th>Форма</th>
+                <th>Дата</th>
                 <th>Категория</th>
                 <th>Сумма</th>
                 <th>Коментарий</th>
@@ -106,7 +107,8 @@
             </thead>
             <tfoot>
             <tr>
-                <th>Вид</th>
+                <th>Форма</th>
+                <th>Дата</th>
                 <th>Категория</th>
                 <th>Сумма</th>
                 <th>Коментарий</th>
@@ -118,6 +120,7 @@
                 <tr style="background-color: #8dff9f">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
+                    <td style="vertical-align: middle">{{ item.date }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
@@ -128,6 +131,7 @@
                 <tr style="background-color: #ffc0b2">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
+                    <td style="vertical-align: middle">{{ item.date }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">-{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
