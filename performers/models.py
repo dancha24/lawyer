@@ -42,6 +42,14 @@ class Performers(models.Model):
 
     all_sum.short_description = 'Дел на сумму'
 
+    # Дел на сумму всех исполнителей
+    @staticmethod
+    def all_sum_all_performers():
+        sum = 0
+        for p in Performers.objects.all():
+            sum += p.all_sum()
+        return sum
+
     # Всего оплачено
     def all_sum_already(self):
         if self.all_deals().exists():
@@ -50,6 +58,20 @@ class Performers(models.Model):
             return 0
 
     all_sum_already.short_description = 'Всего оплачено'
+
+    # Всего оплачено всем исполнителям
+    @staticmethod
+    def all_sum_already_all_performers():
+        sum = 0
+        for p in Performers.objects.all():
+            sum += p.all_sum_already()
+        return sum
+
+    # Всего должны всем исполнителям
+    @staticmethod
+    def all_debt_all_performers():
+        sum = Performers.all_sum_all_performers() - Performers.all_sum_already_all_performers()
+        return sum
 
     # Должны исполнителю
     def all_debt(self):
