@@ -99,9 +99,6 @@ class ExtraPerfomerInline(admin.TabularInline):
     #      return qy
 
 
-
-
-
 @admin.register(Affairs)
 class UserAccessAdmin(admin.ModelAdmin):
     change_list_template = 'admin/affairs_list.html'
@@ -145,7 +142,3 @@ class UserAccessAdmin(admin.ModelAdmin):
 class ExtraAffairsAdmin(admin.ModelAdmin):
     list_display = ('name', 'affairs', 'sum', 'comment', 'file')
 
-
-@admin.register(ExtraPerfomer)
-class ExtraPerfomerAdmin(admin.ModelAdmin):
-    list_display = ('affairs', 'performer', 'sum')
