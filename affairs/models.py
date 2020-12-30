@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from performers.models import Performers, JobCategories
 from customers.models import Customers
 from django.utils import timezone
@@ -26,7 +28,8 @@ class Affairs(models.Model):
     date_in = models.DateField(default=timezone.now, verbose_name='Дата начала сделки')
     date_out = models.DateField(verbose_name='Дата окончания сделки', blank=True, null=True)
     customers = models.ForeignKey(Customers, default=None, on_delete=models.DO_NOTHING, verbose_name='Клиент')
-    performer = models.ForeignKey(Performers, default=None, on_delete=models.DO_NOTHING, verbose_name='Исполнитель', blank=True, null=True)
+    performer = models.ManyToManyField(Performers, default=None, verbose_name='Исполнитель',
+                                       blank=True, null=True, related_name='perf')
     jobcategories = models.ForeignKey(JobCategories, default=None, on_delete=models.DO_NOTHING,
                                       verbose_name='Категория дела')
     prise = models.FloatField(verbose_name='Цена')
@@ -88,3 +91,62 @@ class Affairs(models.Model):
     class Meta:
         verbose_name = 'Дело'
         verbose_name_plural = 'Дела'
+
+
+@receiver(post_save, sender=Affairs)
+def edit_balanse_add_rec(instance, created, **kwargs):
+    if created:
+        for per in Performers.objects.all():
+            prom = ExtraPerfomer()
+            prom.affairs_id = instance.id
+            prom.performer_id = per.id
+            prom.sum = 0
+            prom.save()
+
+
+class ExtraAffairs(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Номер дополнительного договора')
+    affairs = models.ForeignKey(Affairs, default=None, on_delete=models.DO_NOTHING, verbose_name='Номер дела',
+                                blank=True, null=True)
+    sum = models.PositiveIntegerField(verbose_name="Сумма", default=0)
+    comment = models.TextField(verbose_name="Коментарий", max_length=5000)
+    file = models.FileField(verbose_name="Файл", blank=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Дополнительное дело'
+        verbose_name_plural = 'Дополнительные дела'
+
+@receiver(post_save, sender=ExtraAffairs)
+def edit_balanse_add_rec(instance, created, **kwargs):
+    if created:
+        balance_now = Affairs.objects.get(id=instance.affairs_id)
+        balance_now.prise += instance.sum
+        balance_now.save()
+
+@receiver(post_delete, sender=ExtraAffairs)
+def edit_balanse_del_rec(instance, **kwargs):
+    balance_now = Affairs.objects.get(id=instance.affairs_id)
+    balance_now.prise -= instance.sum
+    balance_now.save()
+
+
+class ExtraPerfomer(models.Model):
+    affairs = models.ForeignKey(Affairs, default=None, on_delete=models.DO_NOTHING, verbose_name='Номер дела',
+                                blank=True, null=True)
+    performer = models.ForeignKey(Performers, default=None, on_delete=models.DO_NOTHING, verbose_name='Исполнитель',
+                                  blank=True, null=True)
+    sum = models.PositiveIntegerField(verbose_name="Вознаграждение", default=0)
+    payment = models.PositiveIntegerField(verbose_name="Оплачено", default=0)
+
+    def __str__(self):
+        return f'{self.sum}'
+
+    class Meta:
+        verbose_name = 'Промежуток'
+        verbose_name_plural = 'Промежуток'
+
+
+
