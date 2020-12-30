@@ -28,7 +28,7 @@ class UserAccessAdmin(admin.ModelAdmin):
     # change_form_template = 'admin/performers_view.html'
     list_display = ('fio_min', 'all_sum', 'all_sum_already', 'all_debt')
     search_fields = ['name', 'surname', 'patronymic', ]
-    inlines = (PerformersInline,)
+    #inlines = (PerformersInline,)
 
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
