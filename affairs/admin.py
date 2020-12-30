@@ -32,6 +32,7 @@ class ExtraPerfomerInlineFormSet(BaseInlineFormSet):
         qs = ExtraPerfomer.objects.filter(performer_id__in=list1, affairs_id=qs1)
         return qs
 
+
 class ExtraPerfomerInline(admin.TabularInline):
     model = ExtraPerfomer
     extra = 0
