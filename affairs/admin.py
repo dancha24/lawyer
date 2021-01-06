@@ -142,3 +142,7 @@ class UserAccessAdmin(admin.ModelAdmin):
 class ExtraAffairsAdmin(admin.ModelAdmin):
     list_display = ('name', 'affairs', 'sum', 'comment', 'file')
 
+
+@admin.register(ExtraPerfomer)
+class ExtraPerfomerAdmin(admin.ModelAdmin):
+    list_display = ('affairs', 'performer', 'sum')
