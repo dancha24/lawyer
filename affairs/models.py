@@ -135,9 +135,9 @@ def edit_balanse_del_rec(instance, **kwargs):
 
 
 class ExtraPerfomer(models.Model):
-    affairs = models.ForeignKey(Affairs, default=None, on_delete=models.DO_NOTHING, verbose_name='Номер дела',
+    affairs = models.ForeignKey(Affairs, default=None, on_delete=models.CASCADE, verbose_name='Номер дела',
                                 blank=True, null=True)
-    performer = models.ForeignKey(Performers, default=None, on_delete=models.DO_NOTHING, verbose_name='Исполнитель',
+    performer = models.ForeignKey(Performers, default=None, on_delete=models.CASCADE, verbose_name='Исполнитель',
                                   blank=True, null=True)
     sum = models.PositiveIntegerField(verbose_name="Вознаграждение", default=0)
     payment = models.PositiveIntegerField(verbose_name="Оплачено", default=0)
