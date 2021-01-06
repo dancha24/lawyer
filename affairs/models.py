@@ -39,7 +39,6 @@ class Affairs(models.Model):
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
 
-
     # Дел в работе
     @staticmethod
     def deals_in():
@@ -93,9 +92,8 @@ class Affairs(models.Model):
         verbose_name = 'Дело'
         verbose_name_plural = 'Дела'
 
-
 @receiver(post_save, sender=Affairs)
-def edit_balanse_add_rec(instance, created, **kwargs):
+def add_rec(instance, created, **kwargs):
     if created:
         for per in Performers.objects.all():
             prom = ExtraPerfomer()
@@ -120,12 +118,14 @@ class ExtraAffairs(models.Model):
         verbose_name = 'Дополнительное дело'
         verbose_name_plural = 'Дополнительные дела'
 
+
 @receiver(post_save, sender=ExtraAffairs)
 def edit_balanse_add_rec(instance, created, **kwargs):
     if created:
         balance_now = Affairs.objects.get(id=instance.affairs_id)
         balance_now.prise += instance.sum
         balance_now.save()
+
 
 @receiver(post_delete, sender=ExtraAffairs)
 def edit_balanse_del_rec(instance, **kwargs):
@@ -148,6 +148,3 @@ class ExtraPerfomer(models.Model):
     class Meta:
         verbose_name = 'Промежуток'
         verbose_name_plural = 'Промежуток'
-
-
-
