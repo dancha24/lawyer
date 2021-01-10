@@ -172,7 +172,7 @@
                             {% for person in test.performer.all %}
                                 <tr style="background-color: #8dff9f">
                                     <td style="vertical-align: middle">
-                                        <a href="../../admin/performers/performers/{{ person.id }}/change/">{{ person.surname }}{{ person.name }}{{ person.paronymic }}</a>
+                                        <a href="../../admin/performers/performers/{{ person.id }}/change/">{{ person.surname }} {{ person.name }} {{ person.paronymic }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -210,7 +210,7 @@
                             {% for person in test.performer.all %}
                                 <tr style="background-color: #8dff9f">
                                     <td style="vertical-align: middle">
-                                        <a href="../../admin/performers/performers/{{ person.id }}/change/">{{ person.name }}</a>
+                                        <a href="../../admin/performers/performers/{{ person.id }}/change/">{{ person.surname }} {{ person.name }} {{ person.paronymic }}</a>
                                     </td>
                                 </tr>
                             {% endfor %}
