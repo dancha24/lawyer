@@ -28,7 +28,7 @@ INSTALLED_APPS = [
     'finansy',
     'debug_toolbar',
     'reports',
-
+    'mathfilters',
 ]
 
 MIDDLEWARE = [
@@ -93,7 +93,7 @@ DATABASES = {
         'NAME': 'lawyer',
         'USER': 'lawyer',
         'PASSWORD': '03081998Dan',
-        'HOST': '178.21.8.132',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
