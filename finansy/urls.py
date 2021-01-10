@@ -10,4 +10,5 @@ urlpatterns = [
     path('finansy_period', views.finansy_today_period, name='finansy_today_period'),
     path('finansy_period/<y>/<m>/<d>/<y2>/<m2>/<d2>', views.finansy_today_period, name='finansy_today_period_'),
     path('finansy_today/<y>/<m>/<d>', views.finansy_today_date, name='finansy_today_date'),
+    path('dealreports/all', views.dealreports, name='dealreports'),
 ]

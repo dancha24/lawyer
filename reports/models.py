@@ -8,5 +8,5 @@ class FinsnsyRep(models.Model):
         return str(self.name)
 
     class Meta:
-        verbose_name = 'Приход/расход'
-        verbose_name_plural = 'Приход/расход'
+        verbose_name = 'Отчет'
+        verbose_name_plural = 'Отчеты'
