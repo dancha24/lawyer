@@ -1,0 +1,524 @@
+{% extends 'control.html' %}
+{% load static %}
+{#{% load mathfilters %}#}
+{% block content %}
+
+    <div class="row small-spacing">
+        <div class="col-md-12 col-xs-12">
+{#            {% if car.is_active == False %}#}
+{#                <div class="alert alert-danger" role="alert"><strong>Машина#}
+{#                    деактивирована!</strong> {{ car.is_active_false_com }} </div>#}
+{#            {% endif %}#}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-info ico"></i>Сведения</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+                                <li><a href="edit">Изменить</a></li>
+                                <li class="split"></li>
+                                <li><a data-toggle="modal" data-target="#delcar">Удалить</a></li>
+                            </ul>
+                            <!-- /.sub-menu -->
+                        </div>
+                        <!-- /.dropdown js__dropdown -->
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Название (Номер):</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.name }}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Ссылка на сделку битрикс:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7"><a href="{{ affair.deal }}" target="_blank">Перейти</a></div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Начало:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.date_in }}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Окончание:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.date_out is None %}Нет {% else %}{{ affair.date_out }}{% endif %}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Клиент:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.customers }}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Категория:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.jobcategories }}</div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Статус:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.deal_status == 'WI' %}Заверешено (Удачно)
+                                        {% elif affair.deal_status == 'ON' %}В процессе
+                                        {% elif affair.deal_status == 'LO' %}Заверешено (Неудачно)
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Статус оплаты:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.prise_status == 'NO' %}Не оплаченно
+                                        {% elif affair.prise_status == 'YE' %}Оплаченно
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.card-content -->
+                    </div>
+                    <!-- /.box-content card -->
+{#                    <div class="form-group">#}
+{#                        <button value="dop"#}
+{#                                class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
+{#                                data-toggle="modal" data-target="#Modal-all"><i class="ico fa fa-file"></i>Файлы#}
+{#                        </button>#}
+{#                        <button type="submit" name="variant" value="dop"#}
+{#                                class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
+{#                                data-toggle="modal" data-target="#Modal-1"><i class="ico fa fa-reorder"></i>Комплектация#}
+{#                        </button>#}
+{#                        <a target="_blank"#}
+{#                           class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
+{#                           href="https://xn--90adear.xn--p1ai/check/fines#{{ noforgibdd }}+{{ regionforgibdd }}+{{ car.sts }}"><i#}
+{#                                class="ico fa fa-warning"></i>Штрафы</a>#}
+{#                        <a class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
+{#                           href=""><i class="ico fa fa-warning"></i>Штрафы</a>#}
+{#                    </div>#}
+                </div>
+                <!-- /.col-md-12 -->
+{#                <div class="col-md-6 col-xs-12">#}
+{#                    <div class="box-content card text-center">#}
+{#                        <h4 class="box-title"><i class="fa fa-repeat ico"></i> ТО </h4>#}
+{#                        <table class="table table-bordered margin-bottom-0 text-left">#}
+{#                            <h5>Реальный пробег:</h5>#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th>Название</th>#}
+{#                                <th>Пробег до</th>#}
+{#                                <th>Статус</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for item in carto %}#}
+{#                                <tr>#}
+{#                                    <td style="vertical-align: middle"></td>#}
+{#                                    <td style="vertical-align: middle"></td>#}
+{#                                    <td style="vertical-align: middle">#}
+{#                                        {% if car.km >= item.kmto|sub:item.kmpred %}#}
+{#                                            <a class="btn btn-danger btn-xs waves-effect waves-light btn-icon btn-icon-right"#}
+{#                                               data-toggle="modal" data-target="#carto_{{ item.id }}">Требуется<i#}
+{#                                                    class="ico fa fa-edit"></i></a>#}
+{#                                        {% else %}#}
+{#                                            <a class="btn btn-success btn-xs waves-effect waves-light btn-icon btn-icon-right"#}
+{#                                               data-toggle="modal" data-target="#carto_{{ item.id }}">Не требуется<i#}
+{#                                                    class="ico fa fa-edit"></i></a>#}
+{#                                        {% endif %}#}
+{#                                    </td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
+{#                    <!-- /.box-content card -->#}
+{#                </div>#}
+                <!-- /.col-md-6 -->
+                <div class="col-md-6 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-money ico"></i>Оплата</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+{#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <tbody>
+                                <tr>
+                                    <th>Сумма по договору</th>
+                                    <td>{{ affair.prise }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Оплачено по договору</th>
+                                    <td>{{ affair.prisealready }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Долг клиенту по договору</th>
+                                    <td>{{ affair.customers_debt }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-user ico"></i> Исполнители</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+{#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Вознаграждение</th>
+                                <th>Оплачено</th>
+                                <th>Остаток</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for performer in performers %}
+                                <tr>
+                                    <td>{{ performer.performer }}</td>
+                                    <td>{{ performer.sum }}</td>
+                                    <td>{{ performer.payment }}</td>
+                                    <td>{{ performer }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+                <div class="col-md-6 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-plus ico"></i> Допники</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+{#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+							<tr>
+								<th>Название(номер)</th>
+								<th>Сумма</th>
+								<th>Комментарий</th>
+							</tr>
+						</thead>
+						<tbody>
+                         {% for item in extra_affairs %}
+							<tr>
+								<td style="vertical-align: middle"><a href="{% url 'extra_affairs_info' extra_affairs_id=item.id %}">{{ item.name }}</a></td>
+                                <td style="vertical-align: middle">{{ item.sum }}</td>
+                                <td style="vertical-align: middle">{{ item.comment }}</td>
+							</tr>
+                         {% endfor %}
+						</tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+                <!-- /.col-md-6 -->
+{#                <div class="col-md-12 col-xs-12">#}
+{#                    <div class="box-content card">#}
+{#                        <h4 class="box-title"><i class="fa fa-wrench ico"></i> Ремонты</h4>#}
+{#                        <!-- /.box-title -->#}
+{#                        <div class="dropdown js__drop_down">#}
+{#                            <a href="#"#}
+{#                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>#}
+{#                            <ul class="sub-menu">#}
+{#                                <li><a href="repairs">Посмотреть все</a></li>#}
+{#                            </ul>#}
+{#                            <!-- /.sub-menu -->#}
+{#                        </div>#}
+{#                        <!-- /.dropdown js__dropdown -->#}
+{#                        <table class="table table-bordered margin-bottom-0">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th>Работа</th>#}
+{#                                <th>Сто</th>#}
+{#                                <th>Дата</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for item in repairs %}#}
+{#                                <tr>#}
+{#                                    <td>{{ item.cause }}</td>#}
+{#                                    <td>{{ item.sto }}</td>#}
+{#                                    <td>{{ item.datein }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                        <!-- /.card-content -->#}
+{#                    </div>#}
+{#                    <!-- /.col-md-6 -->#}
+{#                    <!-- /.box-content card -->#}
+{#                </div>#}
+{#                <div class="col-md-12 col-xs-12">#}
+{#                    <div class="box-content card">#}
+{#                        <h4 class="box-title"><i class="fa fa-trophy ico"></i> Штрафы</h4>#}
+{#                        <!-- /.box-title -->#}
+{#                        <div class="dropdown js__drop_down">#}
+{#                            <a href="#"#}
+{#                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>#}
+{#                            <ul class="sub-menu">#}
+{#                                <li><a href={% url 'fines_car' pk=car.id %}>Посмотреть все</a></li>#}
+{#                                <li>#}
+{#                                    <form method="post">{% csrf_token %}#}
+{#                                        <button type="submit" name="refresh_fines" value="yes">Обновить</button>#}
+{#                                    </form>#}
+{#                                </li>#}
+{#                            </ul>#}
+{#                        </div>#}
+{#                        <table class="table table-bordered margin-bottom-0">#}
+{#                            <thead>#}
+{#                            <tr>#}
+{#                                <th>Постановление</th>#}
+{#                                <th>Дата</th>#}
+{#                                <th>Сумма</th>#}
+{#                            </tr>#}
+{#                            </thead>#}
+{#                            <tbody>#}
+{#                            {% for item in fines %}#}
+{#                                <tr>#}
+{#                                    <td style="vertical-align: middle">{{ item.decree }}</td>#}
+{#                                    <td style="vertical-align: middle">{{ item.fine_date }}</td>#}
+{#                                    <td style="vertical-align: middle">{{ item.amount }}</td>#}
+{#                                </tr>#}
+{#                            {% endfor %}#}
+{#                            </tbody>#}
+{#                        </table>#}
+{#                    </div>#}
+{#                    <!-- /.box-content card -->#}
+{#                </div>#}
+            </div>
+        </div>
+        <!-- /.col-md-9 col-xs-12 -->
+    </div>
+
+{% endblock %}
+
+{% block modal %}
+
+    <div class="modal fade" id="delcar" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Деактивация</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">Причина деактивации:</label>
+                            <div class="input-group">
+                                <input required type="text" placeholder="Указать" name="delcom"
+                                       class="form-control margin-bottom-10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button type="submit" name="delcar" class="btn btn-primary btn-sm waves-effect waves-light">Применить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% for item in carto %}
+        <div class="modal fade" id="carto_{{ item.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">{{ item.name }}</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Пробег до {{ item.name }}:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Пробег" name="kmto"
+                                           class="form-control margin-bottom-10" value="{{ item.kmto }}">
+                                    <input type="hidden" name="to_id" value="{{ item.id }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">Предупреждать за:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Пробег" name="kmpred"
+                                           class="form-control margin-bottom-10" value="{{ item.kmpred }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+    <div class="modal fade" id="Modal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">Комплектация</h4>
+                </div>
+                <div class="modal-body text-center">
+
+                    <a target="_blank"
+                       class="btn btn-xs btn-default waves-effect waves-light margin-top-0 margin-bottom-10"
+                       href="">Изменить список</a>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ FormComps }}
+                        <hr>
+                        <button type="submit" name="var" value="red_comp"
+                                class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                        </button>
+                    </form>
+                    <!-- /.card-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal-add" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">Загрузка файла</h4>
+                </div>
+                <div class="modal-body text-center">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ FormFile.as_p }}
+                        <hr>
+                        <button type="submit" name="var" value="up_file"
+                                class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                        </button>
+                    </form>
+                    <!-- /.card-content -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal-all" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">Все файлы</h4>
+                </div>
+                <div class="modal-body text-center">
+
+                    <button value="dop"
+                            class="btn btn-xs btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-0 margin-bottom-20"
+                            data-toggle="modal" data-target="#Modal-add" data-dismiss="modal"><i
+                            class="ico fa fa-file"></i>Добавить файл
+                    </button>
+
+                    <table id="example" class="table table-striped table-bordered display" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Подробнее</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in files %}
+                            <tr>
+                                <td style="vertical-align: middle">{{ item.name }}</td>
+                                <td style="vertical-align: middle">
+                                    <ul class="list-inline margin-bottom-0">
+                                        <li><a download="" href="{{ MEDIA_URL }}{{ item.file }}"
+                                               class="btn btn-xs btn-icon btn-default waves-effect waves-light">Скачать</a>
+                                        </li>
+                                        <li>
+                                            <form method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="file_id" value="{{ item.id }}">
+                                                <button type="submit" name="var" value="del_file"
+                                                        class="btn btn-xs btn-icon btn-danger waves-effect waves-light">
+                                                    Удалить
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

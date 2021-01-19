@@ -10,8 +10,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
 
 # Application definition
 
@@ -94,6 +94,7 @@ DATABASES = {
         'USER': 'lawyer',
         'PASSWORD': '03081998Dan',
         'HOST': 'localhost',
+        # 'HOST': '178.21.8.132',
         'PORT': '5432',
     }
 }
