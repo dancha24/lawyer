@@ -1,3 +1,33 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required, permission_required
+from .models import Performers, PerformersDoc
 
-# Create your views here.
+
+# Список всех Исаолнителей
+@permission_required('performers.view_performers', raise_exception=True)  # Проверка прав
+def performers_all(request):
+    performers = Performers.objects.all()
+    context = {
+        'for_table': performers,
+        'menu': 'performers',
+        'submenu': 'performers_all',
+        'titlepage': 'Список Исполнителей',
+    }
+
+    return render(request, 'performers/performers_all.html', context)
+
+
+# Информация об Исполнителе
+@permission_required('performers.view_performers', raise_exception=True)  # Проверка прав
+def performers_info(request, performers_id):
+    performers = Performers.objects.get(pk=performers_id)
+    context = {
+        'info': performers,
+        # 'extra_affairs': extra_affairs,
+        # 'performers': performers_with_prise,
+        'menu': 'performers',
+        'submenu': 'performers_all',
+        'titlepage': 'Информация о деле ' + performers.name,
+    }
+
+    return render(request, 'affairs/affairs_info.html', context)
