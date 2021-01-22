@@ -261,7 +261,8 @@ class Spending(models.Model):
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
                 deal__id=deal)
         elif type_exact == None and deal == None:
-            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(category_id=category)
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).filter(
+                category_id=category)
         elif day == None and category == None:
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
                 type=type_exact)
@@ -275,7 +276,7 @@ class Spending(models.Model):
             found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(deal__id=deal).filter(
                 type=type_exact).filter(category_id=category)
         else:
-            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day).\
+            found = Spending.objects.filter(date__year=year).filter(date__month=month).filter(date__day=day). \
                 filter(deal__id=deal).filter(type=type_exact).filter(category_id=category)
         return found
 
@@ -287,6 +288,7 @@ class Spending(models.Model):
         for deal in deals:
             summ += deal.sum
         return (summ)
+
     # Дел в работе все время
     @staticmethod
     def spending_in_all_time():
@@ -305,6 +307,7 @@ class Spending(models.Model):
         for deal in deals:
             summ += deal.sum
         return (summ)
+
     # Дел в работе сегодня
     @staticmethod
     def spending_in():
@@ -342,6 +345,7 @@ class Spending(models.Model):
         for deal in deals:
             summ += deal.sum
         return (summ)
+
 
 @receiver(post_save, sender=Spending)
 def edit_balanse_add_spe(instance, created, **kwargs):
