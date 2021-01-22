@@ -39,7 +39,7 @@ def affairs_info(request, affair_id):
 
 
 # Список всех доп.дел
-@permission_required('affairs.view_affairs', raise_exception=True)  # Проверка прав
+@permission_required('affairs.view_extraaffairs', raise_exception=True)  # Проверка прав
 def extra_affairs_all(request):
     extra_affairs = ExtraAffairs.objects.all()
     context = {
@@ -53,7 +53,7 @@ def extra_affairs_all(request):
 
 
 # Информация об доп.деле
-@permission_required('affairs.view_affairs', raise_exception=True)  # Проверка прав
+@permission_required('affairs.view_extraaffairs', raise_exception=True)  # Проверка прав
 def extra_affairs_info(request, extra_affairs_id):
     extra_affairs = ExtraAffairs.objects.get(pk=extra_affairs_id)
     context = {
