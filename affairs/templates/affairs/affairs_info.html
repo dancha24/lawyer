@@ -222,7 +222,7 @@
                             <tbody>
                             {% for performer in performers %}
                                 <tr>
-                                    <td>{{ performer.performer }}</td>
+                                    <td><a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a></td>
                                     <td>{{ performer.sum }}</td>
                                     <td>{{ performer.payment }}</td>
                                     <td>{{ performer }}</td>
