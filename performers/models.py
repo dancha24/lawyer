@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Sum
+from django.utils import timezone
 
 
 class JobCategories(models.Model):
@@ -19,6 +20,16 @@ class Performers(models.Model):
     patronymic = models.CharField(max_length=200, verbose_name='Отчество')
     whereknow = models.ManyToManyField(JobCategories, verbose_name='Категории работы')
     file = models.FileField(upload_to='performers/', verbose_name='Резюме', blank=True, null=True)
+    email = models.CharField(max_length=200, verbose_name='Почта', blank=True, null=True)
+    adres = models.CharField(max_length=200, verbose_name='Прописка', blank=True, null=True)
+    birthday = models.DateField(max_length=200, verbose_name='Дата рождения', blank=True, null=True)
+    pasno = models.CharField(max_length=200, verbose_name='Номер пасспорта', blank=True, null=True)
+    pasby = models.CharField(max_length=200, verbose_name='Паспорт выдан', blank=True, null=True)
+    pasdate = models.DateField(verbose_name='Дата выдачи паспорта', blank=True, null=True)
+    paskod = models.CharField(max_length=200, verbose_name='Код подразделения паспорта', blank=True, null=True)
+    tel = models.CharField(max_length=200, verbose_name='Телефон', blank=True, null=True)
+    date_in = models.DateField(default=timezone.now, max_length=200, verbose_name='Дата принятия', blank=True, null=True)
+    date_out = models.DateField(max_length=200, verbose_name='Дата увольнения', blank=True, null=True)
 
     # Всего сделок
     def all_deals(self):
