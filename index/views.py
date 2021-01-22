@@ -15,7 +15,13 @@ def index(request):
 
 
 def overview(request):
-    return redirect('affairs_all')
+    context = {
+        'menu': 'overview',
+        'submenu': 'overview',
+        'titlepage': 'Обзор',
+    }
+
+    return render(request, 'index/ov.html', context)
 
 
 def login(request):
