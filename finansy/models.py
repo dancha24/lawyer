@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
 from affairs.models import Affairs
+from performers.models import Performers
 from django.contrib.auth.models import User
 from datetime import datetime
 
@@ -204,6 +205,8 @@ class Spending(models.Model):
     category = models.ForeignKey(CategoriesOfSpending, on_delete=models.CASCADE, verbose_name='Категория')
     user_do = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='Отвественный')
     deal = models.ForeignKey(Affairs, on_delete=models.DO_NOTHING, verbose_name='Дело', blank=True, null=True)
+    performers = models.ForeignKey(Performers, on_delete=models.DO_NOTHING, verbose_name='Исполнитель', blank=True,
+                                   null=True)
 
     def __str__(self):
         return str(self.sum) + ' ' + str(self.category)
