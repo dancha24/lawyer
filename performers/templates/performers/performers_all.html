@@ -25,7 +25,7 @@
 						<tbody>
                          {% for item in for_table %}
 							<tr>
-								<td style="vertical-align: middle"><a href="{% url 'performers_info' performers_id=item.id %}">{{ item.name }}</a></td>
+								<td style="vertical-align: middle"><a href="{% url 'performers_info' performers_id=item.id %}">{{ item }}</a></td>
                                 <td style="vertical-align: middle">{{ item.all_sum }}</td>
                                 <td style="vertical-align: middle">{{ item.all_sum_already }}</td>
                                 <td style="vertical-align: middle">{{ item.all_debt }}</td>
