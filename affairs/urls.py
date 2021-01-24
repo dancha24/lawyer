@@ -6,6 +6,7 @@ urlpatterns = [
     # Дела
     # path('', views.index, name='control_overview'),
     path('all', views.affairs_all, name='affairs_all'),
+    path('add', views.affairs_add, name='affairs_add'),
     path('<affair_id>/', views.affairs_info, name='affairs_info'),
 
     # Доп.дела

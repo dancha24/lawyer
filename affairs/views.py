@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Affairs, ExtraPerfomer, ExtraAffairs
+from . import forms
+from django.shortcuts import redirect
 # from performers.models import Performers
 
 
@@ -16,6 +18,29 @@ def affairs_all(request):
     }
 
     return render(request, 'affairs/affairs_all.html', context)
+
+
+# Добавление записи расхода
+@permission_required('affairs.add_affairs', raise_exception=True)
+def affairs_add(request):
+    if request.method == "POST":
+        form = forms.AffairsAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('affairs_add')
+            else:
+                return redirect('affairs_all')
+    else:
+        form = forms.AffairsAddForm()
+    context = {
+        'menu': 'affairs',
+        'submenu': 'affairs_all',
+        'form': form,
+        'titlepage': 'Добавление дела',
+    }
+
+    return render(request, 'affairs/affairs_add.html', context)
 
 
 # Информация об Деле
