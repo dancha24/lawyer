@@ -181,55 +181,54 @@ def dealreports(request, y=timezone.datetime.now().year, m=timezone.datetime.now
     all_deals = Affairs.objects.count()
     # сколько заплатили
     all_deals_already = \
-        Affairs.objects.\
-            filter(date_in__lte=date4, date_out__lte=date4)\
+        Affairs.objects. \
+            filter(date_in__lte=date4, date_out__lte=date4) \
             .aggregate(Sum('prisealready'))['prisealready__sum']
     # Общая сумма долга
     all_deals_prise = \
-        Affairs.objects.\
-            filter(date_in__lte=date4, date_out__lte=date4).\
+        Affairs.objects. \
+            filter(date_in__lte=date4, date_out__lte=date4). \
             aggregate(Sum('prise'))['prise__sum']
-    #Общая сумма вознаграждения
+    # Общая сумма вознаграждения
     all_deals_priseperformer = \
-        Affairs.objects.\
-            filter(deal_status='ON', date_in__lte=date4, date_out__lte=date4).\
+        Affairs.objects. \
+            filter(deal_status='ON', date_in__lte=date4, date_out__lte=date4). \
             aggregate(Sum('priseperformer'))['priseperformer__sum']  # Общая сумма долга
-    #Сумма выигранных дел
+    # Сумма выигранных дел
     win_deal = \
-        Affairs.objects.\
-            filter(deal_status='WI', date_in__lte=date4, date_out__gte=date3).\
+        Affairs.objects. \
+            filter(deal_status='WI', date_in__lte=date4, date_out__gte=date3). \
             aggregate(Sum('prise'))['prise__sum']
-    #Сколько дел выиграно
+    # Сколько дел выиграно
     win_deal1 = \
-        Affairs.objects.\
+        Affairs.objects. \
             filter(deal_status='WI', date_in__lte=date4, date_out__gte=date3).count()
-    #Сумма проигранных дел
+    # Сумма проигранных дел
     lose_deal = \
-        Affairs.objects.\
-            filter(deal_status='LO', date_in__lte=date4, date_out__gte=date3).\
+        Affairs.objects. \
+            filter(deal_status='LO', date_in__lte=date4, date_out__gte=date3). \
             aggregate(Sum('prise'))['prise__sum']
-    #Сколько дел проиграно
+    # Сколько дел проиграно
     lose_deal1 = Affairs.objects.filter(deal_status='LO', date_in__lte=date4, date_out__gte=date3).count()
-    #Сколько дел в работе
+    # Сколько дел в работе
     work_deal = Affairs.objects.filter(deal_status='ON', date_in__lte=date4, date_out__lte=date3).count()
-
 
     # Общая сумма долга
     all_deals_prise1 = \
-        Affairs.objects.\
-            filter(date_in__lte=date4, date_out=None).\
+        Affairs.objects. \
+            filter(date_in__lte=date4, date_out=None). \
             aggregate(Sum('prise'))['prise__sum']
     # сколько заплатили
     all_deals_already1 = \
-        Affairs.objects.\
-            filter(date_in__lte=date4, date_out=None).\
+        Affairs.objects. \
+            filter(date_in__lte=date4, date_out=None). \
             aggregate(Sum('prisealready'))['prisealready__sum']
     # Общая сумма долга
     all_deals_priseperformer1 = \
-        Affairs.objects.\
-            filter(date_in__lte=date4, date_out=None).\
+        Affairs.objects. \
+            filter(date_in__lte=date4, date_out=None). \
             aggregate(Sum('priseperformer'))['priseperformer__sum']
-    work_deal1 = Affairs.objects.\
+    work_deal1 = Affairs.objects. \
         filter(deal_status='ON', date_in__lte=date4, date_out=None).count()
 
     test = Affairs.objects.filter(deal_status='ON')
@@ -272,7 +271,6 @@ def dealreports(request, y=timezone.datetime.now().year, m=timezone.datetime.now
         all_deals_priseperformer1 = 0
     if work_deal1 is None:
         work_deal1 = 0
-
 
     context = {
         'titlepage': 'Отчет по исполнителям от ' + str(date3) + ' до ' + str(date4),
