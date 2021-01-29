@@ -321,3 +321,12 @@ def finansy_today_all(request):
     m = date.month
     d = date.day
     return redirect('finansy_today_date', y=y, m=m, d=d)
+
+
+# Список всего прихода
+@permission_required('finansy.settings', raise_exception=True)
+def settings(request):
+    return redirect('settings/in.html')
+
+
+
