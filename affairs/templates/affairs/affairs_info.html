@@ -191,10 +191,35 @@
                                     <td>{{ affair.prisealready }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Долг клиенту по договору</th>
+                                    <th>Долг клиента по договору</th>
                                     <td>{{ affair.customers_debt }}</td>
                                 </tr>
                             </tbody>
+                        </table>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+							<tr>
+								<th colspan="3" class="text-center">Приход/расход</th>
+							</tr>
+							<tr>
+								<th>Дата</th>
+								<th>Сумма</th>
+							</tr>
+						</thead>
+						<tbody>
+                         {% for item in rec %}
+							<tr class="success">
+                                <td style="vertical-align: middle">{{ item.date }}</td>
+                                <td style="vertical-align: middle">+ {{ item.sum }}</td>
+							</tr>
+                         {% endfor %}
+                         {% for item in spe %}
+							<tr class="danger">
+                                <td style="vertical-align: middle">{{ item.date }}</td>
+                                <td style="vertical-align: middle">- {{ item.sum }}</td>
+							</tr>
+                         {% endfor %}
+						</tbody>
                         </table>
                     </div>
                     <!-- /.box-content card -->
