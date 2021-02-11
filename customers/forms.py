@@ -1,33 +1,17 @@
-from django import forms
-from .models import Customers
-
-
-class CustomersForm(forms.ModelForm):
-    class Meta:
-        model = Customers
-        exclude = ['dr', 'pasdate']
-
-class CustomerAddForm(forms.ModelForm):
-    class Meta:
-        model = Customers
-        fields = ['type', 'name', 'surname', 'patronymic', 'dr', 'pasno', 'paskod', 'pasby', 'pasdate', 'address',
-                  'tel']
-
-    def __init__(self, *args, **kwargs):
-        super(CustomerAddForm, self).__init__(*args, **kwargs)
-        self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['name'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['surname'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['patronymic'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['pasno'].widget.attrs.update({'class': 'form-control'})
-        self.fields['pasby'].widget.attrs.update({'class': 'form-control'})
-        self.fields['paskod'].widget.attrs.update({'class': 'form-control'})
-        self.fields['address'].widget.attrs.update({'class': 'form-control'})
-        self.fields['tel'].widget.attrs.update({'class': 'form-control'})
-        # self.fields['priseperformeralready'].widget.attrs.update({'class': 'form-control'})
-        self.fields['dr'].widget.attrs.update(
-         {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
-        self.fields['pasdate'].widget.attrs.update(
-            {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
-        # self.fields['date_out'].widget.attrs.update(
-        # {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+# from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+#
+# from .models import User
+#
+#
+# class CustomUserCreationForm(UserCreationForm):
+#
+#     class Meta(UserCreationForm):
+#         model = User
+#         fields = '__all__'
+#
+#
+# class CustomUserChangeForm(UserChangeForm):
+#
+#     class Meta:
+#         model = User
+#         fields = '__all__'

@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <link rel="shortcut icon" href="/static/favicon.ico">
-    {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"#}
-    {#          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">#}
+{#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"#}
+{#          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">#}
     <!-- Main Styles -->
     <link rel="stylesheet" href="{% static "darkadmin/assets/styles/style.min.css" %}">
 
@@ -100,15 +100,16 @@
                         class="menu-arrow fa fa-angle-down"></span></a>
                 <ul class="sub-menu js__content">
 
-                    {% if submenu == 'affairs_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'affairs_all' %}"><span>Все дела</span></a></li>
+                                        {% if submenu == 'affairs_all' %}
+                                            <li class="current">{% else %}
+                                            <li>{% endif %}
+                                        <a href="{% url 'affairs_all' %}"><span>Все дела</span></a></li>
 
-                    {% if submenu == 'extra_affairs_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'extra_affairs_all' %}"><span>Допники</span></a></li>
+                                        {% if submenu == 'extra_affairs_all' %}
+                                            <li class="current">{% else %}
+                                            <li>{% endif %}
+                                        <a href="{% url 'extra_affairs_all' %}"><span>Допники</span></a></li>
+
 
 
                 </ul>
@@ -120,52 +121,12 @@
                         class="menu-arrow fa fa-angle-down"></span></a>
                 <ul class="sub-menu js__content">
 
-                    {% if submenu == 'performers_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'performers_all' %}"><span>Все Исполнители</span></a></li>
+                                        {% if submenu == 'performers_all' %}
+                                            <li class="current">{% else %}
+                                            <li>{% endif %}
+                                        <a href="{% url 'performers_all' %}"><span>Все Исполнители</span></a></li>
                 </ul>
-
-                {% if menu == 'customers' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-multiple"></i><span>Клиенты</span><span
-                        class="menu-arrow fa fa-angle-down"></span></a>
-                <ul class="sub-menu js__content">
-
-                    {% if submenu == 'customers_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'customers_all' %}"><span>Все клиенты</span></a></li>
-
-                    {% if submenu == 'informations_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'informations_all' %}"><span>Источники информации</span></a></li>
-                </ul>
-
-                {% if menu == 'finansy' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-multiple"></i><span>Фин.часть</span><span
-                        class="menu-arrow fa fa-angle-down"></span></a>
-                <ul class="sub-menu js__content">
-
-                    {% if submenu == 'customers_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'finansy_today_period' %}"><span>Приход/расход</span></a></li>
-                </ul>
-
-                {% if menu == 'settings' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a  href="{% url 'settings' %}"><span>Настройки</span></a>
-                <ul class="sub-menu js__content">
                 </li>
-
 
                 {#                {% if titlepage == 'Водители' %}#}
                 {#                    <li class="current active">#}
@@ -313,7 +274,7 @@
             <img src="http://placehold.it/80x80" alt="" class="ico-img">
             <ul class="sub-ico-item">
                 <li><a href="">Вы - {{ user }}</a></li>
-                <li><a class="text-danger" href="{% url 'log_out' %}">Выйти</a></li>
+                                <li><a class="text-danger" href="{% url 'log_out' %}">Выйти</a></li>
             </ul>
             <!-- /.sub-ico-item -->
         </div>
@@ -408,8 +369,8 @@
 <script src="{% static "darkadmin/assets/plugin/maxlength/bootstrap-maxlength.min.js" %}"></script>
 
 <!-- Макски -->
-<script src="{% static "myplug/mask/jquery.maskedinput.min.js" %}"></script>
-<script src="{% static "myplug/mask/mymask.js" %}"></script>
+	<script src="{% static "myplug/mask/jquery.maskedinput.min.js" %}"></script>
+    <script src="{% static "myplug/mask/mymask.js" %}"></script>
 
 <!-- Dropify -->
 <script src="{% static "darkadmin/assets/plugin/dropify/js/dropify.min.js" %}"></script>
@@ -418,9 +379,9 @@
 <!-- Select2 -->
 <script src="{% static "darkadmin/assets/plugin/select2/js/select2.min.js" %}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
-<script type="text/javascript">
-    $(".search").chosen({search_contains: true});
-</script>
+    <script type="text/javascript">
+        $(".search").chosen({search_contains : true});
+    </script>
 
 <!-- Demo Scripts -->
 <script src="{% static "darkadmin/assets/scripts/form.demo.js" %}"></script>
