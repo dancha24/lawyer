@@ -92,3 +92,16 @@ def informations_all(request):
     }
 
     return render(request, 'customers/informations_all.html', context)
+
+# Список всех источников информации
+@permission_required('customers.view_informations', raise_exception=True)  # Проверка прав
+def informations_delete(request, whereinfo_id):
+    where = WhereInfo.objects.get(pk=whereinfo_id)
+    context = {
+        'for_table': where,
+        'menu': 'informations',
+        'submenu': 'informations_all',
+        'titlepage': 'Источники информации',
+    }
+
+    return render(request, 'customers/informations_delete.html', context)

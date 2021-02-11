@@ -24,7 +24,7 @@
                 {% for item in for_table %}
                     <tr>
                         <td style="vertical-align: middle">{{ item }}</td>
-                        <td style="vertical-align: middle"><button><a href=" ">Удалить</a></button></td>
+                        <td style="vertical-align: middle"><button><a href="{% url 'informations_delete' whereinfo_id %}">Удалить</a></button></td>
                     </tr>
                 {% endfor %}
                 </tbody>
