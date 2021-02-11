@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Affairs, ExtraPerfomer, ExtraAffairs
+from finansy.models import Receipt, Spending
 from . import forms
 from django.shortcuts import redirect
 # from performers.models import Performers
@@ -49,12 +50,16 @@ def affairs_info(request, affair_id):
     affair = Affairs.objects.get(pk=affair_id)
     performers_id = affair.performer.all().values_list('id', flat=True)  # Айдишники исполнителей прикрепленных к делу
     extra_affairs = ExtraAffairs.objects.filter(affairs_id=affair_id)
+    rec = Receipt.objects.filter(deal_id=affair_id)
+    spe = Spending.objects.filter(deal_id=affair_id)
     # Список промежутков прикрепленных к делу с конкретными исполнителями
     performers_with_prise = ExtraPerfomer.objects.filter(affairs_id=affair_id, performer_id__in=performers_id)
     context = {
         'affair': affair,
         'extra_affairs': extra_affairs,
         'performers': performers_with_prise,
+        'rec': rec,
+        'spe': spe,
         'menu': 'affairs',
         'submenu': 'affairs_all',
         'titlepage': 'Информация о деле ' + affair.name,
