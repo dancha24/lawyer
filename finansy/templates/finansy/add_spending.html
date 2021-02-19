@@ -10,37 +10,16 @@
                 {{ form.sum }}
             </div>
         </div>
+        <div id="car" style="display:block;" class="form-group">
+            <label for="{{ form.com.id_for_label }}" class="col-sm-2 control-label">{{ form.com.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.com }}
+            </div>
+        </div>
         <div class="form-group">
             <label for="{{ form.type.id_for_label }}" class="col-sm-2 control-label">{{ form.type.label_tag }}</label>
             <div class="col-sm-5">
                 {{ form.type }}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="{{ form.category.id_for_label }}"
-                   class="col-sm-2 control-label">{{ form.category.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.category }}
-            </div>
-        </div>
-
-        <div id="car" style="display:block;" class="form-group">
-            <label for="{{ form.car.id_for_label }}" class="col-sm-2 control-label">{{ form.car.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.car }}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="{{ form.user_do.id_for_label }}"
-                   class="col-sm-2 control-label">{{ form.user_do.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.user_do }}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="{{ form.com.id_for_label }}" class="col-sm-2 control-label">{{ form.com.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.com }}
             </div>
         </div>
         <div class="form-group">
@@ -50,9 +29,32 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="{{ form.city.id_for_label }}" class="col-sm-2 control-label">{{ form.city.label_tag }}</label>
+            <label for="{{ form.category.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.category.label_tag }}</label>
             <div class="col-sm-5">
-                {{ form.city }}
+                {{ form.category }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.deal.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.deal.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.deal }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.user_do.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.user_do.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.user_do }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="{{ form.performers.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.performers.label_tag }}</label>
+            <div class="col-sm-5">
+                {{ form.performers }}
             </div>
         </div>
 

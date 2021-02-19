@@ -24,25 +24,11 @@
             </div>
         </div>
 
-
-        <div id="car" style="display:block;" class="form-group">
-            <label for="{{ form.car.id_for_label }}" class="col-sm-2 control-label">{{ form.car.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.car }}
-            </div>
-        </div>
         <div id="dolg" style="display:block;" class="form-group">
-            <label for="{{ form.owe_us.id_for_label }}"
-                   class="col-sm-2 control-label">{{ form.owe_us.label_tag }}</label>
+            <label for="{{ form.deal.id_for_label }}"
+                   class="col-sm-2 control-label">{{ form.deal.label_tag }}</label>
             <div class="col-sm-5">
-                {{ form.owe_us }}
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="{{ form.user_do.id_for_label }}"
-                   class="col-sm-2 control-label">{{ form.user_do.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.user_do }}
+                {{ form.deal }}
             </div>
         </div>
         <div class="form-group">
@@ -57,14 +43,6 @@
                 {{ form.date }}
             </div>
         </div>
-        <div class="form-group">
-            <label for="{{ form.city.id_for_label }}" class="col-sm-2 control-label">{{ form.city.label_tag }}</label>
-            <div class="col-sm-5">
-                {{ form.city }}
-            </div>
-        </div>
-
-
         <button type="submit" class="save btn btn-success">Сохранить</button>
         <div class="btn-group">
             <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"

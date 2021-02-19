@@ -21,6 +21,163 @@ from django import template
 from performers.models import Performers
 
 
+
+# Добавление записи прихода
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def receipt_add(request):
+    if request.method == "POST":
+        form = forms.ReceiptForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'add_rec' in request.POST and request.POST['add_rec']:
+                return redirect('receipt_add')
+            else:
+                return redirect('finansy_today_all')
+    else:
+        form = forms.ReceiptForm()
+    context = {
+        'titlepage': 'Добавление записи прихода',
+        'form': form,
+    }
+
+    return render(request, 'finansy/add_receipt.html', context)
+
+
+
+# Удаление записи прихода
+def receipt_del(uid):
+    for_del = Receipt.objects.get(id=uid)
+    for_del.delete()
+
+
+
+# Редактировать Запись прихода
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def receipt_edit(request, receipt_id):
+    rec = Receipt.objects.get(pk=receipt_id)
+
+    data = {"sum": rec.sum,
+            "date": rec.date}
+
+    if request.method == "POST":
+        form = forms.ReceiptForm(request.POST, initial=data)
+        if form.is_valid():
+            rec.delete()
+            form.save()
+        return redirect('finansy_today_all')
+    else:
+        form = forms.ReceiptForm(initial=data)
+    context = {
+        'titlepage': 'Добавление записи',
+        'form': form,
+        'next': False,
+    }
+
+    return render(request, 'finansy/add_receipt.html', context)
+
+
+# ????
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def receipt_info(request):
+    context = {
+        'titlepage': '????',
+    }
+
+    return render(request, 'finansy/zp.html', context)
+
+
+
+# Добавление записи расхода
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def spending_add(request):
+    if request.method == "POST":
+        form = forms.SpendingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'add_rec' in request.POST and request.POST['add_rec']:
+                return redirect('receipt_add')
+            if 'add_spe' in request.POST and request.POST['add_spe']:
+                return redirect('spending_add')
+            if 'add_owe' in request.POST and request.POST['add_owe']:
+                return redirect('oweus_add')
+            else:
+                return redirect('finansy_today_all')
+    else:
+        form = forms.SpendingForm()
+    context = {
+        'titlepage': 'Добавление записи расхода',
+        'form': form,
+    }
+
+    return render(request, 'finansy/add_spending.html', context)
+
+
+# Список всего расхода
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def spending_all(request):
+    spending = Spending.objects.select_related()
+    context = {
+        'titlepage': 'Записи расхода',
+        'for_table': spending,
+        'variant': "spending_all",
+    }
+
+    return render(request, 'finansy/receiptspending_all.html', context)
+
+
+# Список всех смен
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def spending_info(request):
+    context = {
+        'titlepage': '????',
+    }
+
+    return render(request, 'finansy/zp.html', context)
+
+
+# Удаление записи расхода
+def spending_del(uid):
+    for_del = Spending.objects.get(id=uid)
+    for_del.delete()
+
+
+# Редактировать Запись прихода
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def spending_edit(request, spending_id):
+    spe = get_object_or_404(Spending, pk=spending_id)
+
+    data = {"user_do": spe.user_do,
+            "sum": spe.sum,
+            "type": spe.type,
+            "category": spe.category,
+            "com": spe.com,
+            "date": spe.date}
+
+    if request.method == "POST":
+        form = forms.SpendingForm(request.POST, initial=data)
+        if form.is_valid():
+            spe.delete()
+            form.save()
+            return redirect('finansy_today_all')
+    else:
+        form = forms.SpendingForm(initial=data)
+    context = {
+        'titlepage': 'Добавление записи',
+        'form': form,
+        'next': False,
+    }
+
+    return render(request, 'finansy/add_spending.html', context)
+
+
+
+
+
+
+
+
+
+
 def finansy_today_date(request, y=timezone.datetime.now().year, m=timezone.datetime.now().month,
                        d=timezone.datetime.now().day):
     date = str(y) + '-' + str(m) + '-' + str(d)
@@ -141,11 +298,11 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
     }
     if request.method == "POST" and 'del_rec' in request.POST:
         uid = request.POST['id']
-        # receipt_del(uid)
+        receipt_del(uid)
         return render(request, 'finansy/receiptspending_period.html', context)
     if request.method == "POST" and 'del_spe' in request.POST:
         uid = request.POST['id']
-        # spending_del(uid)
+        spending_del(uid)
         return render(request, 'finansy/receiptspending_period.html', context)
 
     return render(request, 'finansy/receiptspending_period.html', context)
