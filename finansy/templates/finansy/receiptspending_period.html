@@ -2,8 +2,8 @@
 {% load static %}
 {#{% load mathfilters %}#}
 {% block content %}
-{#    <a style="width: 100%" onclick="history.back();" class="btn btn-xs btn-primary">Назад</a>#}
-{#    <a style="width: 100%" class="btn btn-xs btn-primary" href="">Добавить</a>#}
+    {#    <a style="width: 100%" onclick="history.back();" class="btn btn-xs btn-primary">Назад</a>#}
+    {#    <a style="width: 100%" class="btn btn-xs btn-primary" href="">Добавить</a>#}
     <!--<div class="col-md-12 margin-bottom-20">
                 <a href="" class="save btn btn-default">Настройки</a>
         <button type="button" class="btn btn-success waves-effect waves-light" data-toggle="modal"
@@ -20,17 +20,17 @@
                 <a href="#" class="dropdown-toggle" id="myTabDrop1" data-toggle="dropdown"
                    aria-controls="myTabDrop1-contents" aria-expanded="true">Добавить <span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="myTabDrop1" id="myTabDrop1-contents">
-                                        <li><a href="{% url 'receipt_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Приход</a>
-                                        </li>
-                                        <li><a href="{% url 'spending_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Расход</a>
-                                        </li>
+                    <li><a href="{% url 'receipt_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Приход</a>
+                    </li>
+                    <li><a href="{% url 'spending_add' %}" id="dropdown1-tab" aria-controls="dropdown1">Расход</a>
+                    </li>
                 </ul>
             </li>
             <li role="presentation" {% if variant == 'finansy_today_all' %}class="active"{% endif %}><a
                     href="{% url 'finansy_today_all' %}" role="tab" aria-controls="Сегодня">Приход/Расход</a></li>
         </ul>
         <h4>Приход от {{ d }}.{{ m }}.{{ y }} до {{ d2 }}.{{ m2 }}.{{ y2 }}</h4>
-            <form class="pb-5" method="post">
+        <form class="pb-5" method="post">
             {% csrf_token %}
             <label for="datepicker-autoclose">Выбрать дату (гггг-мм-дд):</label>
             <div class="input-group col-md-3 margin-bottom-10">
@@ -100,6 +100,7 @@
                 <th>Сумма</th>
                 <th>Коментарий</th>
                 <th>Ответсвенный</th>
+                <th>Дело</th>
                 <th>Подробнее</th>
             </tr>
             </thead>
@@ -111,6 +112,7 @@
                 <th>Сумма</th>
                 <th>Коментарий</th>
                 <th>Ответсвенный</th>
+                <th>Дело</th>
                 <th>Подробнее</th>
             </tr>
             </tfoot>
@@ -124,6 +126,7 @@
                     <td style="vertical-align: middle">{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
                     <td style="vertical-align: middle">{{ item.user_do }}</td>
+                    <td style="vertical-align: middle"><a href="{% url 'affairs_info' affair_id=item.deal_id %}">{{ item.deal }}</a></td>
                     <th style="vertical-align: middle">
                         <a href=" {% url 'receipt_edit' receipt_id=item.id %} "
                            class="btn btn-success btn-xs waves-effect waves-light"><i
@@ -147,6 +150,7 @@
                     <td style="vertical-align: middle">-{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
                     <td style="vertical-align: middle">{{ item.user_do }}</td>
+                    <td style="vertical-align: middle"><a href="{% url 'affairs_info' affair_id=item.deal_id %}">{{ item.deal }}</a></td>
                     <th style="vertical-align: middle">
                         <a href="  "
                            class="btn btn-success btn-xs waves-effect waves-light"><i
