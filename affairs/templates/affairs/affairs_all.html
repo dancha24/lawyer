@@ -25,7 +25,7 @@
                          {% for item in affairs %}
 							<tr>
 								<td style="vertical-align: middle"><a href="{% url 'affairs_info' affair_id=item.id %}">{{ item.name }}</a></td>
-                                <td style="vertical-align: middle"><a href="{% url 'customers_info' customers_id=item.id %}">{{ item.customers }}</a></td>
+                                <td style="vertical-align: middle"><a href="{% url 'customers_info' customers_id=item.customers_id %}">{{ item.customers }}</a></td>
                                 <td style="vertical-align: middle">{{ item.jobcategories }}</td>
 							</tr>
                          {% endfor %}
