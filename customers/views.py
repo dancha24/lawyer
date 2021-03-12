@@ -79,16 +79,25 @@ def customers_edit(request, customers_id):
         'form': form,
     }
     return render(request, 'customers/customers_add.html', context)
-
+# Удаление записи расхода
+def informations_del(uid):
+    for_del = WhereInfo.objects.get(id=uid)
+    for_del.delete()
 # Список всех источников информации
+
 @permission_required('customers.view_informations', raise_exception=True)  # Проверка прав
 def informations_all(request):
     where = WhereInfo.objects.all()
     context = {
         'for_table': where,
-        'menu': 'informations',
+        'menu': 'customers',
         'submenu': 'informations_all',
         'titlepage': 'Источники информации',
     }
+    if request.method == "POST" and 'informations_del' in request.POST:
+        uid = request.POST['id']
+        informations_del(uid)
+        return render(request, 'customers/informations_all.html', context)
 
     return render(request, 'customers/informations_all.html', context)
+

@@ -1,38 +1,52 @@
 {% extends 'control.html' %}
 {% load static %}
-
+{% load i18n admin_urls static admin_list %}
 {% block content %}
 
     <div class="row small-spacing">
-			<div class="col-xs-12">
-                <a class="margin-bottom-10 btn btn-xs btn-success waves-effect waves-light" href="{% url 'affairs_add' %}"><i class="fa fa-plus"></i> Добавить</a>
-					<table id="example" class="table table-striped table-bordered display" style="width:100%">
-						<thead>
-							<tr>
-								<th>Название(номер)</th>
-								<th>Клиент</th>
-								<th>Категория</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<th>Название(номер)</th>
-								<th>Клиент</th>
-								<th>Категория</th>
-							</tr>
-						</tfoot>
-						<tbody>
-                         {% for item in affairs %}
-							<tr>
-								<td style="vertical-align: middle"><a href="{% url 'affairs_info' affair_id=item.id %}">{{ item.name }}</a></td>
-                                <td style="vertical-align: middle"><a href="{% url 'customers_info' customers_id=item.customers_id %}">{{ item.customers }}</a></td>
-                                <td style="vertical-align: middle">{{ item.jobcategories }}</td>
-							</tr>
-                         {% endfor %}
-						</tbody>
-					</table>
-				<!-- /.box-content -->
-			</div>
-		</div>
-		<!-- /.row small-spacing -->
+        <div class="col-xs-12">
+
+            <a class="margin-bottom-10 btn btn-xs btn-success waves-effect waves-light"
+               href="{% url 'affairs_add' %}"><i class="fa fa-plus"></i> Добавить</a>
+            <table id="example" class="table table-striped table-bordered display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Название(номер)</th>
+                    <th>Клиент</th>
+                    <th>Категория</th>
+                    <th>Сумма по договору</th>
+                    <th>Оплачено по договору</th>
+                    <th>Долг клиента по договору</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Название(номер)</th>
+                    <th>Клиент</th>
+                    <th>Категория</th>
+                    <th>Сумма по договору</th>
+                    <th>Оплачено по договору</th>
+                    <th>Долг клиента по договору</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                {% for item in affairs %}
+                    <tr>
+                        <td style="vertical-align: middle"><a
+                                href="{% url 'affairs_info' affair_id=item.id %}">{{ item.name }}</a></td>
+                        <td style="vertical-align: middle"><a
+                                href="{% url 'customers_info' customers_id=item.customers_id %}">{{ item.customers }}</a>
+                        </td>
+                        <td style="vertical-align: middle">{{ item.jobcategories }}</td>
+                        <td style="vertical-align: middle">{{ item.prise }}</td>
+                        <td style="vertical-align: middle">{{ item.prisealready }}</td>
+                        <td style="vertical-align: middle">{{ item.customers_debt }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- /.box-content -->
+        </div>
+    </div>
+    <!-- /.row small-spacing -->
 {% endblock %}

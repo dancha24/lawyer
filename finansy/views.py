@@ -278,6 +278,8 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
         sum_all_spe = 0
     context = {
         'titlepage': 'Приход/Расход от ' + str(date3) + ' до ' + str(date4),
+        'menu': 'finansy',
+        'submenu': 'finansy_today_period',
         'for_table': receipts,
         'for_table2': spendings,
         'for_table3': receipts2,
