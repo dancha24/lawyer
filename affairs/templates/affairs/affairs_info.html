@@ -1,6 +1,6 @@
 {% extends 'control.html' %}
 {% load static %}
-{#{% load mathfilters %}#}
+{% load mathfilters %}
 {% block content %}
 
     <div class="row small-spacing">
@@ -250,7 +250,7 @@
                                     <td><a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a></td>
                                     <td>{{ performer.sum }}</td>
                                     <td>{{ performer.payment }}</td>
-                                    <td>{{ performer }}</td>
+                                    <td>{{ performer.sum|sub:performer.payment }}</td>
                                 </tr>
                             {% endfor %}
                             </tbody>
