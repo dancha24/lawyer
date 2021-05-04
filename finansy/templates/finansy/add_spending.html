@@ -74,14 +74,9 @@
                             type="submit">Расход
                     </button>
                 </li>
-                <li>
-                    <button class="btn btn-xs btn-success width-100" name="add_owe" value="add_owe" type="submit">
-                        Должник
-                    </button>
-                </li>
             </ul>
         </div>
-        <a href="{% url 'finansy_today_all' %}" class="save btn btn-danger">Отмена</a>
+        <a href="{% url 'finansy_today_period' %}" class="save btn btn-danger">Отмена</a>
     </form>
 
 {% endblock %}

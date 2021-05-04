@@ -31,8 +31,10 @@ def receipt_add(request):
             form.save()
             if 'add_rec' in request.POST and request.POST['add_rec']:
                 return redirect('receipt_add')
+            if 'add_spe' in request.POST and request.POST['add_spe']:
+                return redirect('spending_add')
             else:
-                return redirect('finansy_today_all')
+                return redirect('finansy_today_period')
     else:
         form = forms.ReceiptForm()
     context = {
@@ -98,10 +100,8 @@ def spending_add(request):
                 return redirect('receipt_add')
             if 'add_spe' in request.POST and request.POST['add_spe']:
                 return redirect('spending_add')
-            if 'add_owe' in request.POST and request.POST['add_owe']:
-                return redirect('oweus_add')
             else:
-                return redirect('finansy_today_all')
+                return redirect('finansy_today_period')
     else:
         form = forms.SpendingForm()
     context = {
