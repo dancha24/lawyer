@@ -31,3 +31,13 @@ class AffairsAddForm(forms.ModelForm):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['date_out'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+
+
+class AffairsFiltersForm(forms.ModelForm):
+    class Meta:
+        model = Affairs
+        fields = ['customers']
+
+    def __init__(self, *args, **kwargs):
+        super(AffairsFiltersForm, self).__init__(*args, **kwargs)
+        self.fields['customers'].widget.attrs.update({'class': 'form-control select2_1'})
