@@ -30,8 +30,9 @@ def affairs_all(request, filters=None):
         # deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
         # prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
         affairs = affairs.filter(customers_id=filters.costomers)
+    form = forms.AffairsFiltersForm()
     if 'filter' in request.POST:
-        filters.customers = request.POST['customers']
+        filters.customers = form.customers
         return redirect('affairs_all', filters=filters)
     context = {
         'affairs': affairs,
