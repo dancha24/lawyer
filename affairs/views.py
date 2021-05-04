@@ -36,6 +36,7 @@ def affairs_all(request, filters=None):
         return redirect('affairs_all', filters=filters)
     context = {
         'affairs': affairs,
+        'form': form,
         'menu': 'affairs',
         'submenu': 'affairs_all',
         'titlepage': 'Список дел',
