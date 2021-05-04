@@ -53,8 +53,14 @@ def affairs_info(request, affair_id):
     extra_affairs = ExtraAffairs.objects.filter(affairs_id=affair_id)
     rec = Receipt.objects.filter(deal_id=affair_id)
     spe = Spending.objects.filter(deal_id=affair_id)
-    rec_all = rec.aggregate(Sum('sum'))['sum__sum']
-    spe_all = spe.aggregate(Sum('sum'))['sum__sum']
+    if not rec:
+        rec_all = 0
+    else:
+        rec_all = rec.aggregate(Sum('sum'))['sum__sum']
+    if not spe:
+        spe_all = 0
+    else:
+        spe_all = spe.aggregate(Sum('sum'))['sum__sum']
     # Список промежутков прикрепленных к делу с конкретными исполнителями
     performers_with_prise = ExtraPerfomer.objects.filter(affairs_id=affair_id, performer_id__in=performers_id)
     extra_performers_sum_all = performers_with_prise.aggregate(Sum('sum'))['sum__sum']
