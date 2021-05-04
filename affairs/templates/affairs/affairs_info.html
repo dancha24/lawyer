@@ -194,6 +194,14 @@
                                     <th>Долг клиента по договору</th>
                                     <td>{{ affair.customers_debt }}</td>
                                 </tr>
+                                <tr>
+                                    <th>Прибыль компании (На данный момент)</th>
+                                    <td>{{ profit_now }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Прибыль компании (Предпологаемая)</th>
+                                    <td>{{ profit_all }}</td>
+                                </tr>
                             </tbody>
                         </table>
                         <table class="table table-bordered margin-bottom-0">
@@ -207,6 +215,14 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr>
+                                <td style="vertical-align: middle">Всего прихода</td>
+                                <td style="vertical-align: middle">{{ rec_all }}</td>
+							</tr>
+							<tr>
+                                <td style="vertical-align: middle">Всего расхода</td>
+                                <td style="vertical-align: middle">+ {{ spe_all }}</td>
+							</tr>
                          {% for item in rec %}
 							<tr class="success">
                                 <td style="vertical-align: middle">{{ item.date }}</td>
