@@ -61,7 +61,9 @@ def affairs_info(request, affair_id):
         spe_all = spe.aggregate(Sum('sum'))['sum__sum']
     # Список промежутков прикрепленных к делу с конкретными исполнителями
     performers_with_prise = ExtraPerfomer.objects.filter(affairs_id=affair_id, performer_id__in=performers_id)
-    extra_performers_sum_all = performers_with_prise.aggregate(Sum('sum'))['sum__sum']
+    extra_performers_sum_all = 0
+    if not not performers_with_prise:
+        extra_performers_sum_all = performers_with_prise.aggregate(Sum('sum'))['sum__sum']
     profit_now = rec_all - spe_all
     profit_all = affair.prise - extra_performers_sum_all
     context = {
