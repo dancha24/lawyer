@@ -107,6 +107,29 @@ def affairs_info(request, affair_id):
     return render(request, 'affairs/affairs_info.html', context)
 
 
+# Изменение записи дела
+@permission_required('affairs.change_affairs', raise_exception=True)
+def affairs_change(request, affair_id):
+    affair = Affairs.objects.get(pk=affair_id)
+    if request.method == "POST":
+        form = forms.AffairsAddForm(request.POST, instance=affair)
+        if form.is_valid():
+            send = form.save(commit=False)
+            send.save()
+            return redirect('affairs_info', affair_id=affair_id)
+    else:
+        form = forms.AffairsAddForm(instance=affair)
+    context = {
+        'menu': 'affairs',
+        'submenu': 'affairs_all',
+        'form': form,
+        'titlepage': 'Изменение дела ' + str(affair.name),
+        'next': False,
+    }
+
+    return render(request, 'affairs/affairs_add.html', context)
+
+
 # Список всех доп.дел
 @permission_required('affairs.view_extraaffairs', raise_exception=True)  # Проверка прав
 def extra_affairs_all(request):

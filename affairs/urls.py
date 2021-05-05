@@ -8,6 +8,7 @@ urlpatterns = [
     path('all', views.affairs_all, name='affairs_all'),
     path('add', views.affairs_add, name='affairs_add'),
     path('<affair_id>/', views.affairs_info, name='affairs_info'),
+    path('<affair_id>/change', views.affairs_change, name='affairs_change'),
     # path('change/<affair_id>', views.affairs_change, name='affairs_change'),
 
     # Доп.дела
