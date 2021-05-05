@@ -115,7 +115,8 @@
                                         <div class="col-xs-5"><label>Оплата исполнителям:</label></div>
                                         <!-- /.col-xs-5 -->
                                         <div class="col-xs-7">{{ affair.priseperformer }} - <a data-toggle="modal"
-                                                               data-target="#priseperformer">изменить</a></div>
+                                                                                               data-target="#priseperformer">изменить</a>
+                                        </div>
                                     </div>
                                     <!-- /.row -->
                                 </div>
@@ -128,12 +129,13 @@
                 <div class="col-md-6 col-xs-12">
                     <div class="box-content card">
                         <h4 class="box-title"><i class="fa fa-money ico"></i>Оплата</h4>
-                        <!-- /.box-title -->
                         <div class="dropdown js__drop_down">
                             <a href="#"
                                class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
                             <ul class="sub-menu">
-                                {#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                                <li><a data-toggle="modal" data-target="#add_rec">Добавить приход</a></li>
+                                <li class="split"></li>
+                                <li><a data-toggle="modal" data-target="#add_spe">Добавить расход</a></li>
                             </ul>
                         </div>
                         <table class="table table-bordered margin-bottom-0">
@@ -166,12 +168,6 @@
                                 <th colspan="3" class="text-center">Приход/расход</th>
                             </tr>
                             <tr>
-                                <th>Дата</th>
-                                <th>Сумма</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
                                 <td style="vertical-align: middle">Всего прихода</td>
                                 <td style="vertical-align: middle">+ {{ rec_all }}</td>
                             </tr>
@@ -179,6 +175,12 @@
                                 <td style="vertical-align: middle">Всего расхода</td>
                                 <td style="vertical-align: middle">- {{ spe_all }}</td>
                             </tr>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Сумма</th>
+                            </tr>
+                            </thead>
+                            <tbody>
                             {% for item in rec %}
                                 <tr class="success">
                                     <td style="vertical-align: middle">{{ item.date }}</td>
@@ -223,10 +225,10 @@
                                         <a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a>
                                     </td>
                                     <td>{{ performer.sum }} - <a data-toggle="modal"
-                                                               data-target="#performer_sum_{{ performer.performer.id }}">изменить</a>
+                                                                 data-target="#performer_sum_{{ performer.performer.id }}">изменить</a>
                                     </td>
                                     <td>{{ performer.payment }} - <a data-toggle="modal"
-                                                                   data-target="#performer_payment_{{ performer.performer.id }}">изменить</a>
+                                                                     data-target="#performer_payment_{{ performer.performer.id }}">изменить</a>
                                     </td>
                                     <td>{{ performer.sum|sub:performer.payment }}</td>
                                 </tr>
@@ -318,7 +320,8 @@
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для {{ performer.performer.name }}</h4>
+                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение
+                            для {{ performer.performer.name }}</h4>
                     </div>
                     <form method="post">
                         {% csrf_token %}
@@ -360,7 +363,8 @@
                                 <div class="input-group">
                                     <input type="text" placeholder="Сумма" name="performer_payment"
                                            class="form-control margin-bottom-10" value="{{ performer.payment }}">
-                                    <input type="hidden" name="performer_payment_id" value="{{ performer.performer.id }}">
+                                    <input type="hidden" name="performer_payment_id"
+                                           value="{{ performer.performer.id }}">
                                 </div>
                             </div>
                         </div>
@@ -378,35 +382,35 @@
     {% endfor %}
 
     <div class="modal fade" id="priseperformer" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-sm" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для юристов</h4>
-                    </div>
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label class="control-label">Сумма:</label>
-                                <div class="input-group">
-                                    <input type="text" placeholder="Сумма" name="priseperformer"
-                                           class="form-control margin-bottom-10" value="{{ affair.priseperformer }}">
-                                </div>
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для юристов</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">Сумма:</label>
+                            <div class="input-group">
+                                <input type="text" placeholder="Сумма" name="priseperformer"
+                                       class="form-control margin-bottom-10" value="{{ affair.priseperformer }}">
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
-                                    data-dismiss="modal">Закрыть
-                            </button>
-                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 
 
     <div class="modal fade" id="Modal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
