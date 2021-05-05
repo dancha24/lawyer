@@ -74,6 +74,21 @@ def affairs_info(request, affair_id):
         extra_performers_sum_all = performers_with_prise.aggregate(Sum('sum'))['sum__sum']
     profit_now = rec_all - spe_all
     profit_all = affair.prise - extra_performers_sum_all
+    if 'performer_sum' in request.POST and request.POST['performer_sum']:
+        y = performers_with_prise.get(performer_id=request.POST['performer_sum_id'], affairs_id=affair_id)
+        y.sum = request.POST['performer_sum']
+        # y.payment = request.POST['kmpred']
+        y.save()
+        return redirect('affairs_info', affair_id=affair_id)
+    if 'performer_payment' in request.POST and request.POST['performer_payment']:
+        y = performers_with_prise.get(performer_id=request.POST['performer_payment_id'], affairs_id=affair_id)
+        y.payment = request.POST['performer_payment']
+        y.save()
+        return redirect('affairs_info', affair_id=affair_id)
+    if 'priseperformer' in request.POST and request.POST['priseperformer']:
+        affair.priseperformer = request.POST['priseperformer']
+        affair.save()
+        return redirect('affairs_info', affair_id=affair_id)
     context = {
         'affair': affair,
         'extra_affairs': extra_affairs,

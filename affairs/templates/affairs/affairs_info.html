@@ -5,10 +5,6 @@
 
     <div class="row small-spacing">
         <div class="col-md-12 col-xs-12">
-            {#            {% if car.is_active == False %}#}
-            {#                <div class="alert alert-danger" role="alert"><strong>Машина#}
-            {#                    деактивирована!</strong> {{ car.is_active_false_com }} </div>#}
-            {#            {% endif %}#}
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box-content card">
@@ -116,9 +112,10 @@
                                 <!-- /.col-md-6 -->
                                 <div class="col-md-6">
                                     <div class="row">
-                                        <div class="col-xs-5"><label>Статус оплаты:</label></div>
+                                        <div class="col-xs-5"><label>Оплата исполнителям:</label></div>
                                         <!-- /.col-xs-5 -->
-                                        <div class="col-xs-7">{{ affair.priseperformer }}</div>
+                                        <div class="col-xs-7">{{ affair.priseperformer }} - <a data-toggle="modal"
+                                                               data-target="#priseperformer">изменить</a></div>
                                     </div>
                                     <!-- /.row -->
                                 </div>
@@ -127,61 +124,7 @@
                         </div>
                         <!-- /.card-content -->
                     </div>
-                    <!-- /.box-content card -->
-                    {#                    <div class="form-group">#}
-                    {#                        <button value="dop"#}
-                    {#                                class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
-                    {#                                data-toggle="modal" data-target="#Modal-all"><i class="ico fa fa-file"></i>Файлы#}
-                    {#                        </button>#}
-                    {#                        <button type="submit" name="variant" value="dop"#}
-                    {#                                class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
-                    {#                                data-toggle="modal" data-target="#Modal-1"><i class="ico fa fa-reorder"></i>Комплектация#}
-                    {#                        </button>#}
-                    {#                        <a target="_blank"#}
-                    {#                           class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
-                    {#                           href="https://xn--90adear.xn--p1ai/check/fines#{{ noforgibdd }}+{{ regionforgibdd }}+{{ car.sts }}"><i#}
-                    {#                                class="ico fa fa-warning"></i>Штрафы</a>#}
-                    {#                        <a class="btn btn-icon btn-icon-right btn-default waves-effect waves-light margin-top-10 margin-bottom-10"#}
-                    {#                           href=""><i class="ico fa fa-warning"></i>Штрафы</a>#}
-                    {#                    </div>#}
                 </div>
-                <!-- /.col-md-12 -->
-                {#                <div class="col-md-6 col-xs-12">#}
-                {#                    <div class="box-content card text-center">#}
-                {#                        <h4 class="box-title"><i class="fa fa-repeat ico"></i> ТО </h4>#}
-                {#                        <table class="table table-bordered margin-bottom-0 text-left">#}
-                {#                            <h5>Реальный пробег:</h5>#}
-                {#                            <thead>#}
-                {#                            <tr>#}
-                {#                                <th>Название</th>#}
-                {#                                <th>Пробег до</th>#}
-                {#                                <th>Статус</th>#}
-                {#                            </tr>#}
-                {#                            </thead>#}
-                {#                            <tbody>#}
-                {#                            {% for item in carto %}#}
-                {#                                <tr>#}
-                {#                                    <td style="vertical-align: middle"></td>#}
-                {#                                    <td style="vertical-align: middle"></td>#}
-                {#                                    <td style="vertical-align: middle">#}
-                {#                                        {% if car.km >= item.kmto|sub:item.kmpred %}#}
-                {#                                            <a class="btn btn-danger btn-xs waves-effect waves-light btn-icon btn-icon-right"#}
-                {#                                               data-toggle="modal" data-target="#carto_{{ item.id }}">Требуется<i#}
-                {#                                                    class="ico fa fa-edit"></i></a>#}
-                {#                                        {% else %}#}
-                {#                                            <a class="btn btn-success btn-xs waves-effect waves-light btn-icon btn-icon-right"#}
-                {#                                               data-toggle="modal" data-target="#carto_{{ item.id }}">Не требуется<i#}
-                {#                                                    class="ico fa fa-edit"></i></a>#}
-                {#                                        {% endif %}#}
-                {#                                    </td>#}
-                {#                                </tr>#}
-                {#                            {% endfor %}#}
-                {#                            </tbody>#}
-                {#                        </table>#}
-                {#                    </div>#}
-                {#                    <!-- /.box-content card -->#}
-                {#                </div>#}
-                <!-- /.col-md-6 -->
                 <div class="col-md-6 col-xs-12">
                     <div class="box-content card">
                         <h4 class="box-title"><i class="fa fa-money ico"></i>Оплата</h4>
@@ -279,11 +222,12 @@
                                     <td>
                                         <a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a>
                                     </td>
-                                    <td>{{ performer.sum }}-<a data-toggle="modal"
-                                                               data-target="performer_sum_{{ item.id }}">изменить</a>
+                                    <td>{{ performer.sum }} - <a data-toggle="modal"
+                                                               data-target="#performer_sum_{{ performer.performer.id }}">изменить</a>
                                     </td>
-                                    <td>{{ performer.payment }}-<a data-toggle="modal"
-                                                               data-target="performer_payment_{{ item.id }}">изменить</a></td>
+                                    <td>{{ performer.payment }} - <a data-toggle="modal"
+                                                                   data-target="#performer_payment_{{ performer.performer.id }}">изменить</a>
+                                    </td>
                                     <td>{{ performer.sum|sub:performer.payment }}</td>
                                 </tr>
                             {% endfor %}
@@ -326,80 +270,6 @@
                     </div>
                     <!-- /.box-content card -->
                 </div>
-                <!-- /.col-md-6 -->
-                {#                <div class="col-md-12 col-xs-12">#}
-                {#                    <div class="box-content card">#}
-                {#                        <h4 class="box-title"><i class="fa fa-wrench ico"></i> Ремонты</h4>#}
-                {#                        <!-- /.box-title -->#}
-                {#                        <div class="dropdown js__drop_down">#}
-                {#                            <a href="#"#}
-                {#                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>#}
-                {#                            <ul class="sub-menu">#}
-                {#                                <li><a href="repairs">Посмотреть все</a></li>#}
-                {#                            </ul>#}
-                {#                            <!-- /.sub-menu -->#}
-                {#                        </div>#}
-                {#                        <!-- /.dropdown js__dropdown -->#}
-                {#                        <table class="table table-bordered margin-bottom-0">#}
-                {#                            <thead>#}
-                {#                            <tr>#}
-                {#                                <th>Работа</th>#}
-                {#                                <th>Сто</th>#}
-                {#                                <th>Дата</th>#}
-                {#                            </tr>#}
-                {#                            </thead>#}
-                {#                            <tbody>#}
-                {#                            {% for item in repairs %}#}
-                {#                                <tr>#}
-                {#                                    <td>{{ item.cause }}</td>#}
-                {#                                    <td>{{ item.sto }}</td>#}
-                {#                                    <td>{{ item.datein }}</td>#}
-                {#                                </tr>#}
-                {#                            {% endfor %}#}
-                {#                            </tbody>#}
-                {#                        </table>#}
-                {#                        <!-- /.card-content -->#}
-                {#                    </div>#}
-                {#                    <!-- /.col-md-6 -->#}
-                {#                    <!-- /.box-content card -->#}
-                {#                </div>#}
-                {#                <div class="col-md-12 col-xs-12">#}
-                {#                    <div class="box-content card">#}
-                {#                        <h4 class="box-title"><i class="fa fa-trophy ico"></i> Штрафы</h4>#}
-                {#                        <!-- /.box-title -->#}
-                {#                        <div class="dropdown js__drop_down">#}
-                {#                            <a href="#"#}
-                {#                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>#}
-                {#                            <ul class="sub-menu">#}
-                {#                                <li><a href={% url 'fines_car' pk=car.id %}>Посмотреть все</a></li>#}
-                {#                                <li>#}
-                {#                                    <form method="post">{% csrf_token %}#}
-                {#                                        <button type="submit" name="refresh_fines" value="yes">Обновить</button>#}
-                {#                                    </form>#}
-                {#                                </li>#}
-                {#                            </ul>#}
-                {#                        </div>#}
-                {#                        <table class="table table-bordered margin-bottom-0">#}
-                {#                            <thead>#}
-                {#                            <tr>#}
-                {#                                <th>Постановление</th>#}
-                {#                                <th>Дата</th>#}
-                {#                                <th>Сумма</th>#}
-                {#                            </tr>#}
-                {#                            </thead>#}
-                {#                            <tbody>#}
-                {#                            {% for item in fines %}#}
-                {#                                <tr>#}
-                {#                                    <td style="vertical-align: middle">{{ item.decree }}</td>#}
-                {#                                    <td style="vertical-align: middle">{{ item.fine_date }}</td>#}
-                {#                                    <td style="vertical-align: middle">{{ item.amount }}</td>#}
-                {#                                </tr>#}
-                {#                            {% endfor %}#}
-                {#                            </tbody>#}
-                {#                        </table>#}
-                {#                    </div>#}
-                {#                    <!-- /.box-content card -->#}
-                {#                </div>#}
             </div>
         </div>
         <!-- /.col-md-9 col-xs-12 -->
@@ -441,31 +311,56 @@
         </div>
     </div>
 
-    {% for item in carto %}
-        <div class="modal fade" id="carto_{{ item.id }}" tabindex="-1" role="dialog">
+    {% for performer in performers %}
+        <div class="modal fade" id="performer_sum_{{ performer.performer.id }}" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel-2">{{ item.name }}</h4>
+                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для {{ performer.performer.name }}</h4>
                     </div>
                     <form method="post">
                         {% csrf_token %}
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="control-label">Пробег до {{ item.name }}:</label>
+                                <label class="control-label">Сумма:</label>
                                 <div class="input-group">
-                                    <input type="text" placeholder="Пробег" name="kmto"
-                                           class="form-control margin-bottom-10" value="{{ item.kmto }}">
-                                    <input type="hidden" name="to_id" value="{{ item.id }}">
+                                    <input type="text" placeholder="Сумма" name="performer_sum"
+                                           class="form-control margin-bottom-10" value="{{ performer.sum }}">
+                                    <input type="hidden" name="performer_sum_id" value="{{ performer.performer.id }}">
                                 </div>
                             </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="performer_payment_{{ performer.performer.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Оплачено {{ performer.performer.name }}</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
                             <div class="form-group">
-                                <label class="control-label">Предупреждать за:</label>
+                                <label class="control-label">Сумма:</label>
                                 <div class="input-group">
-                                    <input type="text" placeholder="Пробег" name="kmpred"
-                                           class="form-control margin-bottom-10" value="{{ item.kmpred }}">
+                                    <input type="text" placeholder="Сумма" name="performer_payment"
+                                           class="form-control margin-bottom-10" value="{{ performer.payment }}">
+                                    <input type="hidden" name="performer_payment_id" value="{{ performer.performer.id }}">
                                 </div>
                             </div>
                         </div>
@@ -481,6 +376,37 @@
             </div>
         </div>
     {% endfor %}
+
+    <div class="modal fade" id="priseperformer" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для юристов</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Сумма:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Сумма" name="priseperformer"
+                                           class="form-control margin-bottom-10" value="{{ affair.priseperformer }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
 
 
     <div class="modal fade" id="Modal-1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
