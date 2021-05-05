@@ -10,30 +10,15 @@ from django.db.models import Sum
 
 # Список всех дел
 @permission_required('affairs.view_affairs', raise_exception=True)  # Проверка прав
-def affairs_all(request, filters=None):
+def affairs_all(request):
     affairs = Affairs.objects.all()
-    if filters is not None:
-        # name = models.CharField(max_length=200, verbose_name='Номер договора')
-        # deal = models.CharField(max_length=200, verbose_name='Ссылка на сделку Битрикс')
-        # date_in = models.DateField(default=timezone.now, verbose_name='Дата начала сделки')
-        # date_out = models.DateField(verbose_name='Дата окончания сделки', blank=True, null=True)
-        # customers = models.ForeignKey(Customers, default=None, on_delete=models.DO_NOTHING, verbose_name='Клиент')
-        # performer = models.ManyToManyField(Performers, default=None, verbose_name='Исполнитель',
-        #                                    blank=True, null=True, related_name='perf')
-        # jobcategories = models.ForeignKey(JobCategories, default=None, on_delete=models.DO_NOTHING,
-        #                                   verbose_name='Категория дела')
-        # prise = models.FloatField(verbose_name='Цена')
-        # priseperformer = models.FloatField(default=0, verbose_name='Вознаграждение для исполнителя', blank=True,
-        #                                    null=True)
-        # prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
-        # priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
-        # deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
-        # prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
-        affairs = affairs.filter(customers_id=filters.costomers)
     form = forms.AffairsFiltersForm()
     if 'filter' in request.POST:
-        filters.customers = form.save(commit=False).customers
-        return redirect('affairs_all', filters=filters)
+        response = redirect('affairs_all')
+        response['Location'] += '?customers_id=' + str(form.customers.id)
+        return response
+    if 'customers_id' in request.GET:
+        affairs = affairs.filter(customers_id=request.GET['customers_id'])
     context = {
         'affairs': affairs,
         'form': form,
