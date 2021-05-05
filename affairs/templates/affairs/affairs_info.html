@@ -126,7 +126,7 @@
                         <!-- /.card-content -->
                     </div>
                 </div>
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-7 col-xs-12">
                     <div class="box-content card">
                         <h4 class="box-title"><i class="fa fa-money ico"></i>Оплата</h4>
                         <div class="dropdown js__drop_down">
@@ -165,32 +165,45 @@
                         <table class="table table-bordered margin-bottom-0">
                             <thead>
                             <tr>
-                                <th colspan="3" class="text-center">Приход/расход</th>
+                                <th colspan="5" class="text-center">Приход/расход</th>
                             </tr>
                             <tr>
-                                <td style="vertical-align: middle">Всего прихода</td>
-                                <td style="vertical-align: middle">+ {{ rec_all }}</td>
+                                <td colspan="2" style="vertical-align: middle">Всего прихода</td>
+                                <td colspan="3" style="vertical-align: middle">+ {{ rec_all }}</td>
                             </tr>
                             <tr>
-                                <td style="vertical-align: middle">Всего расхода</td>
-                                <td style="vertical-align: middle">- {{ spe_all }}</td>
+                                <td colspan="2" style="vertical-align: middle">Всего расхода</td>
+                                <td colspan="3" style="vertical-align: middle">- {{ spe_all }}</td>
                             </tr>
                             <tr>
                                 <th>Дата</th>
                                 <th>Сумма</th>
+                                <th>Коментарий</th>
+                                <th>Категория</th>
+                                <th>Действия</th>
                             </tr>
                             </thead>
                             <tbody>
                             {% for item in rec %}
                                 <tr class="success">
-                                    <td style="vertical-align: middle">{{ item.date }}</td>
-                                    <td style="vertical-align: middle">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
+                                                                                               data-target="#rec_del_{{ item.id }}">Удалить</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             {% for item in spe %}
                                 <tr class="danger">
-                                    <td style="vertical-align: middle">{{ item.date }}</td>
-                                    <td style="vertical-align: middle">- {{ item.sum }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">- {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
+                                                                                               data-target="#spe_del_{{ item.id }}">Удалить</a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -198,7 +211,7 @@
                     </div>
                     <!-- /.box-content card -->
                 </div>
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-5 col-xs-12">
                     <div class="box-content card">
                         <h4 class="box-title"><i class="fa fa-user ico"></i> Исполнители</h4>
                         <!-- /.box-title -->
@@ -238,7 +251,7 @@
                     </div>
                     <!-- /.box-content card -->
                 </div>
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-5 col-xs-12">
                     <div class="box-content card">
                         <h4 class="box-title"><i class="fa fa-plus ico"></i> Допники</h4>
                         <!-- /.box-title -->
@@ -276,10 +289,61 @@
         </div>
         <!-- /.col-md-9 col-xs-12 -->
     </div>
-
 {% endblock %}
 
 {% block modal %}
+
+    <div class="modal fade" id="add_rec" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Приход</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_rec.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button name="rec_add" type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_spe" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-5">Расход</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_spe.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="spe_add" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="delcar" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-sm" role="document">
@@ -373,6 +437,76 @@
                                     data-dismiss="modal">Закрыть
                             </button>
                             <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for item in rec %}
+        <div class="modal fade" id="rec_del_{{ item.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Удалить приход</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <table class="table table-bordered margin-bottom-0">
+                                <tr>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="rec_id_del" value="{{ item.id }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button name="rec_del" value="yes" type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light">Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for item in spe %}
+        <div class="modal fade" id="spe_del_{{ item.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Удалить расход</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <table class="table table-bordered margin-bottom-0">
+                                <tr>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="spe_id_del" value="{{ item.id }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button name="spe_del" value="yes" type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light">Удалить
                             </button>
                         </div>
                     </form>
