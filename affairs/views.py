@@ -32,7 +32,7 @@ def affairs_all(request, filters=None):
         affairs = affairs.filter(customers_id=filters.costomers)
     form = forms.AffairsFiltersForm()
     if 'filter' in request.POST:
-        filters.customers = form.fields.customers
+        filters.customers = form.fields['customers']
         return redirect('affairs_all', filters=filters)
     context = {
         'affairs': affairs,
