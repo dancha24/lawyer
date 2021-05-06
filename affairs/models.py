@@ -92,6 +92,7 @@ class Affairs(models.Model):
         verbose_name = 'Дело'
         verbose_name_plural = 'Дела'
 
+
 @receiver(post_save, sender=Affairs)
 def add_rec(instance, created, **kwargs):
     if created:
