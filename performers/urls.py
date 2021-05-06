@@ -6,6 +6,7 @@ urlpatterns = [
     # Исполнители
     # path('', views.index, name='control_overview'),
     path('all', views.performers_all, name='performers_all'),
+    path('add', views.performers_add, name='performers_add'),
     path('<performers_id>/', views.performers_info, name='performers_info'),
 
     # Доп.дела

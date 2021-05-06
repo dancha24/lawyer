@@ -2,6 +2,31 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from .models import Performers, PerformersDoc
 from finansy.models import Spending
+from . import forms
+from django.shortcuts import redirect
+
+
+# Добавление исполнителя
+@permission_required('performers.add_performers', raise_exception=True)
+def performers_add(request):
+    if request.method == "POST":
+        form = forms.PerformersAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('performers_add')
+            else:
+                return redirect('performers_info', performers_id=form.save().id)
+    else:
+        form = forms.PerformersAddForm()
+    context = {
+        'menu': 'performers',
+        'submenu': 'performers_add',
+        'form': form,
+        'titlepage': 'Добавление исполнителя',
+    }
+
+    return render(request, 'performers/performers_add.html', context)
 
 
 # Список всех Исаолнителей

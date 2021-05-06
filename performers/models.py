@@ -1,6 +1,9 @@
 from django.db import models
 from django.db.models import Sum
 from django.utils import timezone
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from affairs import models as af_models
 
 
 class JobCategories(models.Model):
@@ -103,6 +106,17 @@ class Performers(models.Model):
     class Meta:
         verbose_name = 'Исполнитель'
         verbose_name_plural = 'Исполнители'
+
+
+@receiver(post_save, sender=Performers)
+def add_rec(instance, created, **kwargs):
+    if created:
+        for per in af_models.Affairs.objects.all():
+            prom = af_models.ExtraPerfomer()
+            prom.affairs_id = per.id
+            prom.performer_id = instance.id
+            prom.sum = 0
+            prom.save()
 
 
 class PerformersDoc(models.Model):
