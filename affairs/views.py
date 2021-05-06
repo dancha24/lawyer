@@ -16,10 +16,11 @@ def affairs_all(request):
     form = forms.AffairsFiltersForm()
     if 'filter' in request.POST:
         response = redirect('affairs_all')
-        response['Location'] += '?customers_id=' + str(form.customers.id)
+        customers_id = affairs.get(customers=form.fields['customers'])
+        response['Location'] += '?customers_id=' + str(customers_id.customers.id)
         return response
     if 'customers_id' in request.GET:
-        affairs = affairs.filter(customers_id=request.GET['customers_id'])
+        affairs = affairs.filter(customers=request.GET['customers_id'])
     context = {
         'affairs': affairs,
         'form': form,
@@ -41,7 +42,7 @@ def affairs_add(request):
             if 'add' in request.POST and request.POST['add']:
                 return redirect('affairs_add')
             else:
-                return redirect('affairs_all')
+                return redirect('affairs_info', affair_id=form.save().id)
     else:
         form = forms.AffairsAddForm()
     context = {
