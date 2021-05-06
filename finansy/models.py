@@ -31,7 +31,7 @@ class CategoriesOfReceipt(models.Model):
 
 class Receipt(models.Model):
     sum = models.FloatField(verbose_name='Сумма')
-    com = models.TextField(verbose_name='Коментарий')
+    com = models.TextField(verbose_name='Коментарий', blank=True, null=True)
     type = models.CharField(max_length=2, choices=MONEY, default=CASH, verbose_name='Форма оплаты')
     date = models.DateField(default=timezone.now, verbose_name='Дата прихода')
     category = models.ForeignKey(CategoriesOfReceipt, on_delete=models.DO_NOTHING, verbose_name='Категория')
@@ -199,7 +199,7 @@ class CategoriesOfSpending(models.Model):
 
 class Spending(models.Model):
     sum = models.FloatField(verbose_name='Сумма')
-    com = models.TextField(verbose_name='Коментарий')
+    com = models.TextField(verbose_name='Коментарий', blank=True, null=True)
     type = models.CharField(max_length=2, choices=MONEY, default=CASH, verbose_name='Форма оплаты')
     date = models.DateField(default=timezone.now, verbose_name='Дата расхода')
     category = models.ForeignKey(CategoriesOfSpending, on_delete=models.CASCADE, verbose_name='Категория')
