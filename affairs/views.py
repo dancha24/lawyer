@@ -151,6 +151,7 @@ def affairs_change(request, affair_id):
         if form.is_valid():
             send = form.save(commit=False)
             send.save()
+            form.save_m2m()
             return redirect('affairs_info', affair_id=affair_id)
     else:
         form = forms.AffairsAddForm(instance=affair)
