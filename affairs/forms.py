@@ -1,5 +1,5 @@
 from django import forms
-from .models import Affairs
+from .models import Affairs, ExtraAffairs
 
 
 class AffairsForm(forms.ModelForm):
@@ -31,6 +31,33 @@ class AffairsAddForm(forms.ModelForm):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['date_out'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+
+
+class ExtraAffairsAddForm(forms.ModelForm):
+    class Meta:
+        model = ExtraAffairs
+        fields = ['name', 'affairs', 'sum', 'comment', 'file']
+
+    def __init__(self, *args, **kwargs):
+        super(ExtraAffairsAddForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['affairs'].widget.attrs.update({'class': 'form-control select2_1'})
+        self.fields['sum'].widget.attrs.update({'class': 'form-control'})
+        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
+
+
+class ExtraAffairsAddOnAffairsForm(forms.ModelForm):
+    class Meta:
+        model = ExtraAffairs
+        fields = ['name', 'sum', 'comment', 'file']
+
+    def __init__(self, *args, **kwargs):
+        super(ExtraAffairsAddOnAffairsForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['sum'].widget.attrs.update({'class': 'form-control'})
+        self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
 
 
 class AffairsFiltersForm(forms.ModelForm):

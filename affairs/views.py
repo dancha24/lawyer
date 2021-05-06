@@ -32,7 +32,7 @@ def affairs_all(request):
     return render(request, 'affairs/affairs_all.html', context)
 
 
-# Добавление записи расхода
+# Добавление дела
 @permission_required('affairs.add_affairs', raise_exception=True)
 def affairs_add(request):
     if request.method == "POST":
@@ -113,6 +113,15 @@ def affairs_info(request, affair_id):
             return redirect('affairs_info', affair_id=affair_id)
     else:
         form_spe = SpendingAddOnAffairForm()
+    if 'dop_add' in request.POST and request.POST['dop_add']:
+        form_dop = forms.ExtraAffairsAddOnAffairsForm(request.POST, request.FILES)
+        if form_dop.is_valid():
+            send = form_dop.save(commit=False)
+            send.affairs = affair
+            send.save()
+            return redirect('affairs_info', affair_id=affair_id)
+    else:
+        form_dop = forms.ExtraAffairsAddOnAffairsForm()
     if 'rec_id_del' in request.POST and request.POST['rec_id_del']:
         rec = Receipt.objects.get(id=request.POST['rec_id_del'])
         rec.delete()
@@ -134,6 +143,7 @@ def affairs_info(request, affair_id):
         'profit_all': profit_all,
         'form_rec': form_rec,
         'form_spe': form_spe,
+        'form_dop': form_dop,
         'menu': 'affairs',
         'submenu': 'affairs_all',
         'titlepage': 'Информация о деле ' + affair.name,
@@ -178,6 +188,29 @@ def extra_affairs_all(request):
     }
 
     return render(request, 'affairs/extra_affairs_all.html', context)
+
+
+# Добавление доп. дела
+@permission_required('affairs.add_extraaffairs', raise_exception=True)
+def extra_affairs_add(request):
+    if request.method == "POST":
+        form = forms.ExtraAffairsAddForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('extra_affairs_add')
+            else:
+                return redirect('extra_affairs_info', extra_affairs_id=form.save().id)
+    else:
+        form = forms.ExtraAffairsAddForm()
+    context = {
+        'menu': 'affairs',
+        'submenu': 'extra_affairs_all',
+        'form': form,
+        'titlepage': 'Добавление доп. дела',
+    }
+
+    return render(request, 'affairs/affairs_add.html', context)
 
 
 # Информация об доп.деле

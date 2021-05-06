@@ -110,7 +110,7 @@ class ExtraAffairs(models.Model):
                                 blank=True, null=True)
     sum = models.PositiveIntegerField(verbose_name="Сумма", default=0)
     comment = models.TextField(verbose_name="Коментарий", max_length=5000)
-    file = models.FileField(verbose_name="Файл", blank=True)
+    file = models.FileField(verbose_name="Файл", blank=True, null=True)
 
     def __str__(self):
         return self.name

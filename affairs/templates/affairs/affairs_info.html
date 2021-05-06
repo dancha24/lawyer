@@ -259,7 +259,7 @@
                             <a href="#"
                                class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
                             <ul class="sub-menu">
-                                {#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                                <li><a data-toggle="modal" data-target="#add_dop">Добавить допник</a></li>
                             </ul>
                         </div>
                         <table class="table table-bordered margin-bottom-0">
@@ -337,6 +337,32 @@
                                 data-dismiss="modal">Закрыть
                         </button>
                         <button name="spe_add" value="add" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_dop" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-5">Добавить доп.соглашение</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_dop.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="dop_add" value="add" type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
                             Сохранить
                         </button>
                     </div>
