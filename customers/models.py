@@ -20,7 +20,7 @@ class Customers(models.Model):
         (URFACE, 'Юридическое лицо'),
         (FIZFACE, 'Физическое лицо'),
     )
-    type = models.CharField(max_length=2, choices=FACE, default=FIZFACE)
+    type = models.CharField(max_length=2, choices=FACE, default=FIZFACE, verbose_name='Тип')
     name = models.CharField(max_length=200, verbose_name='Имя')
     surname = models.CharField(max_length=200, verbose_name='Фамилия')
     patronymic = models.CharField(max_length=200, verbose_name='Отчество')

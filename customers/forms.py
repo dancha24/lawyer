@@ -10,15 +10,15 @@ class CustomersForm(forms.ModelForm):
 class CustomerAddForm(forms.ModelForm):
     class Meta:
         model = Customers
-        fields = ['type', 'name', 'surname', 'patronymic', 'dr', 'pasno', 'paskod', 'pasby', 'pasdate', 'address',
+        fields = ['type', 'surname', 'name', 'patronymic', 'dr', 'pasno', 'paskod', 'pasby', 'pasdate', 'address',
                   'tel']
 
     def __init__(self, *args, **kwargs):
         super(CustomerAddForm, self).__init__(*args, **kwargs)
-        self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['name'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['surname'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['patronymic'].widget.attrs.update({'class': 'form-control select2_1'})
+        self.fields['type'].widget.attrs.update({'class': 'form-control'})
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['surname'].widget.attrs.update({'class': 'form-control'})
+        self.fields['patronymic'].widget.attrs.update({'class': 'form-control'})
         self.fields['pasno'].widget.attrs.update({'class': 'form-control'})
         self.fields['pasby'].widget.attrs.update({'class': 'form-control'})
         self.fields['paskod'].widget.attrs.update({'class': 'form-control'})
