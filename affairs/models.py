@@ -34,7 +34,7 @@ class Affairs(models.Model):
                                       verbose_name='Категория дела')
     prise = models.FloatField(verbose_name='Цена')
     priseperformer = models.FloatField(default=0, verbose_name='Вознаграждение для исполнителя', blank=True, null=True)
-    prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
+    # prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
     priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
