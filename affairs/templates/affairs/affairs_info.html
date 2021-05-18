@@ -185,7 +185,7 @@
                             </thead>
                             <tbody>
                             {% for item in rec %}
-                                <tr class="success">
+                                <tr style="background: #7dd07c">
                                     <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
                                     <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
                                     <td style="vertical-align: middle">{{ item.com }}</td>
@@ -196,7 +196,7 @@
                                 </tr>
                             {% endfor %}
                             {% for item in spe %}
-                                <tr class="danger" style="background-color: #dd5454">
+                                <tr style="background: #ffb9b9">
                                     <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
                                     <td style="vertical-align: middle; white-space: nowrap">- {{ item.sum }}</td>
                                     <td style="vertical-align: middle">{{ item.com }}</td>
