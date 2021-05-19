@@ -34,9 +34,9 @@ class Affairs(models.Model):
     jobcategories = models.ForeignKey(JobCategories, default=None, on_delete=models.DO_NOTHING,
                                       verbose_name='Категория дела')
     prise = models.FloatField(verbose_name='Цена')
-    priseperformer = models.FloatField(default=0, verbose_name='Вознаграждение для исполнителя', blank=True, null=True)
+    # priseperformer = models.FloatField(default=0, verbose_name='Вознаграждение для исполнителя', blank=True, null=True)
     # prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
-    priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
+    # priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
 
@@ -63,6 +63,14 @@ class Affairs(models.Model):
             return 0
         else:
             return self.all_spe().aggregate(Sum('sum'))['sum__sum']
+
+    # Оперативный баланс по договору
+    def profit_now(self):
+        return self.all_rec_sum() - self.all_spe_sum()
+
+    # Итоговый баланс по договору
+    def profit_all(self):
+        return self.prise - self.performer_sum_all()
 
     # Дела в работе
     @staticmethod
@@ -114,9 +122,28 @@ class Affairs(models.Model):
             summ += af.customers_debt()
         return summ
 
-    # Должны исполнителю
-    def performer_debt(self):
-        return self.priseperformer - self.priseperformeralready
+    # Промежутки исполнителей по делу
+    def affair_performers(self):
+        performers_id = self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
+        return ExtraPerfomer.objects.filter(affairs_id=self.id, performer_id__in=performers_id)
+
+    # Вознаграждения исполнителям по делу
+    def performer_sum_all(self):
+        if not not self.affair_performers():
+            return self.affair_performers().aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
+
+    # Оплечено исполнителям по делу
+    def performer_payment_all(self):
+        if not not self.affair_performers():
+            return self.affair_performers().aggregate(Sum('payment'))['payment__sum']
+        else:
+            return 0
+
+    # Должны исполнителям по делу
+    def performer_debt_all(self):
+        return self.performer_sum_all() - self.performer_payment_all()
 
     # Сумма цен на все дела
     @staticmethod

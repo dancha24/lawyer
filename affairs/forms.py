@@ -5,14 +5,13 @@ from .models import Affairs, ExtraAffairs
 class AffairsForm(forms.ModelForm):
     class Meta:
         model = Affairs
-        exclude = ['prisealready', 'priseperformeralready']
+        fields = "__all__"
 
 
 class AffairsAddForm(forms.ModelForm):
     class Meta:
         model = Affairs
-        fields = ['name', 'deal', 'date_in', 'date_out', 'customers', 'performer', 'jobcategories', 'prise',
-                  'priseperformer', 'deal_status']
+        fields = ['name', 'deal', 'date_in', 'date_out', 'customers', 'performer', 'jobcategories', 'prise', 'deal_status']
 
     def __init__(self, *args, **kwargs):
         super(AffairsAddForm, self).__init__(*args, **kwargs)

@@ -49,10 +49,12 @@ class Performers(models.Model):
 
     # Дел на сумму
     def all_sum(self):
+        summ = 0
         if self.all_deals().exists():
-            return self.all_deals().aggregate(Sum('priseperformer'))['priseperformer__sum']
-        else:
-            return 0
+            from affairs.models import ExtraPerfomer
+            for deal in self.all_deals():
+                summ += ExtraPerfomer.objects.get(affairs_id=deal.id, performer_id=self.id).sum
+        return summ
 
     all_sum.short_description = 'Дел на сумму'
 
@@ -66,10 +68,12 @@ class Performers(models.Model):
 
     # Всего оплачено
     def all_sum_already(self):
+        summ = 0
         if self.all_deals().exists():
-            return self.all_deals().aggregate(Sum('priseperformeralready'))['priseperformeralready__sum']
-        else:
-            return 0
+            from affairs.models import ExtraPerfomer
+            for deal in self.all_deals():
+                summ += ExtraPerfomer.objects.get(affairs_id=deal.id, performer_id=self.id).payment
+        return summ
 
     all_sum_already.short_description = 'Всего оплачено'
 
@@ -89,13 +93,7 @@ class Performers(models.Model):
 
     # Должны исполнителю
     def all_debt(self):
-        debt = 0
-        if self.all_deals().exists():
-            for mat in self.all_deals():
-                debt += mat.performer_debt()
-            return debt
-        else:
-            return debt
+        return self.all_sum() - self.all_sum_already()
 
     all_debt.short_description = 'Должны исполнителю'
 

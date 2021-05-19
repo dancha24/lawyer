@@ -62,34 +62,17 @@ def affairs_add(request):
 @permission_required('affairs.view_affairs', raise_exception=True)  # Проверка прав
 def affairs_info(request, affair_id):
     affair = Affairs.objects.get(pk=affair_id)
-    performers_id = affair.performer.all().values_list('id', flat=True)  # Айдишники исполнителей прикрепленных к делу
     extra_affairs = ExtraAffairs.objects.filter(affairs_id=affair_id)  # Дополнительные дела
-    rec = Receipt.objects.filter(deal_id=affair_id)  # Все доходы
-    spe = Spending.objects.filter(deal_id=affair_id)  # Все расходы
-    rec_all = 0
-    spe_all = 0
-    if not not rec:
-        rec_all = rec.aggregate(Sum('sum'))['sum__sum']  # Сумма всех доходов
-    if not not spe:
-        spe_all = spe.aggregate(Sum('sum'))['sum__sum']  # Сумма всех расходов
-    # Список промежутков прикрепленных к делу с конкретными исполнителями
-    performers_with_prise = ExtraPerfomer.objects.filter(affairs_id=affair_id, performer_id__in=performers_id)
-    extra_performers_sum_all = 0
-    if not not performers_with_prise:
-        # Сумма всех вознаграждений в промежутках
-        extra_performers_sum_all = performers_with_prise.aggregate(Sum('sum'))['sum__sum']
-    profit_now = rec_all - spe_all
-    profit_all = affair.prise - extra_performers_sum_all
     # изменение вознаграждения в промежутке
     if 'performer_sum' in request.POST and request.POST['performer_sum']:
-        y = performers_with_prise.get(performer_id=request.POST['performer_sum_id'], affairs_id=affair_id)
+        y = affair.affair_performers().get(performer_id=request.POST['performer_sum_id'], affairs_id=affair_id)
         y.sum = request.POST['performer_sum']
         # y.payment = request.POST['kmpred']
         y.save()
         return redirect('affairs_info', affair_id=affair_id)
     # изменение оплаты в промежутке
     if 'performer_payment' in request.POST and request.POST['performer_payment']:
-        y = performers_with_prise.get(performer_id=request.POST['performer_payment_id'], affairs_id=affair_id)
+        y = affair.affair_performers().get(performer_id=request.POST['performer_payment_id'], affairs_id=affair_id)
         y.payment = request.POST['performer_payment']
         y.save()
         return redirect('affairs_info', affair_id=affair_id)
@@ -137,13 +120,6 @@ def affairs_info(request, affair_id):
     context = {
         'affair': affair,
         'extra_affairs': extra_affairs,
-        'performers': performers_with_prise,
-        'rec': rec,
-        'spe': spe,
-        'rec_all': rec_all,
-        'spe_all': spe_all,
-        'profit_now': profit_now,
-        'profit_all': profit_all,
         'form_rec': form_rec,
         'form_spe': form_spe,
         'form_dop': form_dop,

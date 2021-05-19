@@ -165,9 +165,7 @@ def edit_balanse_add_rec(instance, created, **kwargs):
         balance_now.save()
         if instance.deal:
             deal = Affairs.objects.get(id=instance.deal.id)
-            deal.prisealready += instance.sum
-            deal.save()
-            if deal.prisealready >= deal.prise:
+            if deal.all_rec_sum() >= deal.prise:
                 deal.prise_status = 'YE'
                 deal.save()
 
@@ -179,9 +177,7 @@ def edit_balanse_del_rec(instance, **kwargs):
     balance_now.save()
     if instance.deal:
         deal = Affairs.objects.get(id=instance.deal.id)
-        deal.prisealready -= instance.sum
-        deal.save()
-        if deal.prisealready < deal.prise:
+        if deal.all_rec_sum() < deal.prise:
             deal.prise_status = 'NO'
             deal.save()
 
@@ -353,10 +349,11 @@ def edit_balanse_add_spe(instance, created, **kwargs):
         balance_now = FinansyBalance.objects.get(type=instance.type)
         balance_now.sum -= instance.sum
         balance_now.save()
-        if instance.category.id == 1:
-            deal = Affairs.objects.get(id=instance.deal.id)
-            deal.priseperformeralready += instance.sum
-            deal.save()
+        if instance.category.name == "Оплата исполнителю":
+            from affairs.models import ExtraPerfomer
+            extra = ExtraPerfomer.objects.get(affairs_id=instance.deal.id, performer_id=instance.performers.id)
+            extra.payment += instance.sum
+            extra.save()
 
 
 @receiver(post_delete, sender=Spending)
@@ -364,10 +361,11 @@ def edit_balanse_del_spe(instance, **kwargs):
     balance_now = FinansyBalance.objects.get(type=instance.type)
     balance_now.sum += instance.sum
     balance_now.save()
-    if instance.category.id == 1:
-        deal = Affairs.objects.get(id=instance.deal.id)
-        deal.priseperformeralready -= instance.sum
-        deal.save()
+    if instance.category.name == "Оплата исполнителю":
+        from affairs.models import ExtraPerfomer
+        extra = ExtraPerfomer.objects.get(affairs_id=instance.deal.id, performer_id=instance.performers.id)
+        extra.payment -= instance.sum
+        extra.save()
 
 
 class FinansyBalance(models.Model):
