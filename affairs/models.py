@@ -4,7 +4,6 @@ from django.dispatch import receiver
 from performers.models import Performers, JobCategories
 from customers.models import Customers
 from django.utils import timezone
-from finansy.models import Receipt, Spending
 from django.db.models import Sum
 
 ON = 'ON'
@@ -43,10 +42,12 @@ class Affairs(models.Model):
 
     # Все приходы по делу
     def all_rec(self):
+        from finansy.models import Receipt
         return Receipt.objects.filter(deal_id=self.id)
 
     # Все расходы по делу
     def all_spe(self):
+        from finansy.models import Spending
         return Spending.objects.filter(deal_id=self.id)
 
     # Сумма приходов по делу
