@@ -4,6 +4,8 @@ from django.dispatch import receiver
 from performers.models import Performers, JobCategories
 from customers.models import Customers
 from django.utils import timezone
+from finansy.models import Receipt, Spending
+from django.db.models import Sum
 
 ON = 'ON'
 WIN = 'WI'
@@ -38,6 +40,22 @@ class Affairs(models.Model):
     priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
+
+    # Все приходы по делу
+    def all_rec(self):
+        return Receipt.objects.filter(deal_id=self.id)
+
+    # Все расходы по делу
+    def all_spe(self):
+        return Spending.objects.filter(deal_id=self.id)
+
+    # Сумма приходов по делу
+    def all_rec_sum(self):
+        return self.all_rec().aggregate(Sum('sum'))['sum__sum']
+
+    # Сумма приходов по делу
+    def all_spe_sum(self):
+        return self.all_spe().aggregate(Sum('sum'))['sum__sum']
 
     # Дел в работе
     @staticmethod
@@ -79,7 +97,7 @@ class Affairs(models.Model):
 
     # Клиент Должен
     def customers_debt(self):
-        return self.prise - self.prisealready
+        return self.prise - self.all_rec_sum()
 
     # Должны исполнителю
     def performer_debt(self):
