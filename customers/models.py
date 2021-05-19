@@ -40,6 +40,13 @@ class Customers(models.Model):
 
     all_deals.short_description = 'Все сделки'
 
+    # Все приходы
+    def all_rec(self):
+        from affairs.models import Affairs
+        from finansy.models import Receipt
+        return Receipt.objects.filter(
+            deal_id__in=Affairs.objects.filter(customers=self.id).values_list('id', flat=True))
+
     # Фамилия И.О.
     def fio_min(self):
         return self.surname + ' ' + self.name[0] + '.' + self.patronymic[0] + '.'
@@ -57,22 +64,21 @@ class Customers(models.Model):
 
     # Всего оплачено
     def all_sum_already(self):
+        summ = 0
         if self.all_deals().exists():
-            return self.all_deals().aggregate(Sum('prisealready'))['prisealready__sum']
-        else:
-            return 0
+            for deal in self.all_deals():
+                summ += deal.all_rec_sum()
+        return summ
 
     all_sum_already.short_description = 'Всего оплачено'
 
     # Общий долг
     def all_debt(self):
-        debt = 0
+        summ = 0
         if self.all_deals().exists():
-            for mat in self.all_deals():
-                debt += mat.customers_debt()
-            return debt
-        else:
-            return debt
+            for deal in self.all_deals():
+                summ += deal.customers_debt()
+        return summ
 
     all_debt.short_description = 'Общий долг'
 

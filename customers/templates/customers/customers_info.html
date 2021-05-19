@@ -177,11 +177,7 @@
                             <a href="#"
                                class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
                             <ul class="sub-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else there</a></li>
                                 <li class="split"></li>
-                                <li><a href="#">Separated link</a></li>
                             </ul>
                             <!-- /.sub-menu -->
                         </div>
@@ -195,6 +191,12 @@
                                     <th>Сумма</th>
                                 </tr>
                                 </thead>
+                                <tfoot>
+                                <tr>
+                                    <th class="text-right">Итого:</th>
+                                    <th>{{ info.all_sum }}</th>
+                                </tr>
+                                </tfoot>
                                 <tbody>
                                 {% for affair in info.all_deals %}
                                     <tr>
@@ -219,11 +221,7 @@
                             <a href="#"
                                class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
                             <ul class="sub-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else there</a></li>
                                 <li class="split"></li>
-                                <li><a href="#">Separated link</a></li>
                             </ul>
                             <!-- /.sub-menu -->
                         </div>
@@ -235,14 +233,22 @@
                                 <thead>
                                 <tr>
                                     <th>Дата</th>
+                                    <th>Комментарий</th>
                                     <th>Сумма</th>
                                 </tr>
                                 </thead>
+                                <tfoot>
+                                <tr>
+                                    <th colspan="2" class="text-right">Итого:</th>
+                                    <th>{{ info.all_sum_already }}</th>
+                                </tr>
+                                </tfoot>
                                 <tbody>
-                                {% for spen in spending %}
+                                {% for rec in info.all_rec %}
                                     <tr>
-                                        <td>{{ spen.date }}</td>
-                                        <td>{{ spen.sum }}</td>
+                                        <td>{{ rec.date }}</td>
+                                        <td>{{ rec.com }}</td>
+                                        <td>{{ rec.sum }}</td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
