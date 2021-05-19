@@ -52,11 +52,17 @@ class Affairs(models.Model):
 
     # Сумма приходов по делу
     def all_rec_sum(self):
-        return self.all_rec().aggregate(Sum('sum'))['sum__sum']
+        if self.all_rec() is not None:
+            return self.all_rec().aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
 
     # Сумма приходов по делу
     def all_spe_sum(self):
-        return self.all_spe().aggregate(Sum('sum'))['sum__sum']
+        if self.all_spe() is not None:
+            return self.all_spe().aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
 
     # Дел в работе
     @staticmethod
