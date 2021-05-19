@@ -23,7 +23,7 @@ class AffairsAddForm(forms.ModelForm):
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['deal'].widget.attrs.update({'class': 'form-control'})
         self.fields['prise'].widget.attrs.update({'class': 'form-control'})
-        self.fields['priseperformer'].widget.attrs.update({'class': 'form-control'})
+        # self.fields['priseperformer'].widget.attrs.update({'class': 'form-control'})
         # self.fields['prisealready'].widget.attrs.update({'class': 'form-control'})
         # self.fields['priseperformeralready'].widget.attrs.update({'class': 'form-control'})
         self.fields['date_in'].widget.attrs.update(
