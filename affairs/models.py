@@ -52,19 +52,19 @@ class Affairs(models.Model):
 
     # Сумма приходов по делу
     def all_rec_sum(self):
-        if self.all_rec() is not None:
+        if not self.all_rec():
+            return 0
+        else:
             return self.all_rec().aggregate(Sum('sum'))['sum__sum']
-        else:
-            return 0
 
-    # Сумма приходов по делу
+    # Сумма расходов по делу
     def all_spe_sum(self):
-        if self.all_spe() is not None:
-            return self.all_spe().aggregate(Sum('sum'))['sum__sum']
-        else:
+        if not self.all_spe():
             return 0
+        else:
+            return self.all_spe().aggregate(Sum('sum'))['sum__sum']
 
-    # Дел в работе
+    # Дела в работе
     @staticmethod
     def deals_in():
         return Affairs.objects.filter(deal_status=ON)
@@ -104,11 +104,40 @@ class Affairs(models.Model):
 
     # Клиент Должен
     def customers_debt(self):
-        return self.prise - self.all_rec_sum()
+        return self.prise - float(self.all_rec_sum())
+
+    # Задолжности клиентов по всем делам
+    @staticmethod
+    def customers_debt_all():
+        summ = 0
+        for af in Affairs.objects.all():
+            summ += af.customers_debt()
+        return summ
 
     # Должны исполнителю
     def performer_debt(self):
         return self.priseperformer - self.priseperformeralready
+
+    # Сумма цен на все дела
+    @staticmethod
+    def prise_all():
+        return Affairs.objects.all().aggregate(Sum('prise'))['prise__sum']
+
+    # Приходы по всем делам
+    @staticmethod
+    def rec_all_affair():
+        from finansy.models import Receipt
+        return Receipt.objects.exclude(deal_id=None)
+
+    # Сумма приходов по всем делам
+    @staticmethod
+    def rec_all_affair_sum():
+        return Affairs.rec_all_affair().aggregate(Sum('sum'))['sum__sum']
+
+    # # Сумма всех дел
+    # @staticmethod
+    # def prise_all():
+    #     return Affairs.objects.all().aggregate(Sum('sum'))['sum__sum']
 
     def __str__(self):
         return self.name

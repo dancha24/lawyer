@@ -24,6 +24,9 @@ def affairs_all(request):
     context = {
         'affairs': affairs,
         'form': form,
+        'prise_all': Affairs.prise_all(),
+        'customers_debt_all': Affairs.customers_debt_all(),
+        'rec_all_affair_sum': Affairs.rec_all_affair_sum(),
         'menu': 'affairs',
         'submenu': 'affairs_all',
         'titlepage': 'Список дел',
