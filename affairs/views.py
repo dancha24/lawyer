@@ -7,6 +7,7 @@ from finansy.forms import ReceiptAddOnAffairForm, SpendingAddOnAffairForm
 from django.shortcuts import redirect
 from django.db.models import Sum
 # from performers.models import Performers
+from datetime import datetime, date
 
 
 # Список всех дел
@@ -27,6 +28,29 @@ def affairs_all(request):
         'prise_all': Affairs.prise_all(),
         'customers_debt_all': Affairs.customers_debt_all(),
         'rec_all_affair_sum': Affairs.rec_all_affair_sum(),
+        'menu': 'affairs',
+        'submenu': 'affairs_all',
+        'titlepage': 'Список дел',
+    }
+
+    return render(request, 'affairs/affairs_all.html', context)
+
+
+# Список всех дел по фильтру
+@permission_required('affairs.view_affairs', raise_exception=True)  # Проверка прав
+def filter(request):
+    affairs = Affairs.objects.all().filter(date_in__gte=date(2021, 5, 1)).exclude(performer=8)
+    suma = affairs.aggregate(Sum('prise'))['prise__sum']
+    allrec = 0
+    debt = 0
+    for af in affairs:
+        debt += af.customers_debt()
+        allrec += af.all_rec_sum()
+    context = {
+        'affairs': affairs,
+        'prise_all': suma,
+        'customers_debt_all': debt,
+        'rec_all_affair_sum': allrec,
         'menu': 'affairs',
         'submenu': 'affairs_all',
         'titlepage': 'Список дел',
