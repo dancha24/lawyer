@@ -11,7 +11,8 @@ class AffairsForm(forms.ModelForm):
 class AffairsAddForm(forms.ModelForm):
     class Meta:
         model = Affairs
-        fields = ['name', 'deal', 'date_in', 'date_out', 'customers', 'performer', 'jobcategories', 'prise', 'deal_status']
+        fields = ['name', 'deal', 'date_in', 'date_out', 'customers', 'performer', 'jobcategories', 'prise',
+                  'deal_status', 'com']
 
     def __init__(self, *args, **kwargs):
         super(AffairsAddForm, self).__init__(*args, **kwargs)
@@ -30,12 +31,13 @@ class AffairsAddForm(forms.ModelForm):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['date_out'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+        self.fields['com'].widget.attrs.update({'class': 'form-control'})
 
 
 class ExtraAffairsAddForm(forms.ModelForm):
     class Meta:
         model = ExtraAffairs
-        fields = ['name', 'affairs', 'sum', 'comment', 'file']
+        fields = ['name', 'affairs', 'sum', 'comment', 'file', 'deal']
 
     def __init__(self, *args, **kwargs):
         super(ExtraAffairsAddForm, self).__init__(*args, **kwargs)
@@ -43,19 +45,21 @@ class ExtraAffairsAddForm(forms.ModelForm):
         self.fields['affairs'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['sum'].widget.attrs.update({'class': 'form-control'})
         self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['deal'].widget.attrs.update({'class': 'form-control'})
         self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
 
 
 class ExtraAffairsAddOnAffairsForm(forms.ModelForm):
     class Meta:
         model = ExtraAffairs
-        fields = ['name', 'sum', 'comment', 'file']
+        fields = ['name', 'sum', 'comment', 'file', 'deal']
 
     def __init__(self, *args, **kwargs):
         super(ExtraAffairsAddOnAffairsForm, self).__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['sum'].widget.attrs.update({'class': 'form-control'})
         self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['deal'].widget.attrs.update({'class': 'form-control'})
         self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
 
 
