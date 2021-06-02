@@ -106,15 +106,15 @@ class Performers(models.Model):
         verbose_name_plural = 'Исполнители'
 
 
-@receiver(post_save, sender=Performers)
-def add_rec(instance, created, **kwargs):
-    if created:
-        for per in af_models.Affairs.objects.all():
-            prom = af_models.ExtraPerfomer()
-            prom.affairs_id = per.id
-            prom.performer_id = instance.id
-            prom.sum = 0
-            prom.save()
+# @receiver(post_save, sender=Performers)
+# def add_rec(instance, created, **kwargs):
+#     if created:
+#         for per in af_models.Affairs.objects.all():
+#             prom = af_models.ExtraPerfomer()
+#             prom.affairs_id = per.id
+#             prom.performer_id = instance.id
+#             prom.sum = 0
+#             prom.save()
 
 
 class PerformersDoc(models.Model):

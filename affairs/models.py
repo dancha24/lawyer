@@ -173,14 +173,9 @@ class Affairs(models.Model):
 
 
 @receiver(post_save, sender=Affairs)
-def add_rec(instance, created, **kwargs):
-    if created:
-        for per in Performers.objects.all():
-            prom = ExtraPerfomer()
-            prom.affairs_id = instance.id
-            prom.performer_id = per.id
-            prom.sum = 0
-            prom.save()
+def add_exper(instance, created, **kwargs):
+    for per in instance.performer.all():
+        ExtraPerfomer.objects.get_or_create(affairs_id=instance.id, performer_id=per.id)
 
 
 class ExtraAffairs(models.Model):
