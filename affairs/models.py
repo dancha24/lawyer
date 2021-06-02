@@ -34,11 +34,9 @@ class Affairs(models.Model):
     jobcategories = models.ForeignKey(JobCategories, default=None, on_delete=models.DO_NOTHING,
                                       verbose_name='Категория дела')
     prise = models.FloatField(verbose_name='Цена')
-    # priseperformer = models.FloatField(default=0, verbose_name='Вознаграждение для исполнителя', blank=True, null=True)
-    # prisealready = models.FloatField(default=0, verbose_name='Оплачено клиентом')
-    # priseperformeralready = models.FloatField(default=0, verbose_name='Выплачено исполнителю')
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
+    com = models.TextField(blank=True, null=True, verbose_name='Комментарий по делу')
 
     # Все приходы по делу
     def all_rec(self):
@@ -192,6 +190,7 @@ class ExtraAffairs(models.Model):
     sum = models.PositiveIntegerField(verbose_name="Сумма", default=0)
     comment = models.TextField(verbose_name="Коментарий", max_length=5000)
     file = models.FileField(verbose_name="Файл", blank=True, null=True)
+    deal = models.CharField(max_length=200, verbose_name='Ссылка на сделку Битрикс')
 
     def __str__(self):
         return self.name
