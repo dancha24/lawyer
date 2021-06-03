@@ -131,7 +131,7 @@ def affairs_info(request, affair_id):
             send.save()
             return redirect('affairs_info', affair_id=affair_id)
     else:
-        form_dop = forms.ExtraAffairsAddOnAffairsForm()
+        form_dop = forms.ExtraAffairsAddOnAffairsForm(initial={'affairs': affair})
     if 'rec_id_del' in request.POST and request.POST['rec_id_del']:
         rec = Receipt.objects.get(id=request.POST['rec_id_del'])
         rec.delete()
@@ -220,6 +220,17 @@ def extra_affairs_add(request):
 @permission_required('affairs.view_extraaffairs', raise_exception=True)  # Проверка прав
 def extra_affairs_info(request, extra_affairs_id):
     extra_affairs = ExtraAffairs.objects.get(pk=extra_affairs_id)
+    # изменение вознаграждения в промежутке
+    if 'performer_sum' in request.POST and request.POST['performer_sum']:
+        y = extra_affairs.ex_affair_performers().get(performer_id=request.POST['performer_sum_id'],
+                                                     extraaffairs_id=extra_affairs_id)
+        ta = ExtraPerfomer.objects.get(performer_id=request.POST['performer_sum_id'],
+                                       affairs_id=extra_affairs.affairs.id)
+        ta.sum += int(request.POST['performer_sum']) - y.sum
+        ta.save()
+        y.sum = request.POST['performer_sum']
+        y.save()
+        return redirect('extra_affairs_info', extra_affairs_id=extra_affairs_id)
     context = {
         'affair': extra_affairs,
         'menu': 'affairs',
@@ -228,3 +239,27 @@ def extra_affairs_info(request, extra_affairs_id):
     }
 
     return render(request, 'affairs/extra_affairs_info.html', context)
+
+
+# Изменение записи доп.дела
+@permission_required('affairs.change_affairs', raise_exception=True)
+def extra_affairs_change(request, extra_affairs_id):
+    affair = ExtraAffairs.objects.get(pk=extra_affairs_id)
+    if request.method == "POST":
+        form = forms.ExtraAffairsAddForm(request.POST, instance=affair)
+        if form.is_valid():
+            send = form.save(commit=False)
+            form.save_m2m()
+            send.save()
+            return redirect('extra_affairs_info', extra_affairs_id=extra_affairs_id)
+    else:
+        form = forms.ExtraAffairsAddForm(instance=affair)
+    context = {
+        'menu': 'affairs',
+        'submenu': 'extraaffairs_all',
+        'form': form,
+        'titlepage': 'Изменение доп.дела ' + str(affair.name),
+        'next': False,
+    }
+
+    return render(request, 'affairs/affairs_add.html', context)

@@ -120,10 +120,13 @@ class Affairs(models.Model):
             summ += af.customers_debt()
         return summ
 
+    # Айдишники исполнителей дела
+    def affair_performers_ids(self):
+        return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
+
     # Промежутки исполнителей по делу
     def affair_performers(self):
-        performers_id = self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
-        return ExtraPerfomer.objects.filter(affairs_id=self.id, performer_id__in=performers_id)
+        return ExtraPerfomer.objects.filter(affairs_id=self.id, performer_id__in=self.affair_performers_ids())
 
     # Вознаграждения исполнителям по делу
     def performer_sum_all(self):
@@ -173,9 +176,11 @@ class Affairs(models.Model):
 
 
 @receiver(post_save, sender=Affairs)
-def add_exper(instance, created, **kwargs):
+def add_exper(instance, **kwargs):
     for per in instance.performer.all():
         ExtraPerfomer.objects.get_or_create(affairs_id=instance.id, performer_id=per.id)
+    ExtraPerfomer.objects.exclude(performer_id__in=instance.performer.all().values_list('id', flat=True)).filter(
+        affairs_id=instance.id).delete()
 
 
 class ExtraAffairs(models.Model):
@@ -186,6 +191,7 @@ class ExtraAffairs(models.Model):
     comment = models.TextField(verbose_name="Коментарий", max_length=5000)
     file = models.FileField(verbose_name="Файл", blank=True, null=True)
     deal = models.CharField(max_length=200, verbose_name='Ссылка на сделку Битрикс')
+    performer = models.ManyToManyField(Performers, default=None, verbose_name='Исполнитель', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -194,9 +200,17 @@ class ExtraAffairs(models.Model):
         verbose_name = 'Дополнительное дело'
         verbose_name_plural = 'Дополнительные дела'
 
+    # Промежутки исполнителей по доп. делу
+    def ex_affair_performers(self):
+        performers_id = self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
+        return ExtraPerfomer.objects.filter(extraaffairs_id=self.id, performer_id__in=performers_id)
+
 
 @receiver(post_save, sender=ExtraAffairs)
 def edit_balanse_add_rec(instance, created, **kwargs):
+    for per in instance.performer.all():
+        ExtraPerfomer.objects.get_or_create(extraaffairs_id=instance.id, performer_id=per.id)
+    ExtraPerfomer.objects.exclude(performer_id__in=instance.performer.all().values_list('id', flat=True)).filter(extraaffairs_id=instance.id).delete()
     if created:
         balance_now = Affairs.objects.get(id=instance.affairs_id)
         balance_now.prise += instance.sum
@@ -213,6 +227,9 @@ def edit_balanse_del_rec(instance, **kwargs):
 class ExtraPerfomer(models.Model):
     affairs = models.ForeignKey(Affairs, default=None, on_delete=models.CASCADE, verbose_name='Номер дела',
                                 blank=True, null=True)
+    extraaffairs = models.ForeignKey(ExtraAffairs, default=None, on_delete=models.CASCADE,
+                                     verbose_name='Номер доп.дела',
+                                     blank=True, null=True)
     performer = models.ForeignKey(Performers, default=None, on_delete=models.CASCADE, verbose_name='Исполнитель',
                                   blank=True, null=True)
     sum = models.PositiveIntegerField(verbose_name="Вознаграждение", default=0)
@@ -224,3 +241,13 @@ class ExtraPerfomer(models.Model):
     class Meta:
         verbose_name = 'Промежуток'
         verbose_name_plural = 'Промежуток'
+
+
+@receiver(post_delete, sender=ExtraPerfomer)
+def edit_balanse_del_rec(instance, **kwargs):
+    if instance.extraaffairs is not None:
+        af = Affairs.objects.get(extraaffairs=instance.extraaffairs)
+        if instance.performer.id in af.affair_performers_ids():
+            extra_af = ExtraPerfomer.objects.get(affairs_id=af.id, performer_id=instance.performer)
+            extra_af.sum -= instance.sum
+            extra_af.save()

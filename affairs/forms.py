@@ -37,7 +37,7 @@ class AffairsAddForm(forms.ModelForm):
 class ExtraAffairsAddForm(forms.ModelForm):
     class Meta:
         model = ExtraAffairs
-        fields = ['name', 'affairs', 'sum', 'comment', 'file', 'deal']
+        fields = ['name', 'affairs', 'sum', 'comment', 'performer', 'file', 'deal']
 
     def __init__(self, *args, **kwargs):
         super(ExtraAffairsAddForm, self).__init__(*args, **kwargs)
@@ -47,18 +47,22 @@ class ExtraAffairsAddForm(forms.ModelForm):
         self.fields['comment'].widget.attrs.update({'class': 'form-control'})
         self.fields['deal'].widget.attrs.update({'class': 'form-control'})
         self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
+        self.fields['performer'].widget.attrs.update({'class': 'form-control select2_1'})
 
 
 class ExtraAffairsAddOnAffairsForm(forms.ModelForm):
     class Meta:
         model = ExtraAffairs
-        fields = ['name', 'sum', 'comment', 'file', 'deal']
+        fields = ['name', 'sum', 'comment', 'performer', 'file', 'deal']
 
     def __init__(self, *args, **kwargs):
         super(ExtraAffairsAddOnAffairsForm, self).__init__(*args, **kwargs)
+        if 'affairs' in self.initial:
+            self.fields['performer'].queryset = self.initial['affairs'].performer.all()
         self.fields['name'].widget.attrs.update({'class': 'form-control'})
         self.fields['sum'].widget.attrs.update({'class': 'form-control'})
         self.fields['comment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['performer'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['deal'].widget.attrs.update({'class': 'form-control'})
         self.fields['file'].widget.attrs.update({'class': 'dropify', 'id': 'input-file-now-custom-1 margin-bottom-20'})
 

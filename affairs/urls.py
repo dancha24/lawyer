@@ -16,4 +16,5 @@ urlpatterns = [
     path('extra/all', views.extra_affairs_all, name='extra_affairs_all'),
     path('extra/add', views.extra_affairs_add, name='extra_affairs_add'),
     path('extra/<extra_affairs_id>/', views.extra_affairs_info, name='extra_affairs_info'),
+    path('extra/<extra_affairs_id>/change', views.extra_affairs_change, name='extra_affairs_change'),
 ]

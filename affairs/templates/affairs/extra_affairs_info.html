@@ -18,7 +18,7 @@
                             <a href="#"
                                class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
                             <ul class="sub-menu">
-                                <li><a href="edit">Изменить</a></li>
+                                <li><a href="{% url 'extra_affairs_change' extra_affairs_id=affair.id %}">Изменить</a></li>
                                 <li class="split"></li>
                                 <li><a data-toggle="modal" data-target="#delcar">Удалить</a></li>
                             </ul>
@@ -36,7 +36,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-5"><label>Основное дело:</label></div>
-                                        <div class="col-xs-7"><a href="{% url 'affairs_info' affair_id=affair.affairs.id %}">{{ affair.affairs.name }}</a>
+                                        <div class="col-xs-7"><a
+                                                href="{% url 'affairs_info' affair_id=affair.affairs.id %}">{{ affair.affairs.name }}</a>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -45,7 +46,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-xs-5"><label>делка в битрикс:</label></div>
-                                        <div class="col-xs-7"><a target="_blank" href="{{ affair.deal }}">Перейти</a></div>
+                                        <div class="col-xs-7"><a target="_blank" href="{{ affair.deal }}">Перейти</a>
+                                        </div>
                                     </div>
                                     <!-- /.row -->
                                 </div>
@@ -54,9 +56,85 @@
                         </div>
                         <!-- /.card-content -->
                     </div>
+                </div>
             </div>
+            <!-- /.col-md-9 col-xs-12 --></div>
+        <div class="col-md-5 col-xs-12">
+            <div class="box-content card">
+                <h4 class="box-title"><i class="fa fa-user ico"></i> Исполнители</h4>
+                <!-- /.box-title -->
+                <div class="dropdown js__drop_down">
+                    <a href="#"
+                       class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                    <ul class="sub-menu">
+                        {#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                    </ul>
+                </div>
+                <table class="table table-bordered margin-bottom-0">
+                    <thead>
+                    <tr>
+                        <th>ФИО</th>
+                        <th>Вознаграждение</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+                    <tr>
+                        <th class="text-right">Итого:</th>
+                        <th>{{ affair.performer_sum_all }}</th>
+                    </tr>
+                    </tfoot>
+                    <tbody>
+                    {% for performer in affair.ex_affair_performers %}
+                        <tr>
+                            <td>
+                                <a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a>
+                            </td>
+                            <td>{{ performer.sum }} - <a data-toggle="modal"
+                                                         data-target="#performer_sum_{{ performer.performer.id }}">изменить</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-content card -->
         </div>
-        <!-- /.col-md-9 col-xs-12 -->
     </div>
 
+{% endblock %}
+{%  block modal %}
+{% for performer in affair.ex_affair_performers %}
+        <div class="modal fade" id="performer_sum_{{ performer.performer.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение
+                            для {{ performer.performer.name }}</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Сумма:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Сумма" name="performer_sum"
+                                           class="form-control margin-bottom-10" value="{{ performer.sum }}">
+                                    <input type="hidden" name="performer_sum_id" value="{{ performer.performer.id }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+{% endfor %}
 {% endblock %}
