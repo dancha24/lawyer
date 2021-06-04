@@ -39,6 +39,11 @@ class Performers(models.Model):
         from affairs.models import Affairs
         return Affairs.objects.filter(performer=self.id)
 
+    # Всего доп делов
+    def all_ex_deals(self):
+        from affairs.models import ExtraAffairs
+        return ExtraAffairs.objects.filter(performer=self.id)
+
     all_deals.short_description = 'Все сделки'
 
     # Фамилия И.О.
