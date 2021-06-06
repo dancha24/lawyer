@@ -6,6 +6,7 @@ from affairs.models import Affairs
 from performers.models import Performers
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.db.models import Sum
 
 da = datetime.now()
 CASH = 'CH'
@@ -371,6 +372,11 @@ def edit_balanse_del_spe(instance, **kwargs):
 class FinansyBalance(models.Model):
     sum = models.FloatField(verbose_name='Баланс')
     type = models.CharField(max_length=2, choices=MONEY, default=CASH, verbose_name='Форма оплаты')
+
+    # Фильтр
+    @staticmethod
+    def all_sum(request):
+        return FinansyBalance.objects.all().aggregate(Sum('sum'))['sum__sum']
 
     def __str__(self):
         return str(self.type)
