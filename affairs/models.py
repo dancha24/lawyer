@@ -37,6 +37,7 @@ class Affairs(models.Model):
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
     com = models.TextField(blank=True, null=True, verbose_name='Комментарий по делу')
+    manager = models.ForeignKey(Performers, default=8, verbose_name='Ведет дело', blank=True, null=True, on_delete=models.PROTECT)
 
     # Все приходы по делу
     def all_rec(self):
