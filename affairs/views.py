@@ -180,6 +180,9 @@ def affairs_info(request, affair_id):
         spe = Spending.objects.get(id=request.POST['spe_id_del'])
         spe.delete()
         return redirect('affairs_info', affair_id=affair_id)
+    if 'af_del' in request.POST and request.POST['af_del']:
+        affair.delete()
+        return redirect('affairs_all')
 
     context = {
         'affair': affair,
