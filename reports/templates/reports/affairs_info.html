@@ -1,0 +1,576 @@
+{% extends 'control.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+    <div class="row small-spacing">
+        <div class="col-md-12 col-xs-12">
+            {% if affair.com %}
+                <div class="alert alert-warning" role="alert"><strong>Примечание:</strong> {{ affair.com }} </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-info ico"></i>Сведения</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+                                <li><a href="{% url 'affairs_change' affair_id=affair.id %}">Изменить</a></li>
+                                <li class="split"></li>
+                                <li><a data-toggle="modal" data-target="#af_del">Удалить</a></li>
+                            </ul>
+                            <!-- /.sub-menu -->
+                        </div>
+                        <!-- /.dropdown js__dropdown -->
+                        <div class="card-content">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Название (Номер):</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.name }}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Ссылка на сделку битрикс:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7"><a href="{{ affair.deal }}" target="_blank">Перейти</a>
+                                        </div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Начало:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.date_in }}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Окончание:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.date_out is None %}Нет {% else %}
+                                            {{ affair.date_out }}{% endif %}</div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Клиент:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7"><a
+                                                href="{% url 'customers_info' customers_id=affair.customers_id %}">{{ affair.customers }}</a>
+                                        </div>
+                                        <!-- /.col-xs-7 -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Категория:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{{ affair.jobcategories }}</div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Статус:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.deal_status == 'WI' %}Заверешено (Удачно)
+                                        {% elif affair.deal_status == 'ON' %}В процессе
+                                        {% elif affair.deal_status == 'LO' %}Заверешено (Неудачно)
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-5"><label>Статус оплаты:</label></div>
+                                        <!-- /.col-xs-5 -->
+                                        <div class="col-xs-7">{% if affair.prise_status == 'NO' %}Не оплаченно
+                                        {% elif affair.prise_status == 'YE' %}Оплаченно
+                                        {% endif %}
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.card-content -->
+                    </div>
+                </div>
+                <div class="col-md-7 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-money ico"></i>Оплата</h4>
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+                                <li><a data-toggle="modal" data-target="#add_rec">Добавить приход</a></li>
+                                <li class="split"></li>
+                                <li><a data-toggle="modal" data-target="#add_spe">Добавить расход</a></li>
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <tbody>
+                            <tr>
+                                <th>Сумма по договору</th>
+                                <td>{{ affair.prise }}</td>
+                            </tr>
+                            <tr>
+                                <th>Оплачено по договору</th>
+                                <td>{{ affair.all_rec_sum }}</td>
+                            </tr>
+                            <tr>
+                                <th>Долг клиента по договору</th>
+                                <td>{{ affair.customers_debt }}</td>
+                            </tr>
+                            <tr>
+                                <th>Оперативный баланс по договору</th>
+                                <td>{{ affair.profit_now }}</td>
+                            </tr>
+                            <tr>
+                                <th>Итоговый баланс по договору</th>
+                                <td>{{ affair.profit_all }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+                            <tr>
+                                <th colspan="5" class="text-center">Приход/расход</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="vertical-align: middle">Всего прихода</td>
+                                <td colspan="3" style="vertical-align: middle">+ {{ affair.all_rec_sum }}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="vertical-align: middle">Всего расхода</td>
+                                <td colspan="3" style="vertical-align: middle">- {{ affair.all_spe_sum }}</td>
+                            </tr>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Сумма</th>
+                                <th>Коментарий</th>
+                                <th>Категория</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in affair.all_rec %}
+                                <tr style="background: #7dd07c">
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
+                                                                                               data-target="#rec_del_{{ item.id }}">Удалить</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% for item in affair.all_spe %}
+                                <tr style="background: #ffb9b9">
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">- {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">
+                                        {{ item.category }}{% if item.category.name == "Оплата исполнителю" %} -
+                                            {{ item.performers.fio_min }}{% endif %}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
+                                                                                               data-target="#spe_del_{{ item.id }}">Удалить</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+                <div class="col-md-5 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-user ico"></i> Исполнители</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+                                {#                                <li><a href="{% url 'all_active_car' pk=car.id %}">Посмотреть всю</a></li>#}
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+                            <tr>
+                                <th>ФИО</th>
+                                <th>Вознаграждение</th>
+                                <th>Оплачено</th>
+                                <th>Остаток</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th class="text-right">Итого:</th>
+                                <th>{{ affair.performer_sum_all }}</th>
+                                <th>{{ affair.performer_payment_all }}</th>
+                                <th>{{ affair.performer_debt_all }}</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            {% for performer in affair.affair_performers %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'performers_info' performers_id=performer.performer.id %}">{{ performer.performer }}</a>
+                                    </td>
+                                    <td>{{ performer.sum }} - <a data-toggle="modal"
+                                                                 data-target="#performer_sum_{{ performer.performer.id }}">изменить</a>
+                                    </td>
+                                    <td>
+                                        {{ performer.payment }}
+                                    </td>
+                                    <td>{{ performer.sum|sub:performer.payment }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+                <div class="col-md-5 col-xs-12">
+                    <div class="box-content card">
+                        <h4 class="box-title"><i class="fa fa-plus ico"></i> Допники</h4>
+                        <!-- /.box-title -->
+                        <div class="dropdown js__drop_down">
+                            <a href="#"
+                               class="dropdown-icon glyphicon glyphicon-option-vertical js__drop_down_button"></a>
+                            <ul class="sub-menu">
+                                <li><a data-toggle="modal" data-target="#add_dop">Добавить допник</a></li>
+                            </ul>
+                        </div>
+                        <table class="table table-bordered margin-bottom-0">
+                            <thead>
+                            <tr>
+                                <th>Название(номер)</th>
+                                <th>Сумма</th>
+                                <th>Комментарий</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in extra_affairs %}
+                                <tr>
+                                    <td style="vertical-align: middle"><a
+                                            href="{% url 'extra_affairs_info' extra_affairs_id=item.id %}">{{ item.name }}</a>
+                                    </td>
+                                    <td style="vertical-align: middle">{{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.comment }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-content card -->
+                </div>
+            </div>
+        </div>
+        <!-- /.col-md-9 col-xs-12 -->
+    </div>
+{% endblock %}
+
+{% block modal %}
+
+    <div class="modal fade" id="add_rec" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Приход</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_rec.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="rec_add" value="add" type="submit"
+                                class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_spe" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-5">Расход</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_spe.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="spe_add" value="add" type="submit"
+                                class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="add_dop" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-5">Добавить доп.соглашение</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        {{ form_dop.as_p }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="dop_add" value="add" type="submit"
+                                class="btn btn-primary btn-sm waves-effect waves-light">
+                            Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    {% for performer in affair.affair_performers %}
+        <div class="modal fade" id="performer_sum_{{ performer.performer.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Вознаграждение
+                            для {{ performer.performer.name }}</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Сумма:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Сумма" name="performer_sum"
+                                           class="form-control margin-bottom-10" value="{{ performer.sum }}">
+                                    <input type="hidden" name="performer_sum_id" value="{{ performer.performer.id }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="performer_payment_{{ performer.performer.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Оплачено {{ performer.performer.name }}</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="control-label">Сумма:</label>
+                                <div class="input-group">
+                                    <input type="text" placeholder="Сумма" name="performer_payment"
+                                           class="form-control margin-bottom-10" value="{{ performer.payment }}">
+                                    <input type="hidden" name="performer_payment_id"
+                                           value="{{ performer.performer.id }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for item in affair.all_rec %}
+        <div class="modal fade" id="rec_del_{{ item.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Удалить приход</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <table class="table table-bordered margin-bottom-0">
+                                <tr>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="rec_id_del" value="{{ item.id }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button name="rec_del" value="yes" type="button"
+                                    class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light">Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for item in affair.all_spe %}
+        <div class="modal fade" id="spe_del_{{ item.id }}" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel-2">Удалить расход</h4>
+                    </div>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <table class="table table-bordered margin-bottom-0">
+                                <tr>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle">{{ item.com }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                </tr>
+                            </table>
+                            <input type="hidden" name="spe_id_del" value="{{ item.id }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button name="spe_del" value="yes" type="button"
+                                    class="btn btn-default btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">Закрыть
+                            </button>
+                            <button type="submit" class="btn btn-danger btn-sm waves-effect waves-light">Удалить
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="modal fade" id="priseperformer" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Вознаграждение для юристов</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="control-label">Сумма:</label>
+                            <div class="input-group">
+                                <input type="text" placeholder="Сумма" name="priseperformer"
+                                       class="form-control margin-bottom-10" value="{{ affair.priseperformer }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">Сохранить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="af_del" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-2">Удалить дело?</h4>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="modal-body">
+                        <h2>Вы уверенны?</h2>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-default btn-sm waves-effect waves-light"
+                                data-dismiss="modal">Закрыть
+                        </button>
+                        <button name="af_del" value="yes" type="submit"
+                                class="btn btn-danger btn-sm waves-effect waves-light">Удалить
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

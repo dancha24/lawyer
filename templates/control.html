@@ -159,6 +159,12 @@
                     <a href="{% url 'finansy_today_period' %}"><span>Приход/расход</span></a></li>
                 </ul>
 
+                {% if menu == 'reports' %}
+                    <li class="current active">{% else %}
+                    <li>{% endif %}
+                <a  href="{% url 'reports_all' %}"><span>Отчеты</span></a>
+                </li>
+
                 {% if menu == 'settings' %}
                     <li class="current active">{% else %}
                     <li>{% endif %}
