@@ -73,14 +73,14 @@ class Affairs(models.Model):
         if self.manager_is_performer() is True:
             return self.prise - self.performer_sum_all()
         else:
-            return self.prise - self.performer_sum_all() - self.manager_proc_money()
+            return self.prise - self.performer_sum_all()
 
     # Поцент ведущего по делу в деньгах
     def manager_proc_money(self):
         if self.manager_is_performer():
             return 0
         else:
-            return self.prise * self.manager_proc
+            return self.prise / 100 * self.manager_proc
 
     # Является ли ведущий исполнителем
     def manager_is_performer(self):
