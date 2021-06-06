@@ -37,7 +37,8 @@ class Affairs(models.Model):
     deal_status = models.CharField(max_length=2, choices=STATUS_DEAL, default=ON, verbose_name='Статус Дела')
     prise_status = models.CharField(max_length=2, choices=STATUS_PRISE, default=NO, verbose_name='Статус Оплаты')
     com = models.TextField(blank=True, null=True, verbose_name='Комментарий по делу')
-    manager = models.ForeignKey(Performers, default=8, verbose_name='Ведет дело', blank=True, null=True, on_delete=models.PROTECT)
+    manager = models.ForeignKey(Performers, verbose_name='Ведет дело', on_delete=models.PROTECT)
+    manager_proc = models.FloatField(verbose_name='Процент ведущего', default=5)
 
     # Все приходы по делу
     def all_rec(self):
@@ -69,7 +70,40 @@ class Affairs(models.Model):
 
     # Итоговый баланс по договору
     def profit_all(self):
-        return self.prise - self.performer_sum_all()
+        if self.manager_is_performer() is True:
+            return self.prise - self.performer_sum_all()
+        else:
+            return self.prise - self.performer_sum_all() - self.manager_proc_money()
+
+    # Поцент ведущего по делу в деньгах
+    def manager_proc_money(self):
+        if self.manager_is_performer():
+            return 0
+        else:
+            return self.prise * self.manager_proc
+
+    # Является ли ведущий исполнителем
+    def manager_is_performer(self):
+        if self.manager.id in self.affair_performers_ids():
+            return True
+        else:
+            return False
+
+    # Сколько оплатили ведущему
+    def manager_proc_money_already(self):
+        from finansy.models import Spending
+        spe = Spending.objects.filter(deal_id=self.id, category__name='Оплата ведущему дело')
+        if spe:
+            return spe.aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
+
+    # Сколько осталось оплатить ведущему
+    def manager_proc_money_debt(self):
+        if self.manager_is_performer():
+            return 0
+        else:
+            return self.manager_proc_money() - self.manager_proc_money_already()
 
     # Дела в работе
     @staticmethod
@@ -132,16 +166,16 @@ class Affairs(models.Model):
     # Вознаграждения исполнителям по делу
     def performer_sum_all(self):
         if not not self.affair_performers():
-            return self.affair_performers().aggregate(Sum('sum'))['sum__sum']
+            return self.affair_performers().aggregate(Sum('sum'))['sum__sum'] + self.manager_proc_money()
         else:
-            return 0
+            return 0 + self.manager_proc_money()
 
     # Оплечено исполнителям по делу
     def performer_payment_all(self):
         if not not self.affair_performers():
-            return self.affair_performers().aggregate(Sum('payment'))['payment__sum']
+            return self.affair_performers().aggregate(Sum('payment'))['payment__sum'] + self.manager_proc_money_already()
         else:
-            return 0
+            return 0 + self.manager_proc_money_already()
 
     # Должны исполнителям по делу
     def performer_debt_all(self):

@@ -11,13 +11,15 @@ class AffairsForm(forms.ModelForm):
 class AffairsAddForm(forms.ModelForm):
     class Meta:
         model = Affairs
-        fields = ['name', 'deal', 'date_in', 'date_out', 'customers', 'performer', 'jobcategories', 'prise',
+        fields = ['name', 'deal', 'date_in', 'date_out', 'manager', 'manager_proc', 'customers', 'performer', 'jobcategories', 'prise',
                   'deal_status', 'com']
 
     def __init__(self, *args, **kwargs):
         super(AffairsAddForm, self).__init__(*args, **kwargs)
         self.fields['customers'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['jobcategories'].widget.attrs.update({'class': 'form-control select2_1'})
+        self.fields['manager'].widget.attrs.update({'class': 'form-control select2_1'})
+        self.fields['manager_proc'].widget.attrs.update({'class': 'form-control'})
         self.fields['performer'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['deal_status'].widget.attrs.update({'class': 'form-control select2_1'})
         # self.fields['prise_status'].widget.attrs.update({'class': 'form-control select2_1'})
