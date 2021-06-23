@@ -9,6 +9,7 @@ from django.db.models import Sum
 from performers.models import Performers
 # from performers.models import Performers
 from datetime import datetime, date
+from django.contrib import messages
 
 
 # Список всех дел
@@ -96,9 +97,12 @@ def affairs_info(request, affair_id):
         form_spe = SpendingAddOnAffairForm(request.POST)
         if form_spe.is_valid():
             send = form_spe.save(commit=False)
-            send.deal = affair
-            send.save()
-            return redirect('affairs_info', affair_id=affair_id)
+            if send.performers.id in affair.affair_performers_ids():
+                send.deal = affair
+                send.save()
+                return redirect('affairs_info', affair_id=affair_id)
+            else:
+                messages.info(request, 'Такой исполнитель не прикреплен к делу')
     else:
         form_spe = SpendingAddOnAffairForm()
     if 'dop_add' in request.POST and request.POST['dop_add']:
