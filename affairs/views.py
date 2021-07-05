@@ -97,6 +97,10 @@ def affairs_info(request, affair_id):
         form_spe = SpendingAddOnAffairForm(request.POST)
         if form_spe.is_valid():
             send = form_spe.save(commit=False)
+            if send.category.name == 'Оплата ведущему дело':
+                send.deal = affair
+                send.save()
+                return redirect('affairs_info', affair_id=affair_id)
             if send.performers.id in affair.affair_performers_ids():
                 send.deal = affair
                 send.save()
