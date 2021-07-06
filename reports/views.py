@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from affairs.models import Affairs, ExtraPerfomer, ExtraAffairs
+from finansy.models import Receipt
 from django.db.models import Sum
 from performers.models import Performers
 from datetime import datetime, date
@@ -41,9 +42,9 @@ def report_glav_law(request):
     return render(request, 'reports/report_glav_law.html', context)
 
 
-# Список всех дел по фильтру
+# Отчет по главному юристу старый
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_glav_law_ans(request, date_in, date_in_max, performer_id):
+def report_glav_law_ans_old(request, date_in, date_in_max, performer_id):
     performer = Performers.objects.get(pk=performer_id)
 
     affairs_all = Affairs.objects.all().filter(date_in__gte=date_in, date_in__lte=date_in_max)
@@ -103,6 +104,50 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
         'sum_dela_ved': sum_dela_ved,
         'sum_dela_pro': sum_dela_ved / 100 * 5,
         'sum_dela_ved_pe': sum_debt,
+        'menu': 'reports',
+        'submenu': 'affairs_all',
+        'titlepage': 'Отчет по главному юристу ' + performer.fio_min(),
+    }
+
+    return render(request, 'reports/report_glav_law_ans_old.html', context)
+
+
+# Отчет по главному юристу
+@permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
+def report_glav_law_ans(request, date_in, date_in_max, performer_id):
+    sum_debt = 0  #
+    sum_dela_ved = 0  # Сумма приходов по делам и допникам которые ведет.
+    sum_bonus_dela_ved = 0  # Вознаграждение по делам и допникам которые ведет.
+    sum_bonus_dela_ved_already = 0  # Уже оплаченые Бонусы по ведению за дела, по которым был приход
+    deals_ids = []  # Айдишники дел для подсчета оплаты бонуса
+
+    performer = Performers.objects.get(pk=performer_id)
+
+    all_rec = Receipt.objects.filter(date__gte=date_in, date__lte=date_in_max, deal__performer=performer)
+
+    for rec in all_rec:
+        if rec.category.name == 'Дополнительное соглашение':
+            ids = performer.id
+            idss = rec.extra_deal.ex_affair_performers_ids()
+            if performer.id not in rec.extra_deal.ex_affair_performers_ids():
+                sum_dela_ved += rec.sum
+                sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
+        else:
+            if rec.deal.manager_is_performer() != 2:
+                sum_dela_ved += rec.sum
+                sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
+        if rec.deal.id not in deals_ids:
+            sum_bonus_dela_ved_already += rec.deal.manager_proc_money_already()
+            deals_ids.append(rec.deal.id)
+
+    context = {
+        'performer': performer,
+
+        'all_rec': all_rec,
+        'sum_dela_ved': sum_dela_ved,
+        'sum_bonus_dela_ved': sum_bonus_dela_ved,
+        'sum_bonus_dela_ved_already': sum_bonus_dela_ved_already,
+        'sum_bonus_dela_ved_debt': sum_bonus_dela_ved - sum_bonus_dela_ved_already,
         'menu': 'reports',
         'submenu': 'affairs_all',
         'titlepage': 'Отчет по главному юристу ' + performer.fio_min(),

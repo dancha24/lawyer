@@ -2,85 +2,57 @@
 {% load static %}
 {% load i18n admin_urls static admin_list %}
 {% block content %}
+{% load mathfilters %}
 
     <div class="row small-spacing">
     <a class="margin-bottom-10 btn btn-xs btn-success waves-effect waves-light"
                href="{% url 'report_glav_law' %}"><i class="fa fa-edit"></i> Изменить</a>
         <div class="col-xs-12">
-            <p>Вознаграждение гл.Юриста, как исполнителю {{ sum_nagrada }}</p>
-            <p>Оплачено {{ sum_pay }}</p>
-            <p>Остаток {{ sum_debt }}</p>
-            <p>Дел под контролем (не на исполнении) {{ affairs_no.count }} на сумму {{ sum_dela_ved }}</p>
-            <p>Процентр гл.Юристу {{ sum_dela_pro }}</p>
-            <h2 class="padding-10">Сделки которые Ведет {{ performer }}</h2>
+            <p>{{ sum_dela_ved }} руб. - Сумма приходов по делам и допникам которые ведет {{ performer.fio_min }}</p>
+            <p>{{ sum_bonus_dela_ved }} руб. - Вознаграждение</p>
+            <p>{{ sum_bonus_dela_ved_already }} руб. - Выплачено</p>
+            <p>{{ sum_bonus_dela_ved_debt }} руб. - Остаток</p>
+            <h2 class="padding-10">Все приходы за период</h2>
             <table id="example" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                 <tr>
-                    <th>Название(номер)</th>
-                    <th>Клиент</th>
-                    <th>Категория</th>
-                    <th>Сумма по договору</th>
-                    <th>Оплачено по договору</th>
-                    <th>Долг клиента по договору</th>
+                    <th colspan="3">Инфо по приходу</th>
+                    <th colspan="5">Инфо по делу</th>
+                </tr>
+                <tr>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th>Вознаграждение</th>
+                    <th>Дело</th>
+                    <th>Коментарий</th>
+                    <th>Сумма вознаграждения</th>
+                    <th>Оплачено</th>
+                    <th>Долг</th>
                 </tr>
                 </thead>
-                <tfoot>
-                <tr>
-                    <th colspan="3" class="text-right">Итого:</th>
-                    <th>{{ prise_sum }}</th>
-                    <th>{{ rec_affair_sum }}</th>
-                    <th>{{ customers_debt }}</th>
-                </tr>
-                </tfoot>
                 <tbody>
-                {% for item in affairs_no %}
+                {% for rec in all_rec %}
                     <tr>
-                        <td style="vertical-align: middle"><a
-                                href="{% url 'affairs_info' affair_id=item.id %}">{{ item.name }}</a></td>
-                        <td style="vertical-align: middle"><a
-                                href="{% url 'customers_info' customers_id=item.customers_id %}">{{ item.customers }}</a>
+                        <td style="vertical-align: middle">{{ rec.date }}</td>
+                        <td style="vertical-align: middle">{{ rec.sum }}</td>
+                        <td style="vertical-align: middle">
+                            {% if performer.id in rec.extra_deal.ex_affair_performers_ids %}
+                                Являеться исполнителем
+                            {% else %}
+                            {{ rec.sum|div:100|mul:rec.deal.manager_proc  }}
+                            {% endif %}
                         </td>
-                        <td style="vertical-align: middle">{{ item.jobcategories }}</td>
-                        <td style="vertical-align: middle">{{ item.prise }}</td>
-                        <td style="vertical-align: middle">{{ item.all_rec_sum }}</td>
-                        <td style="vertical-align: middle">{{ item.customers_debt }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
-            <h2 class="padding-10">Все сделки за период</h2>
-            <table id="example2" class="table table-striped table-bordered display" style="width:100%">
-                <thead>
-                <tr>
-                    <th>Название(номер)</th>
-                    <th>Клиент</th>
-                    <th>Категория</th>
-                    <th>Сумма по договору</th>
-                    <th>Оплачено по договору</th>
-                    <th>Долг клиента по договору</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th colspan="3" class="text-right">Итого:</th>
-                    <th>{{ prise_sum_all }}</th>
-                    <th>{{ rec_affair_sum_all }}</th>
-                    <th>{{ customers_debt_all }}</th>
-                </tr>
-                </tfoot>
-                <tbody>
-                {% for item in affairs_all %}
-                    <tr>
                         <td style="vertical-align: middle"><a
-                                href="{% url 'affairs_info' affair_id=item.id %}">{{ item.name }}</a></td>
-                        <td style="vertical-align: middle"><a
-                                href="{% url 'customers_info' customers_id=item.customers_id %}">{{ item.customers }}</a>
+                                href="{% url 'affairs_info' affair_id=rec.deal.id %}">{{ rec.deal }}</a>
                         </td>
-                        <td style="vertical-align: middle">{{ item.jobcategories }}</td>
-                        <td style="vertical-align: middle">{{ item.prise }}</td>
-                        <td style="vertical-align: middle">{{ item.all_rec_sum }}</td>
-                        <td style="vertical-align: middle">{{ item.customers_debt }}</td>
+                        {% if rec.deal.manager_is_performer == 0 or rec.deal.manager_is_performer == 1 %}
+                        <td style="vertical-align: middle">{{ rec.category }}{% if rec.category.name == 'Дополнительное соглашение' %} <a href="{% url 'extra_affairs_info' extra_affairs_id=rec.extra_deal.id %}"> - {{ rec.extra_deal }}</a>{% endif %}</td>
+                        <td style="vertical-align: middle">{{ rec.deal.manager_proc_money }}</td>
+                        <td style="vertical-align: middle">{{ rec.deal.manager_proc_money_already }}</td>
+                        <td style="vertical-align: middle">{{ rec.deal.manager_proc_money_debt }}</td>
+                        {% else %}
+                        <td colspan="4" style="vertical-align: middle">{{ performer.fio_min }} - Являеться исполнителем</td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
