@@ -94,7 +94,7 @@ def affairs_info(request, affair_id):
     else:
         form_rec = ReceiptAddOnAffairForm()
     if 'spe_add' in request.POST and request.POST['spe_add']:
-        form_spe = SpendingAddOnAffairForm(request.POST)
+        form_spe = SpendingAddOnAffairForm(request.POST, af_id=affair_id)
         if form_spe.is_valid():
             send = form_spe.save(commit=False)
             if send.category.name == 'Оплата ведущему дело':
@@ -108,7 +108,7 @@ def affairs_info(request, affair_id):
             else:
                 messages.info(request, 'Такой исполнитель не прикреплен к делу')
     else:
-        form_spe = SpendingAddOnAffairForm()
+        form_spe = SpendingAddOnAffairForm(af_id=affair_id)
     if 'dop_add' in request.POST and request.POST['dop_add']:
         form_dop = forms.ExtraAffairsAddOnAffairsForm(request.POST, request.FILES)
         if form_dop.is_valid():

@@ -80,15 +80,14 @@ class SpendingAddOnAffairForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['deal']
 
-    def __init__(self,  *args, **kwargs):
+    def __init__(self, af_id,  *args, **kwargs):
         super(SpendingAddOnAffairForm, self).__init__(*args, **kwargs)
         self.fields['user_do'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['sum'].widget.attrs.update({'class': 'form-control', 'id': 'num'})
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['category'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_categ'})
         self.fields['performers'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_performer'})
-        # if ids is not None:
-        #     self.fields['performers'].queryset = Performers.objects.filter(id__in=ids)
+        self.fields['performers'].queryset = Affairs.objects.get(pk=af_id).performer
         self.fields['com'].widget.attrs.update({'class': 'form-control'})
         self.fields['date'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
