@@ -35,7 +35,7 @@ class ReceiptAddOnAffairForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['date_in', 'deal']
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, af_id, *args, **kwargs):
         super(ReceiptAddOnAffairForm, self).__init__(*args, **kwargs)
         self.fields['sum'].widget.attrs.update({'class': 'form-control', 'id': 'num'})
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
@@ -44,6 +44,7 @@ class ReceiptAddOnAffairForm(forms.ModelForm):
         self.fields['date'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['extra_deal'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_extra'})
+        self.fields['extra_deal'].queryset = ExtraAffairs.objects.filter(affairs_id=af_id)
 
 
 class ReceiptEditForm(forms.ModelForm):

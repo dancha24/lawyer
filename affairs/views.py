@@ -85,14 +85,14 @@ def affairs_info(request, affair_id):
         affair.save()
         return redirect('affairs_info', affair_id=affair_id)
     if 'rec_add' in request.POST and request.POST['rec_add']:
-        form_rec = ReceiptAddOnAffairForm(request.POST)
+        form_rec = ReceiptAddOnAffairForm(request.POST, af_id=affair_id)
         if form_rec.is_valid():
             send = form_rec.save(commit=False)
             send.deal = affair
             send.save()
             return redirect('affairs_info', affair_id=affair_id)
     else:
-        form_rec = ReceiptAddOnAffairForm()
+        form_rec = ReceiptAddOnAffairForm(af_id=affair_id)
     if 'spe_add' in request.POST and request.POST['spe_add']:
         form_spe = SpendingAddOnAffairForm(request.POST, af_id=affair_id)
         if form_spe.is_valid():
