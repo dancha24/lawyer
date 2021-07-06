@@ -63,6 +63,25 @@ class Performers(models.Model):
 
     all_sum.short_description = 'Дел на сумму'
 
+    # Допников на сумму
+    def all_sum_dop(self):
+        summ = 0
+        if self.all_ex_deals().exists():
+            from affairs.models import ExtraPerfomer
+            for ex_deal in self.all_ex_deals():
+                summ += ExtraPerfomer.objects.get(extraaffairs_id=ex_deal.id, performer_id=self.id).sum
+        return summ
+
+    all_sum.short_description = 'Допников на сумму'
+
+    # Допников на сумму в определенном деле
+    def all_sum_dop_id(self, af_id):
+        from affairs.models import Affairs, ExtraAffairs, ExtraPerfomer
+        affair = Affairs.objects.get(pk=af_id)
+        return ExtraPerfomer.objects.filter(extraaffairs_id__in=affair.affair_extraaffairs_ids(), performer_id=self.id).aggregate(Sum('sum'))['sum__sum']
+
+    all_sum.short_description = 'Допников на сумму в деле'
+
     # Дел на сумму всех исполнителей
     @staticmethod
     def all_sum_all_performers():
