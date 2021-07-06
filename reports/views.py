@@ -123,7 +123,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
     performer = Performers.objects.get(pk=performer_id)
 
-    all_rec = Receipt.objects.filter(date__gte=date_in, date__lte=date_in_max, deal__performer=performer)
+    all_rec = Receipt.objects.filter(date__gte=date_in, date__lte=date_in_max, deal__manager=performer)
 
     for rec in all_rec:
         if rec.category.name == 'Дополнительное соглашение':
