@@ -88,8 +88,18 @@ def affairs_info(request, affair_id):
         form_rec = ReceiptAddOnAffairForm(affair_id, request.POST)
         if form_rec.is_valid():
             send = form_rec.save(commit=False)
-            send.deal = affair
-            send.save()
+            if send.category.name != 'Дополнительное соглашение':
+                if send.extra_deal is not None:
+                    messages.info(request, 'Не выбрана каттегория Дополнительное соглашение')
+                else:
+                    send.deal = affair
+                    send.save()
+            else:
+                if send.extra_deal is None:
+                    messages.info(request, 'Не выбрано дополнительное соглашение')
+                else:
+                    send.deal = affair
+                    send.save()
             return redirect('affairs_info', affair_id=affair_id)
     else:
         form_rec = ReceiptAddOnAffairForm(af_id=affair_id)
