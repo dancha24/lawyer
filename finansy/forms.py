@@ -23,6 +23,7 @@ class ReceiptForm(forms.ModelForm):
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['category'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_categ'})
         self.fields['deal'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_deal'})
+        self.fields['extra_deal'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_extra'})
         self.fields['com'].widget.attrs.update({'class': 'form-control'})
         self.fields['date'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
@@ -42,18 +43,20 @@ class ReceiptAddOnAffairForm(forms.ModelForm):
         self.fields['com'].widget.attrs.update({'class': 'form-control'})
         self.fields['date'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
+        self.fields['extra_deal'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_extra'})
 
 
 class ReceiptEditForm(forms.ModelForm):
     class Meta:
         model = Receipt
-        fields = ['sum', 'type', 'category', 'com', 'date', 'deal']
+        fields = ['sum', 'type', 'category', 'com', 'date', 'deal', 'extra_deal']
 
     def __init__(self, *args, **kwargs):
         super(ReceiptEditForm, self).__init__(*args, **kwargs)
         self.fields['sum'].widget.attrs.update({'class': 'form-control', 'id': 'num'})
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1 margin-bottom-20'})
         self.fields['category'].widget.attrs.update({'class': 'form-control select2_1 margin-bottom-20'})
+        self.fields['extra_deal'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_extra'})
 
 
 class SpendingForm(forms.ModelForm):
