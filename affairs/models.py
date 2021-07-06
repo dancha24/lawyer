@@ -251,7 +251,7 @@ class ExtraAffairs(models.Model):
     def ex_affair_performers_sum(self):
         return self.ex_affair_performers().aggregate(Sum('sum'))['sum__sum']
 
-    # Айдишники исполнителей ljgybrf
+    # Айдишники исполнителей допника
     def ex_affair_performers_ids(self):
         return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей допника
 
