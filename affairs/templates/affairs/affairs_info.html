@@ -189,7 +189,7 @@
                                     <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
                                     <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
                                     <td style="vertical-align: middle">{{ item.com }}</td>
-                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}{% if item.category.name == 'Дополнительное соглашение' %} - {{ item.extra_deal }}{% endif %}</td>
                                     <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
                                                                                                data-target="#rec_del_{{ item.id }}">Удалить</a>
                                     </td>
@@ -247,7 +247,6 @@
                                 <td>
                                     <a href="{% url 'performers_info' performers_id=affair.manager.id %}">Ведет - {{ affair.manager }}</a>
                                 </td>
-                                {% if affair.manager_is_performer == True %}
                                     <td colspan="3">Ведущий являеться исполнителем</td>
                                 {% elif  affair.manager_is_performer == 1 %}
                                 <td>
