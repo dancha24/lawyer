@@ -253,7 +253,10 @@ class ExtraAffairs(models.Model):
 
     # Айдишники исполнителей допника
     def ex_affair_performers_ids(self):
-        return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей допника
+        if self.performer:
+            return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей допника
+        else:
+            return []
 
 
 @receiver(post_save, sender=ExtraAffairs)
