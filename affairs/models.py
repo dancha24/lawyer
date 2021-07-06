@@ -158,6 +158,10 @@ class Affairs(models.Model):
             summ += af.customers_debt()
         return summ
 
+    # Айдишники допников дела
+    def affair_extraaffairs_ids(self):
+        return ExtraAffairs.objects.filter(affairs_id=self.id).values_list('id', flat=True)  # Айдишники исполнителей дела
+
     # Айдишники исполнителей дела
     def affair_performers_ids(self):
         return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
@@ -246,6 +250,10 @@ class ExtraAffairs(models.Model):
     # Сумма вознаграждений по допнику
     def ex_affair_performers_sum(self):
         return self.ex_affair_performers().aggregate(Sum('sum'))['sum__sum']
+
+    # Айдишники исполнителей ljgybrf
+    def ex_affair_performers_ids(self):
+        return self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей допника
 
 
 @receiver(post_save, sender=ExtraAffairs)
