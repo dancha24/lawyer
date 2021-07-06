@@ -127,10 +127,11 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
     for rec in all_rec:
         if rec.category.name == 'Дополнительное соглашение':
-            if rec.extra_deal.ex_affair_performers_ids().exists():
-                if performer.id not in rec.extra_deal.ex_affair_performers_ids():
-                    sum_dela_ved += rec.sum
-                    sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
+            if rec.extra_deal:
+                if rec.extra_deal.ex_affair_performers_ids().exists():
+                    if performer.id not in rec.extra_deal.ex_affair_performers_ids():
+                        sum_dela_ved += rec.sum
+                        sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
         else:
             if rec.deal.manager_is_performer() != 2:
                 sum_dela_ved += rec.sum
