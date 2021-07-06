@@ -70,14 +70,14 @@ class Affairs(models.Model):
 
     # Итоговый баланс по договору
     def profit_all(self):
-        if self.manager_is_performer() is True:
-            return self.prise - self.performer_sum_all()
+        if self.manager_is_performer() == 2:
+            return self.prise - self.performer_sum_all() - self.manager_proc_money()
         else:
             return self.prise - self.performer_sum_all()
 
     # Поцент ведущего по делу в деньгах
     def manager_proc_money(self):
-        if self.manager_is_performer():
+        if self.manager_is_performer() == 2:
             return 0
         else:
             return self.prise / 100 * self.manager_proc
@@ -85,9 +85,12 @@ class Affairs(models.Model):
     # Является ли ведущий исполнителем
     def manager_is_performer(self):
         if self.manager.id in self.affair_performers_ids():
-            return True
+            if self.manager.all_sum_dop_id(af_id=self.id) == ExtraPerfomer.objects.get(affairs_id=self.id, performer_id=self.manager.id).sum:
+                return 1  # Являеться сполнителем в допниках
+            else:
+                return 2  # Являеться исполнителем
         else:
-            return False
+            return 0  # Не Являеться исполнителем
 
     # Сколько оплатили ведущему
     def manager_proc_money_already(self):
@@ -100,7 +103,7 @@ class Affairs(models.Model):
 
     # Сколько осталось оплатить ведущему
     def manager_proc_money_debt(self):
-        if self.manager_is_performer():
+        if self.manager_is_performer() == 2:
             return 0
         else:
             return self.manager_proc_money() - self.manager_proc_money_already()
