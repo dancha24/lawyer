@@ -243,13 +243,23 @@
                             </tfoot>
                             <tbody>
                             <tr>
+                                {% if affair.manager_is_performer == 2 %}
                                 <td>
-                                    <a href="{% url 'performers_info' performers_id=affair.manager.id %}">Ведет дело
-                                        - {{ affair.manager }}</a>
+                                    <a href="{% url 'performers_info' performers_id=affair.manager.id %}">Ведет - {{ affair.manager }}</a>
                                 </td>
                                 {% if affair.manager_is_performer == True %}
                                     <td colspan="3">Ведущий являеться исполнителем</td>
-                                {% else %}
+                                {% elif  affair.manager_is_performer == 1 %}
+                                <td>
+                                    <a href="{% url 'performers_info' performers_id=affair.manager.id %}">Ведет - {{ affair.manager }} (И исполнитель в допниках)</a>
+                                </td>
+                                    <td>{{ affair.manager_proc_money }}</td>
+                                    <td>{{ affair.manager_proc_money_already }}</td>
+                                    <td>{{ affair.manager_proc_money|sub:affair.manager_proc_money_already }}</td>
+                                {% elif  affair.manager_is_performer == 0 %}
+                                <td>
+                                    <a href="{% url 'performers_info' performers_id=affair.manager.id %}">Ведет - {{ affair.manager }}</a>
+                                </td>
                                     <td>{{ affair.manager_proc_money }}</td>
                                     <td>{{ affair.manager_proc_money_already }}</td>
                                     <td>{{ affair.manager_proc_money|sub:affair.manager_proc_money_already }}</td>
