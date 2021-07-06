@@ -240,6 +240,10 @@ class ExtraAffairs(models.Model):
         performers_id = self.performer.all().values_list('id', flat=True)  # Айдишники исполнителей дела
         return ExtraPerfomer.objects.filter(extraaffairs_id=self.id, performer_id__in=performers_id)
 
+    # Сумма вознаграждений по допнику
+    def ex_affair_performers_sum(self):
+        return self.ex_affair_performers().aggregate(Sum('sum'))['sum__sum']
+
 
 @receiver(post_save, sender=ExtraAffairs)
 def edit_balanse_add_rec(instance, created, **kwargs):

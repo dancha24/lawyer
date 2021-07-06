@@ -290,6 +290,7 @@
                             <tr>
                                 <th>Название(номер)</th>
                                 <th>Сумма</th>
+                                <th>Сумма вознаграждений</th>
                                 <th>Комментарий</th>
                             </tr>
                             </thead>
@@ -300,6 +301,9 @@
                                             href="{% url 'extra_affairs_info' extra_affairs_id=item.id %}">{{ item.name }}</a>
                                     </td>
                                     <td style="vertical-align: middle">{{ item.sum }}</td>
+                                    <td style="vertical-align: middle">
+                                    {% if item.ex_affair_performers_sum == None %}0{% else %}{{ item.ex_affair_performers_sum }}{% endif %}
+                                    </td>
                                     <td style="vertical-align: middle">{{ item.comment }}</td>
                                 </tr>
                             {% endfor %}
