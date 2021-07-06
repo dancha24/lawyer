@@ -2,7 +2,7 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
 from django.utils import timezone
-from affairs.models import Affairs
+from affairs.models import Affairs, ExtraAffairs
 from performers.models import Performers
 from django.contrib.auth.models import User
 from datetime import datetime
@@ -37,6 +37,7 @@ class Receipt(models.Model):
     date = models.DateField(default=timezone.now, verbose_name='Дата прихода')
     category = models.ForeignKey(CategoriesOfReceipt, on_delete=models.DO_NOTHING, verbose_name='Категория')
     deal = models.ForeignKey(Affairs, on_delete=models.DO_NOTHING, verbose_name='Дело', blank=True, null=True)
+    extra_deal = models.ForeignKey(ExtraAffairs, on_delete=models.DO_NOTHING, verbose_name='Допник', blank=True, null=True)
 
     def __str__(self):
         return str(self.sum) + ' ' + str(self.category)
