@@ -246,11 +246,13 @@ def edit_balanse_add_rec(instance, created, **kwargs):
     for per in instance.performer.all():
         ExtraPerfomer.objects.get_or_create(extraaffairs_id=instance.id, performer_id=per.id)
         if per.id not in instance.affairs.affair_performers_ids():
-            ExtraPerfomer.objects.get_or_create(affairs_id=instance.affairs.id, performer_id=per.id)
+            ExtraPerfomer.objects.create(affairs_id=instance.affairs.id, performer_id=per.id)
+            Affairs.objects.get(pk=instance.affairs.id).performer.add(Performers.objects.get(pk=per.id))
         if created:
             ExtraPerfomer.objects.get_or_create(extraaffairs_id=instance.id, performer_id=per.id)
             if per.id not in instance.affairs.affair_performers_ids():
-                ExtraPerfomer.objects.get_or_create(affairs_id=instance.affairs.id, performer_id=per.id)
+                ExtraPerfomer.objects.create(affairs_id=instance.affairs.id, performer_id=per.id)
+                Affairs.objects.get(pk=instance.affairs.id).performer.add(Performers.objects.get(pk=per.id))
     ExtraPerfomer.objects.exclude(performer_id__in=instance.performer.all().values_list('id', flat=True)).filter(extraaffairs_id=instance.id).delete()
     if created:
         balance_now = Affairs.objects.get(id=instance.affairs_id)
