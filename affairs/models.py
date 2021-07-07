@@ -258,6 +258,11 @@ class ExtraAffairs(models.Model):
         else:
             return []
 
+    # Айдишники исполнителей допника
+    def ex_prise_already(self):
+        from finansy.models import Receipt
+        return Receipt.objects.filter(extra_deal_id=self.id).aggregate(Sum('sum'))['sum__sum']
+
 
 @receiver(post_save, sender=ExtraAffairs)
 def edit_balanse_add_rec(instance, created, **kwargs):

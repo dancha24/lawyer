@@ -6,7 +6,7 @@ from django.db.models import Sum
 from performers.models import Performers
 from datetime import datetime, date
 from django.shortcuts import redirect
-from .forms import FormForReportGlavLaw
+from .forms import FormForReportGlavLaw, FormForReportIspolnitel
 
 
 # Все отчеты
@@ -37,6 +37,25 @@ def report_glav_law(request):
         'menu': 'reports',
         'submenu': 'affairs_all',
         'titlepage': 'Отчет по главному юристу',
+    }
+
+    return render(request, 'reports/report_glav_law.html', context)
+
+
+# Список всех дел по фильтру
+@permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
+def report_glav_law(request):
+    if request.method == "POST":
+        form = FormForReportIspolnitel(request.POST)
+        if form.is_valid():
+            return redirect('report_ispolnitel_ans', performer_id=form.cleaned_data['performer_id'].id)
+    else:
+        form = FormForReportIspolnitel()
+    context = {
+        'form': form,
+        'menu': 'reports',
+        'submenu': 'affairs_all',
+        'titlepage': 'Отчет по Исполнителю',
     }
 
     return render(request, 'reports/report_glav_law.html', context)
@@ -115,7 +134,6 @@ def report_glav_law_ans_old(request, date_in, date_in_max, performer_id):
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
 def report_glav_law_ans(request, date_in, date_in_max, performer_id):
-    sum_debt = 0  #
     sum_dela_ved = 0  # Сумма приходов по делам и допникам которые ведет.
     sum_bonus_dela_ved = 0  # Вознаграждение по делам и допникам которые ведет.
     sum_bonus_dela_ved_already = 0  # Уже оплаченые Бонусы по ведению за дела, по которым был приход
@@ -154,3 +172,33 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
     }
 
     return render(request, 'reports/report_glav_law_ans.html', context)
+
+
+# Отчет по главному юристу
+@permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
+def report_ispolnitel_ans(request, performer_id):
+    extra_perf = ExtraPerfomer.objects.filter(performer_id=performer_id)
+    extra_perf_deals = extra_perf.filter(affairs=not None)
+    extra_perf_ex_deals = extra_perf.filter(extraaffairs=not None)
+
+    all_sum = extra_perf.aggregate(Sum('sum'))['sum__sum']
+    all_sum_already = extra_perf.aggregate(Sum('payment'))['payment__sum']
+
+    performer = Performers.objects.get(pk=performer_id)
+
+    context = {
+        'performer': performer,
+
+        'all_sum': all_sum,
+        'all_sum_already': all_sum_already,
+        'all_sum_debt': all_sum - all_sum_already,
+
+        'extra_perf_deals': extra_perf_deals,
+        'extra_perf_ex_deals': extra_perf_ex_deals,
+
+        'menu': 'reports',
+        'submenu': 'affairs_all',
+        'titlepage': 'Отчет по главному юристу ' + performer.fio_min(),
+    }
+
+    return render(request, 'reports/report_ispolnitel.html', context)
