@@ -44,7 +44,7 @@ def report_glav_law(request):
 
 # Список всех дел по фильтру
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_glav_law(request):
+def report_ispolnitel(request):
     if request.method == "POST":
         form = FormForReportIspolnitel(request.POST)
         if form.is_valid():
