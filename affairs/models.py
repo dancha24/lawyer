@@ -261,7 +261,10 @@ class ExtraAffairs(models.Model):
     # Айдишники исполнителей допника
     def ex_prise_already(self):
         from finansy.models import Receipt
-        return Receipt.objects.filter(extra_deal_id=self.id).aggregate(Sum('sum'))['sum__sum']
+        if Receipt.objects.filter(extra_deal_id=self.id):
+            return Receipt.objects.filter(extra_deal_id=self.id).aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
 
 
 @receiver(post_save, sender=ExtraAffairs)
