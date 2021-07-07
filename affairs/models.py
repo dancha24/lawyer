@@ -261,7 +261,7 @@ class ExtraAffairs(models.Model):
     # Айдишники исполнителей допника
     def ex_prise_already(self):
         from finansy.models import Receipt
-        if Receipt.objects.filter(extra_deal_id=self.id):
+        if Receipt.objects.filter(extra_deal_id=self.id).exists():
             return Receipt.objects.filter(extra_deal_id=self.id).aggregate(Sum('sum'))['sum__sum']
         else:
             return 0
