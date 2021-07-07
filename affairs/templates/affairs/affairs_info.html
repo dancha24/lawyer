@@ -178,6 +178,7 @@
                             <tr>
                                 <th>Дата</th>
                                 <th>Сумма</th>
+                                <th>Вид</th>
                                 <th>Коментарий</th>
                                 <th>Категория</th>
                                 <th>Действия</th>
@@ -188,6 +189,7 @@
                                 <tr style="background: #7dd07c">
                                     <td style="vertical-align: middle; white-space: nowrap">{{ item.date }}</td>
                                     <td style="vertical-align: middle; white-space: nowrap">+ {{ item.sum }}</td>
+                                    <td style="vertical-align: middle; white-space: nowrap">+ {{ item.category.name }}</td>
                                     <td style="vertical-align: middle">{{ item.com }}</td>
                                     <td style="vertical-align: middle; white-space: nowrap">{{ item.category }}{% if item.category.name == 'Дополнительное соглашение' %} - {{ item.extra_deal }}{% endif %}</td>
                                     <td style="vertical-align: middle; white-space: nowrap"><a data-toggle="modal"
