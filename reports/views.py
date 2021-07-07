@@ -178,8 +178,8 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
 def report_ispolnitel_ans(request, performer_id):
     extra_perf = ExtraPerfomer.objects.filter(performer_id=performer_id)
-    extra_perf_deals = extra_perf.filter(affairs=not None)
-    extra_perf_ex_deals = extra_perf.filter(extraaffairs=not None)
+    extra_perf_deals = extra_perf.filter(affairs__isnull=False)
+    extra_perf_ex_deals = extra_perf.filter(affairs__isnull=False)
 
     all_sum = extra_perf.aggregate(Sum('sum'))['sum__sum']
     all_sum_already = extra_perf.aggregate(Sum('payment'))['payment__sum']
