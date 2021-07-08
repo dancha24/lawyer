@@ -22,12 +22,12 @@
                 <tr>
                     <th>Дата</th>
                     <th>Сумма</th>
-                    <th>Вознаграждение</th>
-                    <th>Дело</th>
-                    <th>Коментарий</th>
-                    <th>Сумма вознаграждения</th>
+                    <th>Вознаграждение за приход</th>
+                    <th>Вознаграждение по делу</th>
                     <th>Оплачено</th>
                     <th>Долг</th>
+                    <th>Дело</th>
+                    <th>Коментарий</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,23 +37,23 @@
                         <td style="vertical-align: middle">{{ rec.sum }}</td>
                         <td style="vertical-align: middle">
                             {% if performer.id in rec.extra_deal.ex_affair_performers_ids or rec.deal.manager_is_performer == 2 %}
-                                Являеться исполнителем
-                            {% elif rec.category.name == 'Дополнительное соглашение' and not rec.extra_deal %}<span style="color: #dd5454">Требуеться уточнение</span>
+                                Является исполнителем
+                            {% elif rec.category.name == 'Дополнительное соглашение' and not rec.extra_deal %}<span style="color: #dd5454">Требуется уточнение</span>
                             {% else %}
                             {{ rec.sum|div:100|mul:rec.deal.manager_proc  }}
                             {% endif %}
                         </td>
-                        <td style="vertical-align: middle"><a
-                                href="{% url 'affairs_info' affair_id=rec.deal.id %}">{{ rec.deal }}</a>
-                        </td>
                         {% if rec.deal.manager_is_performer == 0 or rec.deal.manager_is_performer == 1 %}
-                        <td style="vertical-align: middle">{{ rec.category }}{% if rec.category.name == 'Дополнительное соглашение' %} {% if rec.extra_deal %} <a href="{% url 'extra_affairs_info' extra_affairs_id=rec.extra_deal.id %}"> - {{ rec.extra_deal }}</a>{% else %} - <span style="color: #dd5454">Неуточнено</span>{% endif %}{% endif %}</td>
                         <td style="vertical-align: middle">{{ rec.deal.manager_proc_money }}</td>
                         <td style="vertical-align: middle">{{ rec.deal.manager_proc_money_already }}</td>
                         <td style="vertical-align: middle">{{ rec.deal.manager_proc_money_debt }}</td>
+                        <td style="vertical-align: middle">{{ rec.category }}{% if rec.category.name == 'Дополнительное соглашение' %} {% if rec.extra_deal %} <a href="{% url 'extra_affairs_info' extra_affairs_id=rec.extra_deal.id %}"> - {{ rec.extra_deal }}</a>{% else %} - <span style="color: #dd5454">Неуточнено</span>{% endif %}{% endif %}</td>
                         {% else %}
-                        <td colspan="4" style="vertical-align: middle">{{ performer.fio_min }} - Являеться исполнителем</td>
+                        <td colspan="4" style="vertical-align: middle">{{ performer.fio_min }} - Является исполнителем</td>
                         {% endif %}
+                        <td style="vertical-align: middle"><a
+                                href="{% url 'affairs_info' affair_id=rec.deal.id %}">{{ rec.deal }}</a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
