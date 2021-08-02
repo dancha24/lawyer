@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from affairs.models import Affairs, ExtraPerfomer, ExtraAffairs
-from finansy.models import Receipt, Spending
+from finansy.models import Receipt, Spending, CategoriesOfSpending
 from django.db.models import Sum
 from performers.models import Performers
 from datetime import datetime, date
@@ -162,10 +162,10 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
         form_rec = SpendingAddOnReportForm(request.POST)
         if form_rec.is_valid():
             send = form_rec.save(commit=False)
-            send.rec.id = request.POST['rec_id']
+            send.rec = Receipt.objects.get(pk=request.POST['rec_id'])
             send.com = request.POST['rec_com']
-            send.deal.id = request.POST['rec_deal_id']
-            send.category.id = 4
+            send.deal = Affairs.objects.get(pk=request.POST['rec_deal_id'])
+            send.category = CategoriesOfSpending.objects.get(pk=4)
             send.save()
             return redirect('report_glav_law_ans', date_in=date_in, date_in_max=date_in_max, performer_id=performer_id)
     else:
