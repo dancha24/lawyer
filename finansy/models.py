@@ -158,6 +158,13 @@ class Receipt(models.Model):
             summ += deal.sum
         return (summ)
 
+    # Сумма расходов по бонусам по делу прихода за промежуток времени.
+    def spending_of_affair_date(self):
+        if Spending.objects.filter(rec_id=self.id).exists():
+            return Spending.objects.filter(rec_id=self.id).aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
+
 
 @receiver(post_save, sender=Receipt)
 def edit_balanse_add_rec(instance, created, **kwargs):
@@ -203,6 +210,7 @@ class Spending(models.Model):
     category = models.ForeignKey(CategoriesOfSpending, on_delete=models.CASCADE, verbose_name='Категория')
     user_do = models.ForeignKey(User, on_delete=models.DO_NOTHING, verbose_name='Отвественный')
     deal = models.ForeignKey(Affairs, on_delete=models.DO_NOTHING, verbose_name='Дело', blank=True, null=True)
+    rec = models.ForeignKey(Receipt, on_delete=models.DO_NOTHING, verbose_name='Бонус за приход ведущему', blank=True, null=True)
     performers = models.ForeignKey(Performers, on_delete=models.DO_NOTHING, verbose_name='Исполнитель', blank=True,
                                    null=True)
 

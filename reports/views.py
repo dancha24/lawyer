@@ -1,12 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, permission_required
 from affairs.models import Affairs, ExtraPerfomer, ExtraAffairs
-from finansy.models import Receipt
+from finansy.models import Receipt, Spending
 from django.db.models import Sum
 from performers.models import Performers
 from datetime import datetime, date
 from django.shortcuts import redirect
-from .forms import FormForReportGlavLaw, FormForReportIspolnitel
+from .forms import FormForReportGlavLaw, FormForReportIspolnitel, SpendingAddOnReportForm
 
 
 # Все отчеты
@@ -155,10 +155,25 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
                 sum_dela_ved += rec.sum
                 sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
         if rec.deal.id not in deals_ids:
-            sum_bonus_dela_ved_already += rec.deal.manager_proc_money_already()
+            sum_bonus_dela_ved_already += rec.spending_of_affair_date()
             deals_ids.append(rec.deal.id)
 
+    if 'rec_oplata' in request.POST and request.POST['rec_oplata']:
+        form_rec = SpendingAddOnReportForm(request.POST)
+        if form_rec.is_valid():
+            send = form_rec.save(commit=False)
+            send.category.id = 4
+            send.rec.id = request.POST['rec_id']
+            send.com = request.POST['rec_com']
+            send.deal.id = request.POST['rec_deal_id']
+            send.save()
+            return redirect('report_glav_law_ans', date_in=date_in, date_in_max=date_in_max, performer_id=performer_id)
+    else:
+        form_rec = SpendingAddOnReportForm()
+
     context = {
+        'date_in': date_in,
+        'date_out': date_in_max,
         'performer': performer,
 
         'all_rec': all_rec,
@@ -166,6 +181,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
         'sum_bonus_dela_ved': sum_bonus_dela_ved,
         'sum_bonus_dela_ved_already': sum_bonus_dela_ved_already,
         'sum_bonus_dela_ved_debt': sum_bonus_dela_ved - sum_bonus_dela_ved_already,
+        'form_rec': form_rec,
         'menu': 'reports',
         'submenu': 'affairs_all',
         'titlepage': 'Отчет по главному юристу ' + performer.fio_min(),
