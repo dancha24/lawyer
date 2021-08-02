@@ -162,10 +162,10 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
         form_rec = SpendingAddOnReportForm(request.POST)
         if form_rec.is_valid():
             send = form_rec.save(commit=False)
-            send.category.id = 4
             send.rec.id = request.POST['rec_id']
             send.com = request.POST['rec_com']
             send.deal.id = request.POST['rec_deal_id']
+            send.category.id = 4
             send.save()
             return redirect('report_glav_law_ans', date_in=date_in, date_in_max=date_in_max, performer_id=performer_id)
     else:
