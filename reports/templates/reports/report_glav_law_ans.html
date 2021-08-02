@@ -41,7 +41,7 @@
                                 Является исполнителем
                             {% elif rec.category.name == 'Дополнительное соглашение' and not rec.extra_deal %}<span style="color: #dd5454">Требуется уточнение</span>
                             {% else %}
-                            {{ rec.sum|div:100|mul:rec.deal.manager_proc  }} - <a data-toggle="modal" data-target="#rec_oplata_{{ item.id }}">Оплатить</a>
+                            {{ rec.sum|div:100|mul:rec.deal.manager_proc  }} - <a data-toggle="modal" data-target="#rec_oplata_{{ rec.id }}">Оплатить</a>
                             {% endif %}
                         </td>
                         <td style="vertical-align: middle">{{ rec.spending_of_affair_date }}</td>
