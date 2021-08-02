@@ -38,8 +38,5 @@ class SpendingAddOnReportForm(forms.ModelForm):
         self.fields['user_do'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['sum'].widget.attrs.update({'class': 'form-control', 'id': 'num'})
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1'})
-        self.fields['category'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_categ'})
-        self.fields['performers'].widget.attrs.update({'class': 'form-control select2_1', 'id': 'id_performer'})
-        self.fields['com'].widget.attrs.update({'class': 'form-control'})
         self.fields['date'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
