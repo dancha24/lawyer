@@ -52,7 +52,10 @@ class Affairs(models.Model):
 
     # Сумма всех возвратов по делу
     def all_spe_vozvrat(self):
-        return self.all_spe().filter(category__name='Возврат клиенту').aggregate(Sum('sum'))['sum__sum']
+        if self.all_spe().filter(category__name='Возврат клиенту'):
+            return self.all_spe().filter(category__name='Возврат клиенту').aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
 
     # Сумма приходов по делу
     def all_rec_sum(self):
@@ -79,13 +82,12 @@ class Affairs(models.Model):
         else:
             return self.prise - self.performer_sum_all() - float(self.all_spe_vozvrat())
 
-
     # Поцент ведущего по делу в деньгах
     def manager_proc_money(self):
         if self.manager_is_performer() == 2:
             return 0
         else:
-            return self.prise / 100 * self.manager_proc
+            return (self.prise - self.all_spe_vozvrat()) / 100 * self.manager_proc
 
     # Является ли ведущий исполнителем
     def manager_is_performer(self):
