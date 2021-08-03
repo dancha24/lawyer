@@ -50,6 +50,10 @@ class Affairs(models.Model):
         from finansy.models import Spending
         return Spending.objects.filter(deal_id=self.id)
 
+    # Сумма всех возвратов по делу
+    def all_spe_vozvrat(self):
+        return self.all_rec().filter(category__name='Возврат клиенту').aggregate(Sum('sum'))['sum__sum']
+
     # Сумма приходов по делу
     def all_rec_sum(self):
         if not self.all_rec():
@@ -71,9 +75,10 @@ class Affairs(models.Model):
     # Итоговый баланс по договору
     def profit_all(self):
         if self.manager_is_performer() == 2:
-            return self.prise - self.performer_sum_all() - self.manager_proc_money()
+            return self.prise - self.performer_sum_all() - self.manager_proc_money() - self.all_spe_vozvrat()
         else:
-            return self.prise - self.performer_sum_all()
+            return self.prise - self.performer_sum_all() - self.all_spe_vozvrat()
+
 
     # Поцент ведущего по делу в деньгах
     def manager_proc_money(self):
