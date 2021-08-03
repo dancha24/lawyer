@@ -111,12 +111,13 @@ def affairs_info(request, affair_id):
                 send.deal = affair
                 send.save()
                 return redirect('affairs_info', affair_id=affair_id)
-            if send.performers.id in affair.affair_performers_ids():
-                send.deal = affair
-                send.save()
-                return redirect('affairs_info', affair_id=affair_id)
-            else:
-                messages.info(request, 'Такой исполнитель не прикреплен к делу')
+            if send.performers.id:
+                if send.performers.id in affair.affair_performers_ids():
+                    send.deal = affair
+                    send.save()
+                    return redirect('affairs_info', affair_id=affair_id)
+                else:
+                    messages.info(request, 'Такой исполнитель не прикреплен к делу')
     else:
         form_spe = SpendingAddOnAffairForm(af_id=affair_id)
     if 'dop_add' in request.POST and request.POST['dop_add']:
