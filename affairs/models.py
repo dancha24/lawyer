@@ -52,7 +52,7 @@ class Affairs(models.Model):
 
     # Сумма всех возвратов по делу
     def all_spe_vozvrat(self):
-        return self.all_rec().filter(category__name='Возврат клиенту').aggregate(Sum('sum'))['sum__sum']
+        return self.all_spe().filter(category__name='Возврат клиенту').aggregate(Sum('sum'))['sum__sum']
 
     # Сумма приходов по делу
     def all_rec_sum(self):
