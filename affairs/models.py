@@ -77,7 +77,7 @@ class Affairs(models.Model):
         if self.manager_is_performer() == 2:
             return self.prise - self.performer_sum_all() - self.manager_proc_money() - self.all_spe_vozvrat()
         else:
-            return self.prise - self.performer_sum_all() - self.all_spe_vozvrat()
+            return self.prise - self.performer_sum_all() - float(self.all_spe_vozvrat())
 
 
     # Поцент ведущего по делу в деньгах
