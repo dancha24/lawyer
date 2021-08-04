@@ -82,6 +82,19 @@ class Performers(models.Model):
 
     all_sum.short_description = 'Допников на сумму в деле'
 
+    # Вознаграждения за определенную дату
+    def all_nagrada_date(self, date_in, date_in_max):
+        from finansy.models import Spending
+        return Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers=self)
+
+    # Сумма вознаграждении за определенную дату
+    def all_nagrada_date_sum(self, date_in, date_in_max):
+        if self.all_nagrada_date(date_in, date_in_max).exists():
+            return self.all_nagrada_date(date_in, date_in_max).aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
+
+
     # Дел на сумму всех исполнителей
     @staticmethod
     def all_sum_all_performers():

@@ -192,29 +192,28 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_ispolnitel_ans(request, performer_id):
-    extra_perf = ExtraPerfomer.objects.filter(performer_id=performer_id)
-    extra_perf_deals = extra_perf.filter(affairs__isnull=False)
-    extra_perf_ex_deals = extra_perf.filter(affairs__isnull=False)
+def report_ispolnitel_ans(request, date_in, date_in_max):
 
-    all_sum = extra_perf.aggregate(Sum('sum'))['sum__sum']
-    all_sum_already = extra_perf.aggregate(Sum('payment'))['payment__sum']
+    per_ids = []  # Айдишники исполнителей для подсчета
 
-    performer = Performers.objects.get(pk=performer_id)
+    all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False)
+
+    for spe in all_spe:
+        if spe.performers.id not in per_ids:
+            per_ids.append(spe.deal.id)
+
+    performers = Performers.objects.filter(id__in=per_ids)
 
     context = {
-        'performer': performer,
+        'performers': performers,
 
-        'all_sum': all_sum,
-        'all_sum_already': all_sum_already,
-        'all_sum_debt': all_sum - all_sum_already,
-
-        'extra_perf_deals': extra_perf_deals,
-        'extra_perf_ex_deals': extra_perf_ex_deals,
+        'all_sum': all_spe.aggregate(Sum('sum'))['sum__sum'],
+        'count_spe': all_spe.count(),
+        'count_per': len(per_ids),
 
         'menu': 'reports',
         'submenu': 'affairs_all',
-        'titlepage': 'Отчет по главному юристу ' + performer.fio_min(),
+        'titlepage': 'Отчет по выплатам исполнителям',
     }
 
     return render(request, 'reports/report_ispolnitel.html', context)
