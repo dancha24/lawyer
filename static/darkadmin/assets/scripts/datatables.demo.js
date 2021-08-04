@@ -35,6 +35,13 @@
             "paging": false
         });
 
+    if ($('#example-scroll-y-2').length)
+        $('#example-scroll-y').DataTable({
+            "scrollY": "200px",
+            "scrollCollapse": true,
+            "paging": false
+        });
+
     if ($('#example-row-grouping').length) {
         var table = $('#example-row-grouping').DataTable({
             "columnDefs": [

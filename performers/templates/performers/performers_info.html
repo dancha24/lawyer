@@ -254,11 +254,12 @@
                         <!-- /.dropdown js__dropdown -->
                         <div class="card-content">
 
-                            <table id="example-scroll-y" class="table table-striped table-bordered display"
+                            <table id="example-scroll-y-2" class="table table-striped table-bordered display"
                                    style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Дата</th>
+                                    <th>Категория</th>
                                     <th>Сумма</th>
                                 </tr>
                                 </thead>
@@ -266,6 +267,7 @@
                                 {% for spen in spending %}
                                     <tr>
                                         <td>{{ spen.date }}</td>
+                                        <td>{{ spen.category }}</td>
                                         <td>{{ spen.sum }}</td>
                                     </tr>
                                 {% endfor %}
