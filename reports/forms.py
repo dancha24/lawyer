@@ -18,13 +18,16 @@ class FormForReportGlavLaw(forms.Form):
         self.fields['performer_id'].widget.attrs.update({'class': 'form-control select2_1'})
 
 
-class FormForReportIspolnitel(forms.Form):
-    performer_id = forms.ModelChoiceField(queryset=Performers.objects.all(), to_field_name='pk', label='Исполнитель',
-                                          empty_label=None, initial=8)
+class FormForReportNagradaIspolnitelData(forms.Form):
+    date_in = forms.DateField(label='Дата (Начало)')
+    date_in_max = forms.DateField(label='Дата (Конец)')
 
     def __init__(self, *args, **kwargs):
-        super(FormForReportIspolnitel, self).__init__(*args, **kwargs)
-        self.fields['performer_id'].widget.attrs.update({'class': 'form-control select2_1'})
+        super(FormForReportNagradaIspolnitelData, self).__init__(*args, **kwargs)
+        self.fields['date_in'].widget.attrs.update(
+            {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
+        self.fields['date_in_max'].widget.attrs.update(
+            {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
 
 
 class SpendingAddOnReportForm(forms.ModelForm):

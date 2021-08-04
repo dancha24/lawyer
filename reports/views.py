@@ -6,7 +6,7 @@ from django.db.models import Sum
 from performers.models import Performers
 from datetime import datetime, date
 from django.shortcuts import redirect
-from .forms import FormForReportGlavLaw, FormForReportIspolnitel, SpendingAddOnReportForm
+from .forms import FormForReportGlavLaw, FormForReportNagradaIspolnitelData, SpendingAddOnReportForm
 
 
 # Все отчеты
@@ -44,18 +44,19 @@ def report_glav_law(request):
 
 # Список всех дел по фильтру
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_ispolnitel(request):
+def report_nagrada_ispolnitel_data(request):
     if request.method == "POST":
-        form = FormForReportIspolnitel(request.POST)
+        form = FormForReportNagradaIspolnitelData(request.POST)
         if form.is_valid():
-            return redirect('report_ispolnitel_ans', performer_id=form.cleaned_data['performer_id'].id)
+            return redirect('report_ispolnitel_ans', 'report_glav_law_ans', date_in=form.cleaned_data['date_in'],
+                            date_in_max=form.cleaned_data['date_in_max'],)
     else:
-        form = FormForReportIspolnitel()
+        form = FormForReportNagradaIspolnitelData()
     context = {
         'form': form,
         'menu': 'reports',
         'submenu': 'affairs_all',
-        'titlepage': 'Отчет по Исполнителю',
+        'titlepage': 'Отчет по выплатам исполнетелям за период',
     }
 
     return render(request, 'reports/report_glav_law.html', context)
@@ -192,7 +193,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_ispolnitel_ans(request, date_in, date_in_max):
+def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
 
     per_ids = []  # Айдишники исполнителей для подсчета
 
