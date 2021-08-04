@@ -36,7 +36,7 @@
         });
 
     if ($('#example-scroll-y-2').length)
-        $('#example-scroll-y').DataTable({
+        $('#example-scroll-y-2').DataTable({
             "scrollY": "200px",
             "scrollCollapse": true,
             "paging": false
