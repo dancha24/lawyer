@@ -48,7 +48,7 @@ def report_nagrada_ispolnitel_data(request):
     if request.method == "POST":
         form = FormForReportNagradaIspolnitelData(request.POST)
         if form.is_valid():
-            return redirect('report_ispolnitel_ans', 'report_glav_law_ans', date_in=form.cleaned_data['date_in'],
+            return redirect('report_nagrada_ispolnitel_data_ans', date_in=form.cleaned_data['date_in'],
                             date_in_max=form.cleaned_data['date_in_max'],)
     else:
         form = FormForReportNagradaIspolnitelData()
