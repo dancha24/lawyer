@@ -21,13 +21,17 @@
                     <th>Больше</th>
                 </tr>
                 </thead>
-                <tbody id="accordion" class="js__ui_accordion">
+                <tbody>
+                <div id="accordion" class="js__ui_accordion">
                 {% for per in performers %}
                     <tr>
-                        <td colspan="3" class="accordion-title" style="vertical-align: middle">{{ per }}</td>
-                    <div class="accordion-content">fdshsfgs</div>
+                        <td colspan="3" style="vertical-align: middle">
+                            <div class="accordion-title" > {{ per }}</div>
+                            <div class="accordion-content">fdshsfgs</div>
+                        </td>
                     </tr>
                 {% endfor %}
+                </div>
                 </tbody>
             </table>
         </div>
