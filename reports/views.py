@@ -201,7 +201,7 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
 
     for spe in all_spe:
         if spe.performers.id not in per_ids:
-            per_ids.append(spe.deal.id)
+            per_ids.append(spe.performers.id)
 
     performers = Performers.objects.filter(id__in=per_ids)
 

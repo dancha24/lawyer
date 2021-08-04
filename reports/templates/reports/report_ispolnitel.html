@@ -16,85 +16,21 @@
             <table id="example" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                 <tr>
-                    <th colspan="3">Инфо по вознаграждению</th>
-                    <th colspan="5">Инфо по делу</th>
-                </tr>
-                <tr>
-                    <th>Сумма</th>
-                    <th>Оплачено</th>
-                    <th>Остаток</th>
-                    <th>Дело</th>
-                    <th>Коментарий</th>
-                    <th>Сумма</th>
-                    <th>Оплачено</th>
-                    <th>Долг</th>
+                    <th>Исполнитель</th>
+                    <th>Наград на сумму</th>
+                    <th>Больше</th>
                 </tr>
                 </thead>
                 <tbody id="accordion" class="js__ui_accordion">
-                {% for deal in extra_perf_deals %}
+                {% for per in performers %}
                     <tr class="accordion-content">
-                        <td style="vertical-align: middle">{{ deal.sum }}</td>
-                        <td style="vertical-align: middle">{{ deal.payment }}</td>
-                        <td style="vertical-align: middle">{{ deal.payment|sub:deal.payment }}</td>
-                        <td style="vertical-align: middle">
-                            <a href="{% url 'affairs_info' affair_id=deal.affairs.id %}">{{ deal.affairs }}</a>
-                        </td>
-                        <td style="vertical-align: middle">
-                            {{ deal.affairs.deal_status }} - {{ deal.affairs.prise_status }}
-                        </td>
-                        <td style="vertical-align: middle">
-                            {{ deal.affairs.prise }}
-                        </td>
-                        <td style="vertical-align: middle">
-                            {{ deal.affairs.all_rec_sum }}
-                        </td>
-                        <td style="vertical-align: middle">
-                            {{ deal.affairs.prise|sub:deal.affairs.all_rec_sum }}
-                        </td>
+                        <td style="vertical-align: middle">{{ per }}</td>
+                        <td style="vertical-align: middle">{{ per }}</td>
+                        <td style="vertical-align: middle">{{ per }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            <h2 class="padding-10">Допники</h2>
-            <table id="example" class="table table-striped table-bordered display" style="width:100%">
-                <thead>
-                <tr>
-                    <th colspan="3">Инфо по вознаграждению</th>
-                    <th colspan="4">Инфо по допнику</th>
-                </tr>
-                <tr>
-                    <th>Сумма</th>
-                    <th>Оплачено</th>
-                    <th>Остаток</th>
-                    <th>Допник</th>
-                    <th>Сумма</th>
-                    <th>Оплачено</th>
-                    <th>Долг</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for deal in extra_perf_deals %}
-                    <tr>
-                        <td style="vertical-align: middle">{{ deal.sum }}</td>
-                        <td style="vertical-align: middle">{{ deal.payment }}</td>
-                        <td style="vertical-align: middle">{{ deal.payment|sub:deal.payment }}</td>
-                        <td style="vertical-align: middle">
-                            <a href="{% url 'affairs_info' affair_id=deal.affairs.id %}">{{ deal.affairs }}</a>
-                        </td>
-                        <td style="vertical-align: middle">
-                            {{ deal.extraaffairs.sum }}
-                        </td>
-                        <td style="vertical-align: middle">
-                            {#                            {{ deal.extraaffairs.ex_prise_already }}#}
-                        </td>
-                        <td style="vertical-align: middle">
-                            {#                            {{ deal.extraaffairs.sum|sub:deal.extraaffairs.ex_prise_already }}#}
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <!-- /.box-content -->
         </div>
     </div>
     <!-- /.row small-spacing -->
