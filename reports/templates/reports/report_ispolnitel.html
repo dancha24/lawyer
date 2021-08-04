@@ -23,10 +23,14 @@
                 </thead>
                 <tbody id="accordion" class="js__ui_accordion">
                 {% for per in performers %}
-                    <tr>
-                        <td class="accordion-title" colspan="3" style="vertical-align: middle">{{ per }}</td>
-                    <div class="accordion-content">fdshsfgs</div>
+                    <tr class="accordion-title" >
+                        <td colspan="3" style="vertical-align: middle">{{ per }}</td>
                     </tr>
+                    <tr class="accordion-content">
+                        <td colspan="3" style="vertical-align: middle">fdshsfgs</td>
+                    </tr>
+
+
                 {% endfor %}
                 </tbody>
             </table>
