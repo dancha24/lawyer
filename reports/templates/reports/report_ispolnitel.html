@@ -16,8 +16,8 @@
                 <thead>
                 <tr>
                     <th>Дата</th>
-                    <th>Исполнитель</th>
                     <th>Сумма</th>
+                    <th>Исполнитель</th>
                     <th>Назначание</th>
                 </tr>
                 </thead>
@@ -25,10 +25,10 @@
                 {% for spe in all_spe %}
                     <tr>
                         <td style="vertical-align: middle">{{ spe.date }}</td>
+                        <td style="vertical-align: middle">{{ spe.sum }}</td>
                         <td style="vertical-align: middle"><a
                                 href="{% url 'performers_info' performers_id=spe.performers.id %}">{{ spe.performers }}</a>
                         </td>
-                        <td style="vertical-align: middle">{{ spe.sum }}</td>
                         <td style="vertical-align: middle">{{ spe.category.name }}</td>
                     </tr>
                 {% endfor %}
