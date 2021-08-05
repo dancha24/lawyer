@@ -29,10 +29,11 @@
                         <td style="vertical-align: middle">{{ spe.sum }}</td>
                         <td style="vertical-align: middle"><a
                                 href="{% url 'performers_info' performers_id=spe.performers.id %}"
-                                style="color: black !important; font-weight: bold">{{ spe.performers }}</a>
+                                style="color: black !important; font-weight: bold">{{ spe.performers }} </a>
                             {% for per in performers %}
                                 {% if per.id == spe.performers.id %}
-                                    Всего выплат: {{ per.1 }}| Как исполнителю: {{ per.2 }}| За ведение: {{ per.2 }}
+                                     Всего выплат: {{ per.sum_all }} | Как исполнителю: {{ per.sum_ispol }} | За
+                                    ведение: {{ per.sum_vedu }}
                                 {% endif %}
                             {% endfor %}
                         </td>

@@ -195,7 +195,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
 def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
     per_ids = []  # Айдишники исполнителей для подсчета
-    performerss = {}
+    performerss = []
 
     all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False).order_by(
         'date')
@@ -205,9 +205,12 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
             per_ids.append(spe.performers.id)
             sum_ispol = Performers.objects.get(id=spe.performers.id).all_nagrada_date_sum(date_in, date_in_max)
             sum_vedu = Performers.objects.get(id=spe.performers.id).all_nagrada_ved_date_sum(date_in, date_in_max)
-            performerss[spe.performers.id] = {'sum_all': sum_ispol + sum_vedu,
-                                              'sim_ispol': sum_ispol,
-                                              'sum_vedu': sum_vedu}
+            performerss.append({'id': spe.performers.id,
+                                'sum_all': sum_ispol + sum_vedu,
+                                'sum_ispol': sum_ispol,
+                                'sum_vedu': sum_vedu})
+            print(performerss)
+            print(spe)
 
     context = {
         'performers': performerss,
