@@ -10,48 +10,25 @@
             <p>{{ all_sum }} руб. - Общая сумма вознаграждений</p>
             <p>{{ count_spe }} - Кол-во вознаграждений</p>
             <p>{{ count_per }} - Кол-во исполнителей</p>
-            <h2 class="padding-10">Дела</h2>
+            <h2 class="padding-10">Расходы</h2>
 
             <table id="example" class="table table-striped table-bordered display" style="width:100%">
                 <thead>
                 <tr>
                     <th>Исполнитель</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th>Назначание</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for per in performers %}
+                {% for spe in all_spe %}
                     <tr>
-                    <td style="vertical-align: middle">
-                        <div id="accordion" class="js__ui_accordion">
-                            <h3 class="accordion-title hidden">Section 1</h3>
-                            <div class="accordion-content">
-                                <p>Mauris mauris ante, blandit et, ultrices a, susceros. Nam mi. Proin viverra leo ut
-                                    odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.</p>
-                            </div>
-                            <h3 class="accordion-title">Section 2</h3>
-                            <div class="accordion-content">
-                                <p>Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet purus. Vivamus
-                                    hendrerit, dolor at aliquet laoreet, mauris turpis porttitor velit, faucibus
-                                    interdum tellus libero ac justo. Vivamus non quam. In suscipit faucibus urna. </p>
-                            </div>
-                            <h3 class="accordion-title">Section 3</h3>
-                            <div class="accordion-content">
-                                <p>Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis. Phasellus
-                                    pellentesque purus in massa. Aenean in pede. Phasellus ac libero ac tellus
-                                    pellentesque semper. Sed ac felis. Sed commodo, magna quis lacinia ornare, quam ante
-                                    aliquam nisi, eu iaculis leo purus venenatis dui. </p>
-                                <ul>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                    <li>List item</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </td>
+                    <td style="vertical-align: middle"><a href="{% url 'performers_info' performers_id=spe.performers.id %}">{{ spe.performers }}</a></td>
+                    <td style="vertical-align: middle">{{ spe.sum }}</td>
+                    <td style="vertical-align: middle">{{ spe.date }}</td>
+                    <td style="vertical-align: middle">{{ spe.category.name }}</td>
+                    </tr>
                 {% endfor %}
                 </tbody>
             </table>
