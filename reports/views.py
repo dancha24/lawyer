@@ -197,7 +197,8 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
     per_ids = []  # Айдишники исполнителей для подсчета
     performerss = {}
 
-    all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False)
+    all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False).order_by(
+        date_in)
 
     for spe in all_spe:
         if spe.performers.id not in per_ids:
