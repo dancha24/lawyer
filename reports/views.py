@@ -206,6 +206,7 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
     performers = Performers.objects.filter(id__in=per_ids)
 
     context = {
+        'performers': performers,
         'all_spe': all_spe,
 
         'all_sum': all_spe.aggregate(Sum('sum'))['sum__sum'],
