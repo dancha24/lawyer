@@ -202,10 +202,8 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
     for spe in all_spe:
         if spe.performers.id not in per_ids:
             per_ids.append(spe.performers.id)
-            sum_ispol = Performers.objects.get(id=spe.performers.id).all_nagrada_date_sum(date__gte=date_in,
-                                                                                          date__lte=date_in_max)
-            sum_vedu = Performers.objects.get(id=spe.performers.id).all_nagrada_ved_date_sum(date__gte=date_in,
-                                                                                             date__lte=date_in_max)
+            sum_ispol = Performers.objects.get(id=spe.performers.id).all_nagrada_date_sum(date_in, date_in_max)
+            sum_vedu = Performers.objects.get(id=spe.performers.id).all_nagrada_ved_date_sum(date_in, date_in_max)
             performerss[spe.performers.id] = {'sum_all': sum_ispol + sum_vedu,
                                               'sim_ispol': sum_ispol,
                                               'sum_vedu': sum_vedu}
