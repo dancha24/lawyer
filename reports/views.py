@@ -49,7 +49,7 @@ def report_nagrada_ispolnitel_data(request):
         form = FormForReportNagradaIspolnitelData(request.POST)
         if form.is_valid():
             return redirect('report_nagrada_ispolnitel_data_ans', date_in=form.cleaned_data['date_in'],
-                            date_in_max=form.cleaned_data['date_in_max'],)
+                            date_in_max=form.cleaned_data['date_in_max'], )
     else:
         form = FormForReportNagradaIspolnitelData()
     context = {
@@ -194,19 +194,24 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
 def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
-
     per_ids = []  # Айдишники исполнителей для подсчета
+    performerss = {}
 
     all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False)
 
     for spe in all_spe:
         if spe.performers.id not in per_ids:
             per_ids.append(spe.performers.id)
-
-    performers = Performers.objects.filter(id__in=per_ids)
+            sum_ispol = Performers.objects.get(id=spe.performers.id).all_nagrada_date_sum(date__gte=date_in,
+                                                                                          date__lte=date_in_max)
+            sum_vedu = Performers.objects.get(id=spe.performers.id).all_nagrada_ved_date_sum(date__gte=date_in,
+                                                                                             date__lte=date_in_max)
+            performerss[spe.performers.id] = {'sum_all': sum_ispol + sum_vedu,
+                                              'sim_ispol': sum_ispol,
+                                              'sum_vedu': sum_vedu}
 
     context = {
-        'performers': performers,
+        'performers': performerss,
         'all_spe': all_spe,
 
         'all_sum': all_spe.aggregate(Sum('sum'))['sum__sum'],

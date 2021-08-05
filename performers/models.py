@@ -31,7 +31,8 @@ class Performers(models.Model):
     pasdate = models.DateField(verbose_name='Дата выдачи паспорта', blank=True, null=True)
     paskod = models.CharField(max_length=200, verbose_name='Код подразделения паспорта', blank=True, null=True)
     tel = models.CharField(max_length=200, verbose_name='Телефон', blank=True, null=True)
-    date_in = models.DateField(default=timezone.now, max_length=200, verbose_name='Дата принятия', blank=True, null=True)
+    date_in = models.DateField(default=timezone.now, max_length=200, verbose_name='Дата принятия', blank=True,
+                               null=True)
     date_out = models.DateField(max_length=200, verbose_name='Дата увольнения', blank=True, null=True)
 
     # Всего сделок
@@ -78,14 +79,16 @@ class Performers(models.Model):
     def all_sum_dop_id(self, af_id):
         from affairs.models import Affairs, ExtraAffairs, ExtraPerfomer
         affair = Affairs.objects.get(pk=af_id)
-        return ExtraPerfomer.objects.filter(extraaffairs_id__in=affair.affair_extraaffairs_ids(), performer_id=self.id).aggregate(Sum('sum'))['sum__sum']
+        return ExtraPerfomer.objects.filter(extraaffairs_id__in=affair.affair_extraaffairs_ids(),
+                                            performer_id=self.id).aggregate(Sum('sum'))['sum__sum']
 
     all_sum.short_description = 'Допников на сумму в деле'
 
     # Вознаграждения за определенную дату
     def all_nagrada_date(self, date_in, date_in_max):
         from finansy.models import Spending
-        return Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers=self)
+        return Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers=self,
+                                       category__name='Оплата исполнителю')
 
     # Сумма вознаграждении за определенную дату
     def all_nagrada_date_sum(self, date_in, date_in_max):
@@ -94,6 +97,18 @@ class Performers(models.Model):
         else:
             return 0
 
+    # Вознаграждения как ведущему за определенную дату
+    def all_nagrada_ved_date(self, date_in, date_in_max):
+        from finansy.models import Spending
+        return Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers=self,
+                                       category__name='Оплата ведущему дело')
+
+    # Сумма вознаграждений как ведущему за определенную дату
+    def all_nagrada_ved_date_sum(self, date_in, date_in_max):
+        if self.all_nagrada_date(date_in, date_in_max).exists():
+            return self.all_nagrada_date(date_in, date_in_max).aggregate(Sum('sum'))['sum__sum']
+        else:
+            return 0
 
     # Дел на сумму всех исполнителей
     @staticmethod
