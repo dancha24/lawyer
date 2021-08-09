@@ -145,6 +145,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
     all_rec = Receipt.objects.filter(date__gte=date_in, date__lte=date_in_max, deal__manager=performer)
 
     for rec in all_rec:
+        sum_bonus_dela_ved_already += rec.spending_of_affair_date()
         if rec.category.name == 'Дополнительное соглашение':
             if rec.extra_deal:
                 if rec.extra_deal.ex_affair_performers_ids().exists():
@@ -156,7 +157,6 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
                 sum_dela_ved += rec.sum
                 sum_bonus_dela_ved += rec.sum / 100 * rec.deal.manager_proc
         if rec.deal.id not in deals_ids:
-            sum_bonus_dela_ved_already += rec.spending_of_affair_date()
             deals_ids.append(rec.deal.id)
 
     if 'rec_oplata' in request.POST and request.POST['rec_oplata']:
