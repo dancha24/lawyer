@@ -61,7 +61,7 @@ def report_nagrada_ispolnitel_data(request):
         'titlepage': 'Отчет по выплатам исполнетелям за период',
     }
 
-    return render(request, 'reports/report_nagrada.html.html', context)
+    return render(request, 'reports/report_nagrada.html', context)
 
 
 # Отчет по главному юристу старый
