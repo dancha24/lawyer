@@ -12,7 +12,7 @@
                 <label for="id_ex">Исключить</label>
                 <select name="whereknow" class="form-control select2_1">
                     {% for item in performers %}
-                        <option value="{{ item.id }}">{{ item.name }}</option>
+                        <option name="id_ex" value="{{ item.id }}">{{ item.name }}</option>
                     {% endfor %}
                 </select>
             </div>
