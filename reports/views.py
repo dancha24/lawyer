@@ -49,17 +49,19 @@ def report_nagrada_ispolnitel_data(request):
         form = FormForReportNagradaIspolnitelData(request.POST)
         if form.is_valid():
             return redirect('report_nagrada_ispolnitel_data_ans', date_in=form.cleaned_data['date_in'],
-                            date_in_max=form.cleaned_data['date_in_max'], )
+                            date_in_max=form.cleaned_data['date_in_max'],
+                            ex=request.POST['id_ex'], )
     else:
         form = FormForReportNagradaIspolnitelData()
     context = {
         'form': form,
+        'performers': Performers.objects.all(),
         'menu': 'reports',
         'submenu': 'affairs_all',
         'titlepage': 'Отчет по выплатам исполнетелям за период',
     }
 
-    return render(request, 'reports/report_glav_law.html', context)
+    return render(request, 'reports/report_nagrada.html.html', context)
 
 
 # Отчет по главному юристу старый
@@ -193,7 +195,7 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
+def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max, ex):
     per_ids = []  # Айдишники исполнителей для подсчета
     performerss = []
 
@@ -201,7 +203,7 @@ def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
         'date')
 
     for spe in all_spe:
-        if spe.performers.id not in per_ids:
+        if spe.performers.id not in per_ids and spe.performers.id not in ex:
             per_ids.append(spe.performers.id)
             sum_ispol = Performers.objects.get(id=spe.performers.id).all_nagrada_date_sum(date_in, date_in_max)
             sum_vedu = Performers.objects.get(id=spe.performers.id).all_nagrada_ved_date_sum(date_in, date_in_max)
