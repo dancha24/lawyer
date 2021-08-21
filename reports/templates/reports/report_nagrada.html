@@ -10,7 +10,7 @@
             {{ form.as_p }}
             <div class="form-group margin-bottom-20">
                 <label for="id_ex">Исключить</label>
-                <select name="id_ex" class="form-control select2_1">
+                <select name="id_ex" class="form-control select2_1" multiple="multiple">
                     {% for item in performers %}
                         <option value="{{ item.id }}">{{ item.name }}</option>
                     {% endfor %}
