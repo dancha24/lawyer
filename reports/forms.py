@@ -21,6 +21,7 @@ class FormForReportGlavLaw(forms.Form):
 class FormForReportNagradaIspolnitelData(forms.Form):
     date_in = forms.DateField(label='Дата (Начало)')
     date_in_max = forms.DateField(label='Дата (Конец)')
+    id_ex = forms.ModelMultipleChoiceField(label='Исключить', queryset=Performers.objects.all(), to_field_name='pk')
 
     def __init__(self, *args, **kwargs):
         super(FormForReportNagradaIspolnitelData, self).__init__(*args, **kwargs)
@@ -28,6 +29,7 @@ class FormForReportNagradaIspolnitelData(forms.Form):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['date_in_max'].widget.attrs.update(
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+        self.fields['id_ex'].widget.attrs.update({'class': 'form-control select2_1'})
 
 
 class SpendingAddOnReportForm(forms.ModelForm):
