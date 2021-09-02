@@ -21,7 +21,8 @@ class FormForReportGlavLaw(forms.Form):
 class FormForReportNagradaIspolnitelData(forms.Form):
     date_in = forms.DateField(label='Дата (Начало)')
     date_in_max = forms.DateField(label='Дата (Конец)')
-    id_ex = forms.ModelMultipleChoiceField(label='Исключить', queryset=Performers.objects.all(), to_field_name='pk')
+    id_ex = forms.ModelMultipleChoiceField(label='Исключить', queryset=Performers.objects.all(), to_field_name='pk',
+                                           blank=True, required=False)
 
     def __init__(self, *args, **kwargs):
         super(FormForReportNagradaIspolnitelData, self).__init__(*args, **kwargs)

@@ -48,9 +48,10 @@ def report_nagrada_ispolnitel_data(request):
     if request.method == "POST":
         form = FormForReportNagradaIspolnitelData(request.POST)
         if form.is_valid():
-            # ex = form.cleaned_data['id_ex'].values_list('id', flat=True)
+            
             return redirect('report_nagrada_ispolnitel_data_ans', date_in=form.cleaned_data['date_in'],
-                            date_in_max=form.cleaned_data['date_in_max'])
+                            date_in_max=form.cleaned_data['date_in_max'],
+                            ex=str(list(form.cleaned_data['id_ex'].values_list('id', flat=True)))[1: -1])
     else:
         form = FormForReportNagradaIspolnitelData()
     context = {
@@ -195,12 +196,12 @@ def report_glav_law_ans(request, date_in, date_in_max, performer_id):
 
 # Отчет по главному юристу
 @permission_required('reports.view_affairs', raise_exception=True)  # Проверка прав
-def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max):
+def report_nagrada_ispolnitel_data_ans(request, date_in, date_in_max, ex):
     per_ids = []  # Айдишники исполнителей для подсчета
     performerss = []
 
     all_spe = Spending.objects.filter(date__gte=date_in, date__lte=date_in_max, performers__isnull=False).order_by(
-        'date')
+        'date').exclude(performers_id__in=[int(item) for item in ex.split(',')])
 
     for spe in all_spe:
         if spe.performers.id not in per_ids:
