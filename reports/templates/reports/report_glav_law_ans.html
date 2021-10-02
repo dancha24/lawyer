@@ -37,9 +37,15 @@
                         <td style="vertical-align: middle">{{ rec.date }}</td>
                         <td style="vertical-align: middle">{{ rec.sum }}</td>
                         <td style="vertical-align: middle">
-                            {% if performer.id in rec.extra_deal.ex_affair_performers_ids or rec.deal.manager_is_performer == 2 %}
+                            {% if performer.id in rec.extra_deal.ex_affair_performers_ids %}
                                 Является исполнителем
                             {% elif rec.category.name == 'Дополнительное соглашение' and not rec.extra_deal %}<span style="color: #dd5454">Требуется уточнение</span>
+                            {% elif rec.deal.manager_is_performer == 2 %}
+                                {% if performer.id not in rec.extra_deal.ex_affair_performers_ids %}
+                                    {{ rec.sum|div:100|mul:rec.deal.manager_proc  }} - <a data-toggle="modal" data-target="#rec_oplata_{{ rec.id }}">Оплатить</a>
+                                {% else %}
+                                    <span style="color: #dd5454">Является исполнителем</span>
+                                {% endif %}
                             {% else %}
                             {{ rec.sum|div:100|mul:rec.deal.manager_proc  }} - <a data-toggle="modal" data-target="#rec_oplata_{{ rec.id }}">Оплатить</a>
                             {% endif %}
