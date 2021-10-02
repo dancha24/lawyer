@@ -68,7 +68,7 @@ def affairs_info(request, affair_id):
     extra_affairs = ExtraAffairs.objects.filter(affairs_id=affair_id)  # Дополнительные дела
     # Проверка исполнителей в допниках
     for ex in extra_affairs:
-        if ex.ex_affair_performers_ids().exists():
+        if not ex.ex_affair_performers_ids().exists():
             danger = False
             break
         else:
