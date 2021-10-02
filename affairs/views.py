@@ -67,13 +67,12 @@ def affairs_info(request, affair_id):
     affair = Affairs.objects.get(pk=affair_id)
     extra_affairs = ExtraAffairs.objects.filter(affairs_id=affair_id)  # Дополнительные дела
     # Проверка исполнителей в допниках
-    danger = False
     for ex in extra_affairs:
         if not ex.ex_affair_performers_ids().exists():
-            danger = False
+            danger = True
             break
         else:
-            danger = True
+            danger = False
     # изменение вознаграждения в промежутке
     if 'performer_sum' in request.POST and request.POST['performer_sum']:
         y = affair.affair_performers().get(performer_id=request.POST['performer_sum_id'], affairs_id=affair_id)
