@@ -70,6 +70,7 @@ def affairs_info(request, affair_id):
     for ex in extra_affairs:
         if ex.ex_affair_performers_ids().exists():
             danger = False
+            break
         else:
             danger = True
     # изменение вознаграждения в промежутке
