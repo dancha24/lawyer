@@ -30,7 +30,7 @@ INSTALLED_APPS = [
     'reports',
     'mathfilters',
     'index',
-    'settings',
+    # 'settings',
 ]
 
 MIDDLEWARE = [
