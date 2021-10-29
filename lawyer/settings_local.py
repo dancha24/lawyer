@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'finansy',
     'debug_toolbar',
     'reports',
+    'settings',
 ]
 
 MIDDLEWARE = [
