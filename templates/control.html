@@ -116,7 +116,7 @@
                     <li class="current active">{% else %}
                     <li>{% endif %}
                 <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-multiple"></i><span>Исполнители</span><span
+                        class="menu-icon mdi mdi-account-settings-variant"></i><span>Исполнители</span><span
                         class="menu-arrow fa fa-angle-down"></span></a>
                 <ul class="sub-menu js__content">
 
@@ -149,7 +149,7 @@
                     <li class="current active">{% else %}
                     <li>{% endif %}
                 <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-multiple"></i><span>Фин.часть</span><span
+                        class="menu-icon mdi mdi-cash"></i><span>Фин.часть</span><span
                         class="menu-arrow fa fa-angle-down"></span></a>
                 <ul class="sub-menu js__content">
 
@@ -162,144 +162,183 @@
                 {% if menu == 'reports' %}
                     <li class="current active">{% else %}
                     <li>{% endif %}
-                <a href="{% url 'reports_all' %}"><span>Отчеты</span></a>
+                <a href="{% url 'reports_all' %}">
+                    <i class="menu-icon mdi mdi-file-document"></i>
+                    <span>Отчеты</span>
+                </a>
+                {#                <a href="{% url 'reports_all' %}"><span>Отчеты</span></a>#}
                 </li>
 
-                {% if menu == 'settings' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a href="{% url 'settings' %}"><span>Настройки</span></a>
-                <ul class="sub-menu js__content">
-                    </li>
+                {#                {% if menu == 'settings' %}#}
+                {#                    <li class="current active">{% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a href="{% url 'settings' %}"><span>Настройки</span></a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    </li>#}
 
 
-                    {#                {% if titlepage == 'Водители' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Источники информации' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Города' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect parent-item js__control" href="#"><i class="menu-icon mdi mdi-account"></i><span>Водители</span><span#}
-                    {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
-                    {#                <ul class="sub-menu js__content">#}
-                    {#                    {% if titlepage == 'Водители' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'drivers_all' %}"><span>Все водители</span></a></li>#}
-                    {#                    {% if titlepage == 'Источники информации' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'whereinfo_all' %}"><span>Источнки информации</span></a></li>#}
-                    {#                    {% if titlepage == 'Города' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'city_all' %}"><span>Города</span></a></li>#}
-                    {#                </ul>#}
-                    {#                </li>#}
-                    {##}
-                    {##}
-                    {#                {% if titlepage == 'Договора' %}#}
-                    {#                    <li class="current">{% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect" href="{% url 'contracts_all' %}">#}
-                    {#                    <i class="menu-icon mdi mdi-file-document"></i><span>Договора</span>#}
-                    {#                </a>#}
-                    {#                </li>#}
-                    {##}
-                    {#                {% if titlepage == 'Счета' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Платежи' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Приход/Расход' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect parent-item js__control" href="#"><i#}
-                    {#                        class="menu-icon mdi mdi-currency-rub"></i><span>Финансы</span><span#}
-                    {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
-                    {#                <ul class="sub-menu js__content">#}
-                    {#                    {% if titlepage == 'Счета' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'invoices_all' %}"><span>Счета</span></a></li>#}
-                    {#                    {% if titlepage == 'Платежи' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'invoices_paids_all' %}"><span>Платежи</span></a></li>#}
-                    {#                    {% if titlepage == 'Зарплатный проект' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'zp' %}"><span>Зарплатный проект</span></a></li>#}
-                    {#                    {% if titlepage == 'Приход/Расход' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'finansy_today_all' %}"><span>Приход/Расход</span></a></li>#}
-                    {#                </ul>#}
-                    {#                </li>#}
-                    {##}
-                    {#                {% if titlepage == 'Все места' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Все элементы' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect parent-item js__control" href="#"><i#}
-                    {#                        class="menu-icon mdi mdi-animation"></i><span>Склад</span><span#}
-                    {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
-                    {#                <ul class="sub-menu js__content">#}
-                    {#                    {% if titlepage == 'Все места' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'all_place' %}"><span>Места</span></a></li>#}
-                    {#                    {% if titlepage == 'Все элементы' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'all_elements' %}"><span>Элементы</span></a></li>#}
-                    {#                </ul>#}
-                    {#                </li>#}
-                    {#                {% if titlepage == 'Организации' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% elif titlepage == 'Виды организаций' %}#}
-                    {#                    <li class="current active">#}
-                    {#                        {% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect parent-item js__control" href="#"><i class="menu-icon mdi mdi-domain"></i><span>Организации</span><span#}
-                    {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
-                    {#                <ul class="sub-menu js__content">#}
-                    {#                    {% if titlepage == 'Организации' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'organizations_all' %}"><span>Организации</span></a></li>#}
-                    {#                    {% if titlepage == 'Виды организаций' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'organizations_variant_all' %}"><span>Виды организаций</span></a></li>#}
-                    {#                </ul>#}
-                    {#                </li>#}
-                    {##}
-                    {#                {% if menu == 'report' %}#}
-                    {#                    <li class="current active">{% else %}#}
-                    {#                    <li>{% endif %}#}
-                    {#                <a class="waves-effect parent-item js__control" href="#">#}
-                    {#                    <i class="menu-icon mdi mdi-file-document"></i>#}
-                    {#                    <span>Отчеты</span>#}
-                    {#                    <span class="menu-arrow fa fa-angle-down"></span>#}
-                    {#                </a>#}
-                    {#                <ul class="sub-menu js__content">#}
-                    {#                    {% if sub_menu == 'reports_cars' %}#}
-                    {#                        <li class="current">{% else %}#}
-                    {#                        <li>{% endif %}#}
-                    {#                    <a href="{% url 'reports_cars' %}">#}
-                    {#                        <span>Автомобили</span>#}
-                    {#                    </a>#}
-                    {#                    </li>#}
-                    {#                </ul>#}
-                    {#                </li>#}
+                <li>
+                    <a class="waves-effect parent-item js__control" href="#">
+                        <i class="menu-icon mdi mdi-arrange-send-backward"></i>
+                        <span>Другие кабинеты</span><span
+                            class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+                        <li>
+                            <a href="https://кабинет.3кей.рф">
+                                <i style="padding-right: 5px;" class="mdi mdi-gavel"></i>
+                                <span>Юрист</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://кабинет.методика1.рф">
+                                <i style="padding-right: 5px;" class="mdi mdi-arrange-bring-to-front"></i>
+                                <span>Методика</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://кабинет.тэгинжиниринг.рф">
+                                <i style="padding-right: 5px;" class="mdi mdi-wrench"></i>
+                                <span>ТЭГ</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://кабинет.яндекстакси42.рф">
+                                <i style="padding-right: 5px;" class="mdi mdi-car"></i>
+                                <span>Автопарк</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
-                </ul>
-                <!-- /.menu js__accordion -->
+
+                {#                {% if titlepage == 'Водители' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Источники информации' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Города' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect parent-item js__control" href="#"><i class="menu-icon mdi mdi-account"></i><span>Водители</span><span#}
+                {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    {% if titlepage == 'Водители' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'drivers_all' %}"><span>Все водители</span></a></li>#}
+                {#                    {% if titlepage == 'Источники информации' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'whereinfo_all' %}"><span>Источнки информации</span></a></li>#}
+                {#                    {% if titlepage == 'Города' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'city_all' %}"><span>Города</span></a></li>#}
+                {#                </ul>#}
+                {#                </li>#}
+                {##}
+                {##}
+                {#                {% if titlepage == 'Договора' %}#}
+                {#                    <li class="current">{% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect" href="{% url 'contracts_all' %}">#}
+                {#                    <i class="menu-icon mdi mdi-file-document"></i><span>Договора</span>#}
+                {#                </a>#}
+                {#                </li>#}
+                {##}
+                {#                {% if titlepage == 'Счета' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Платежи' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Приход/Расход' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect parent-item js__control" href="#"><i#}
+                {#                        class="menu-icon mdi mdi-currency-rub"></i><span>Финансы</span><span#}
+                {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    {% if titlepage == 'Счета' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'invoices_all' %}"><span>Счета</span></a></li>#}
+                {#                    {% if titlepage == 'Платежи' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'invoices_paids_all' %}"><span>Платежи</span></a></li>#}
+                {#                    {% if titlepage == 'Зарплатный проект' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'zp' %}"><span>Зарплатный проект</span></a></li>#}
+                {#                    {% if titlepage == 'Приход/Расход' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'finansy_today_all' %}"><span>Приход/Расход</span></a></li>#}
+                {#                </ul>#}
+                {#                </li>#}
+                {##}
+                {#                {% if titlepage == 'Все места' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Все элементы' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect parent-item js__control" href="#"><i#}
+                {#                        class="menu-icon mdi mdi-animation"></i><span>Склад</span><span#}
+                {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    {% if titlepage == 'Все места' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'all_place' %}"><span>Места</span></a></li>#}
+                {#                    {% if titlepage == 'Все элементы' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'all_elements' %}"><span>Элементы</span></a></li>#}
+                {#                </ul>#}
+                {#                </li>#}
+                {#                {% if titlepage == 'Организации' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% elif titlepage == 'Виды организаций' %}#}
+                {#                    <li class="current active">#}
+                {#                        {% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect parent-item js__control" href="#"><i class="menu-icon mdi mdi-domain"></i><span>Организации</span><span#}
+                {#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    {% if titlepage == 'Организации' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'organizations_all' %}"><span>Организации</span></a></li>#}
+                {#                    {% if titlepage == 'Виды организаций' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'organizations_variant_all' %}"><span>Виды организаций</span></a></li>#}
+                {#                </ul>#}
+                {#                </li>#}
+                {##}
+                {#                {% if menu == 'report' %}#}
+                {#                    <li class="current active">{% else %}#}
+                {#                    <li>{% endif %}#}
+                {#                <a class="waves-effect parent-item js__control" href="#">#}
+                {#                    <i class="menu-icon mdi mdi-file-document"></i>#}
+                {#                    <span>Отчеты</span>#}
+                {#                    <span class="menu-arrow fa fa-angle-down"></span>#}
+                {#                </a>#}
+                {#                <ul class="sub-menu js__content">#}
+                {#                    {% if sub_menu == 'reports_cars' %}#}
+                {#                        <li class="current">{% else %}#}
+                {#                        <li>{% endif %}#}
+                {#                    <a href="{% url 'reports_cars' %}">#}
+                {#                        <span>Автомобили</span>#}
+                {#                    </a>#}
+                {#                    </li>#}
+                {#                </ul>#}
+                {#                </li>#}
+
+            </ul>
+            <!-- /.menu js__accordion -->
         </div>
         <!-- /.navigation -->
     </div>
