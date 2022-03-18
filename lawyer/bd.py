@@ -5,9 +5,6 @@ DATABASES = {
         'USER': 'dancha',
         'PASSWORD': '03081998Dan',
         'HOST': '89.108.78.140',
-        # 'USER': 'postgres',
-        # 'PASSWORD': '03081998',
-        # 'HOST': 'localhost',
         'PORT': '5432',
     }
 }
