@@ -508,7 +508,16 @@ def settings_category_rec(request):
 # Настройки
 @permission_required('finansy.settings', raise_exception=True)
 def settings_category_spe_add(request):
-    form = forms.CategorySpe
+    if request.method == "POST":
+        form = forms.CategorySpe(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('settings_category_spe_add')
+            else:
+                return redirect('settings_category_spe')
+    else:
+        form = forms.CategorySpe()
     context = {
         'titlepage': 'Добавление категории прихода',
         'form': form,
@@ -521,7 +530,16 @@ def settings_category_spe_add(request):
 # Настройки
 @permission_required('finansy.settings', raise_exception=True)
 def settings_category_rec_add(request):
-    form = forms.CategoryRec
+    if request.method == "POST":
+        form = forms.CategoryRec(request.POST)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('settings_category_rec_add')
+            else:
+                return redirect('settings_category_rec')
+    else:
+        form = forms.CategorySpe()
     context = {
         'titlepage': 'Добавление категории прихода',
         'form': form,
