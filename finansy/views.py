@@ -471,7 +471,12 @@ def finansy_today_all(request):
 # Настроки
 @permission_required('finansy.settings', raise_exception=True)
 def settings(request):
-    return redirect('settings/in.html')
+    context = {
+        'titlepage': 'Настройки финансов',
+        'submenu': "finansy_set",
+    }
+
+    return render(request, 'settings/in.html', context)
 
 
 # Настройки
