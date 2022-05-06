@@ -157,6 +157,10 @@
                         <li class="current">{% else %}
                         <li>{% endif %}
                     <a href="{% url 'finansy_today_period' %}"><span>Приход/расход</span></a></li>
+                {% if submenu == 'finansy_set' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'finansy_today_period' %}"><span>Приход/расход</span></a></li>
                 </ul>
 
                 {% if menu == 'reports' %}

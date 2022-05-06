@@ -12,6 +12,10 @@ urlpatterns = [
     path('finansy_today/<y>/<m>/<d>', views.finansy_today_date, name='finansy_today_date'),
     path('dealreports/all', views.dealreports, name='dealreports'),
     path('settings', views.settings, name='settings'),
+    path('settings/category/spe', views.settings_category_spe, name='settings_category_spe'),
+    path('settings/category/rec', views.settings_category_rec, name='settings_category_rec'),
+    path('settings/category/spe/add', views.settings_category_spe_add, name='settings_category_spe_add'),
+    path('settings/category/rec/add', views.settings_category_rec_add, name='settings_category_rec_add'),
     #
     path('receipt/add', views.receipt_add, name='receipt_add'),
     path('receipt/<receipt_id>', views.receipt_info, name='receipt_info'),

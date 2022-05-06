@@ -21,7 +21,6 @@ from django import template
 from performers.models import Performers
 
 
-
 # Добавление записи прихода
 @permission_required('finansy.add_invoicespaids', raise_exception=True)
 def receipt_add(request):
@@ -45,12 +44,10 @@ def receipt_add(request):
     return render(request, 'finansy/add_receipt.html', context)
 
 
-
 # Удаление записи прихода
 def receipt_del(uid):
     for_del = Receipt.objects.get(id=uid)
     for_del.delete()
-
 
 
 # Редактировать Запись прихода
@@ -86,7 +83,6 @@ def receipt_info(request):
     }
 
     return render(request, 'finansy/zp.html', context)
-
 
 
 # Добавление записи расхода
@@ -168,14 +164,6 @@ def spending_edit(request, spending_id):
     }
 
     return render(request, 'finansy/add_spending.html', context)
-
-
-
-
-
-
-
-
 
 
 def finansy_today_date(request, y=timezone.datetime.now().year, m=timezone.datetime.now().month,
@@ -480,10 +468,59 @@ def finansy_today_all(request):
     return redirect('finansy_today_date', y=y, m=m, d=d)
 
 
-# Список всего прихода
+# Настроки
 @permission_required('finansy.settings', raise_exception=True)
 def settings(request):
     return redirect('settings/in.html')
 
 
+# Настройки
+@permission_required('finansy.settings', raise_exception=True)
+def settings_category_spe(request):
+    category = CategoriesOfSpending.objects.select_related()
+    context = {
+        'titlepage': 'Категории расхода',
+        'for_table': category,
+        'submenu': "finansy_set",
+    }
 
+    return render(request, 'finansy/category.html', context)
+
+
+# Настройки
+@permission_required('finansy.settings', raise_exception=True)
+def settings_category_rec(request):
+    category = CategoriesOfReceipt.objects.select_related()
+    context = {
+        'titlepage': 'Категории прихода',
+        'for_table': category,
+        'submenu': "finansy_set",
+    }
+
+    return render(request, 'finansy/category.html', context)
+
+
+# Настройки
+@permission_required('finansy.settings', raise_exception=True)
+def settings_category_spe_add(request):
+    form = forms.CategorySpe
+    context = {
+        'titlepage': 'Добавление категории прихода',
+        'form': form,
+        'submenu': "finansy_set",
+    }
+
+    return render(request, 'finansy/add.html', context)
+
+
+# Настройки
+@permission_required('finansy.settings', raise_exception=True)
+def settings_category_rec_add(request):
+    form = forms.CategoryRec
+    context = {
+        'titlepage': 'Добавление категории прихода',
+        'form': form,
+        'submenu': "finansy_set",
+    }
+
+    return render(request, 'finansy/add.html', context)

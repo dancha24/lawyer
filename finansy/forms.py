@@ -108,3 +108,15 @@ class SpendingEditForm(forms.ModelForm):
         super(SpendingEditForm, self).__init__(*args, **kwargs)
         self.fields['type'].widget.attrs.update({'class': 'form-control select2_1 margin-bottom-20'})
         self.fields['category'].widget.attrs.update({'class': 'form-control select2_1 margin-bottom-20'})
+
+
+class CategorySpe(forms.ModelForm):
+    class Meta:
+        model = CategoriesOfSpending
+        fields = '__all__'
+
+
+class CategoryRec(forms.ModelForm):
+    class Meta:
+        model = CategoriesOfReceipt
+        fields = '__all__'
