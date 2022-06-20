@@ -121,7 +121,7 @@
                 <tr style="background-color: #8dff9f">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
-                    <td style="vertical-align: middle">{{ item.date }}</td>
+                    <td style="vertical-align: middle">{{ item.date.isoformat }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
@@ -145,7 +145,7 @@
                 <tr style="background-color: #ffc0b2">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
-                    <td style="vertical-align: middle">{{ item.date }}</td>
+                    <td style="vertical-align: middle">{{ item.date.isoformat }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">-{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
