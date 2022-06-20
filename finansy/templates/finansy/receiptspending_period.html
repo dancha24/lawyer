@@ -52,15 +52,15 @@
             <tbody>
             <tr>
                 <td style="vertical-align: middle">Приход</td>
-                <td style="vertical-align: middle">{{ sum_all_rec }}</td>
+                <td style="vertical-align: middle">{{ sum_all_rec|floatformat:2 }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: middle">Расход</td>
-                <td style="vertical-align: middle">{{ sum_all_spe }}</td>
+                <td style="vertical-align: middle">{{ sum_all_spe|floatformat:2 }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: middle">Итог</td>
-                <td style="vertical-align: middle">{{ ost_all }}</td>
+                <td style="vertical-align: middle">{{ ost_all|floatformat:2 }}</td>
             </tr>
             </tbody>
         </table>
