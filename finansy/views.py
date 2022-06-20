@@ -291,7 +291,7 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
         receipt_del(uid)
         return render(request, 'finansy/receiptspending_period.html', context)
     if request.method == "POST" and 'del_spe' in request.POST:
-        uid = request.POST['id']
+        uid = request.POST['id_del_spe']
         spending_del(uid)
         return render(request, 'finansy/receiptspending_period.html', context)
 

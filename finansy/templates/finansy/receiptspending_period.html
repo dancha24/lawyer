@@ -75,15 +75,15 @@
             <tbody>
             <tr>
                 <td style="vertical-align: middle">Наличка</td>
-                <td style="vertical-align: middle">{{ balances_kem_nal }}</td>
+                <td style="vertical-align: middle">{{ balances_kem_nal|floatformat:2 }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: middle">Счет</td>
-                <td style="vertical-align: middle">{{ balances_kem_ya }}</td>
+                <td style="vertical-align: middle">{{ balances_kem_ya|floatformat:2 }}</td>
             </tr>
             <tr>
                 <td style="vertical-align: middle">Карта</td>
-                <td style="vertical-align: middle">{{ balances_kem_card }}</td>
+                <td style="vertical-align: middle">{{ balances_kem_card|floatformat:2 }}</td>
             </tr>
             </tbody>
         </table>
@@ -157,7 +157,7 @@
                                 class="fa fa-edit"></i></a>
                         <form method="post" style="display: inline">
                             {% csrf_token %}
-                            <input type="hidden" name="id" value="{{ item.id }}">
+                            <input type="hidden" name="id_del_spe" value="{{ item.id }}">
                             <button name="del_spe" class="btn btn-danger btn-xs waves-effect waves-light">
                                 <i class="fa fa-trash"></i>
                             </button>
