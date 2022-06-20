@@ -121,7 +121,7 @@
                 <tr style="background-color: #8dff9f">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
-                    <td style="vertical-align: middle">{{ item.date.isoformat }}</td>
+                    <td style="vertical-align: middle">{{ item.date }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
@@ -134,9 +134,9 @@
                         <form method="post" style="display: inline">
                             {% csrf_token %}
                             <input type="hidden" name="id" value="{{ item.id }}">
-                            <button name="del_rec" class="btn btn-danger btn-xs waves-effect waves-light">
-                                <i class="fa fa-trash"></i>
-                            </button>
+{#                            <button name="del_rec" class="btn btn-danger btn-xs waves-effect waves-light">#}
+{#                                <i class="fa fa-trash"></i>#}
+{#                            </button>#}
                         </form>
                     </th>
                 </tr>
@@ -145,7 +145,7 @@
                 <tr style="background-color: #ffc0b2">
                     <td style="vertical-align: middle">{% if item.type == 'CH' %}Наличка{% endif %}
                         {% if item.type == 'CD' %}Карта{% endif %}{% if item.type == 'BK' %}Счет{% endif %}</td>
-                    <td style="vertical-align: middle">{{ item.date.isoformat }}</td>
+                    <td style="vertical-align: middle">{{ item.date }}</td>
                     <td style="vertical-align: middle">{{ item.category }}</td>
                     <td style="vertical-align: middle">-{{ item.sum }}</td>
                     <td style="vertical-align: middle">{{ item.com }}</td>
@@ -158,9 +158,9 @@
                         <form method="post" style="display: inline">
                             {% csrf_token %}
                             <input type="hidden" name="id_del_spe" value="{{ item.id }}">
-                            <button name="del_spe" class="btn btn-danger btn-xs waves-effect waves-light">
-                                <i class="fa fa-trash"></i>
-                            </button>
+{#                            <button name="del_spe" class="btn btn-danger btn-xs waves-effect waves-light">#}
+{#                                <i class="fa fa-trash"></i>#}
+{#                            </button>#}
                         </form>
                     </th>
                 </tr>
