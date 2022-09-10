@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'mathfilters',
     'index',
     'settings',
+    'bot',
 ]
 
 MIDDLEWARE = [
