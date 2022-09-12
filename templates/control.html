@@ -90,7 +90,7 @@
                     <li>{% endif %}
                 <a class="waves-effect" href=""><i
                         class="menu-icon mdi mdi-view-dashboard"></i><span>Обзор</span></a>
-                </li>
+
 
                 {% if menu == 'affairs' %}
                     <li class="current active">{% else %}
@@ -109,7 +109,7 @@
                         <li class="current">{% else %}
                         <li>{% endif %}
                     <a href="{% url 'extra_affairs_all' %}"><span>Допники</span></a></li>
-
+                </ul>
                 {% if menu == 'poker' %}
                     <li class="current active">{% else %}
                     <li>{% endif %}
@@ -127,7 +127,7 @@
                         <li class="current">{% else %}
                         <li>{% endif %}
                     <a href="{% url 'informations_all' %}"><span>Источники информации</span></a></li>
-                </ul>
+
 
 
                 </ul>
