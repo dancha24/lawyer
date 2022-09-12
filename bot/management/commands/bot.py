@@ -57,11 +57,7 @@ class Command(BaseCommand):
             markup.add(item1)
             markup.add(item2)
             markup.add(item3)
-            bot.send_message(m.chat.id,
-                             'О нашей услуге: Приобретая наш продукт, вы получаете '
-                             'индивидуальный выделенный IP адрес, страны Казахстан, '
-                             'что подойдет для игры на PokerStars и других румах.',
-                             reply_markup=markup)
+            bot.send_message(m.chat.id, starttext, reply_markup=markup)
 
         @bot.message_handler(content_types=['successful_payment'])
         def got_payment(message):
@@ -98,11 +94,7 @@ class Command(BaseCommand):
                 markup.add(item1)
                 markup.add(item2)
                 markup.add(item3)
-                bot.send_message(message.chat.id,
-                                 'О нашей услуге: Приобретая наш продукт, вы получаете '
-                                 'индивидуальный выделенный IP адрес, страны Казахстан, '
-                                 'что подойдет для игры на PokerStars и других румах.',
-                                 reply_markup=markup)
+                bot.send_message(message.chat.id, starttext, reply_markup=markup)
                 return True
 
             if message.text == 'Оплата подключения к сервису':
@@ -124,10 +116,9 @@ class Command(BaseCommand):
                                  'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата', description='Описание оплаты',
-                #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
+                #                  invoice_payload='papay', provider_token=paytok, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=1000000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/zaOYA5')
-
                 return True
 
             if message.text == '3 месяца - 2700р':
@@ -139,7 +130,7 @@ class Command(BaseCommand):
                                  'Стабильно работает оплата через кошелек Юмани и SberPay. '
                                  'Мы работаем над увеличением количества способов оплаты.')
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата', description='Описание оплаты',
-                #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
+                #                  invoice_payload='papay', provider_token=paytok, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=270000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/ELjG1g')
 
@@ -154,7 +145,7 @@ class Command(BaseCommand):
                                  'Стабильно работает оплата через кошелек Юмани и SberPay. '
                                  'Мы работаем над увеличением количества способов оплаты.')
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата', description='Описание оплаты',
-                #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
+                #                  invoice_payload='papay', provider_token=paytok, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=500000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/l0KlJn')
                 return True
@@ -168,7 +159,7 @@ class Command(BaseCommand):
                                  'Стабильно работает оплата через кошелек Юмани и SberPay. '
                                  'Мы работаем над увеличением количества способов оплаты.')
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата', description='Описание оплаты',
-                #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
+                #                  invoice_payload='papay', provider_token=paytok, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=900000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/NDNPR2')
 
@@ -227,7 +218,7 @@ class Command(BaseCommand):
                 bot.send_message(message.chat.id, 'Такого промокода не существует', reply_markup=markuponeper)
 
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата2', description='Описание оплаты2',
-                #                  invoice_payload='papay2', provider_token=names.kassatoken, currency='RUB',
+                #                  invoice_payload='papay2', provider_token=paytok, currency='RUB',
                 #                  start_parameter='test2', prices=[LabeledPrice(label='Working Time Machine2', amount=150000)])
 
 

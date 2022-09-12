@@ -11,7 +11,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
-from bot.models import Promocodes
+from bot.models import Promocodes, Botset
 
 
 # Список всех промокодов
@@ -75,12 +75,36 @@ def promo_edit(request, promo_id):
 # Список всех промокодов
 @permission_required('finansy.add_invoicespaids', raise_exception=True)
 def botset(request):
-    promokods = Promocodes.objects.select_related()
+    botsets = Botset.objects.select_related()
     context = {
         'titlepage': 'Все промокоды',
-        'for_table': promokods,
+        'for_table': botsets,
         'menu': "poker",
         'submenu': "promokods",
     }
 
-    return render(request, 'bot/promokods_all.html', context)
+    return render(request, 'bot/set_all.html', context)
+
+# Добавление Промокода
+@permission_required('affairs.add_affairs', raise_exception=True)
+def set_edit(request, set_id):
+    promo = Botset.objects.get(id=set_id)
+    if request.method == "POST":
+        form = forms.SetEditForm(request.POST, instance=promo)
+        if form.is_valid():
+            form.save()
+            if 'add' in request.POST and request.POST['add']:
+                return redirect('promo_add')
+            else:
+                return redirect('promokodes_all')
+    else:
+        form = forms.SetEditForm(instance=promo)
+    context = {
+        'menu': 'poker',
+        'submenu': 'botset',
+        'form': form,
+        'titlepage': 'Редактирование промокода',
+        'next': False,
+    }
+
+    return render(request, 'bot/promoadd.html', context)
