@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, permission_required
 from bot import forms
+from django.core.management import call_command
 from finansy.models import *
 from django.forms.models import modelform_factory
 from django.shortcuts import get_object_or_404
@@ -76,6 +77,9 @@ def promo_edit(request, promo_id):
 @permission_required('finansy.add_invoicespaids', raise_exception=True)
 def botset(request):
     botsets = Botset.objects.select_related()
+    if 'reloadbot' in request.POST and request.POST['reloadbot']:
+        call_command('bot')
+        return redirect('botset')
     context = {
         'titlepage': 'Все промокоды',
         'for_table': botsets,
