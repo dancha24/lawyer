@@ -9,10 +9,10 @@ from django.core.management.base import BaseCommand
 
 
 # Создаем экземпляр бота
-bot = telebot.TeleBot(Botset.objects.get(pk=1))
-paytok = Botset.objects.get(pk=2)
-starttext = Botset.objects.get(pk=3)
-if Botset.objects.get(pk=4) == 'Да':
+bot = telebot.TeleBot(Botset.objects.get(pk=1).set)
+paytok = Botset.objects.get(pk=2).set
+starttext = Botset.objects.get(pk=3).set
+if Botset.objects.get(pk=4).set == 'Да':
     paytg = False
 else:
     paytg = True
