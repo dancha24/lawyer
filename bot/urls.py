@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from bot import views
 
 urlpatterns = [
     path('/promokods', views.promokods_all, name='promokodes_all'),

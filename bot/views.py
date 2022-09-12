@@ -11,7 +11,7 @@ from datetime import datetime
 from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
-from models import Promocodes
+from bot.models import Promocodes
 
 
 # Список всех промокодов
