@@ -99,7 +99,7 @@ class Command(BaseCommand):
 
             if message.text == 'Оплата подключения к сервису':
                 bot.send_message(message.chat.id,
-                                 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                 'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 bot.send_message(message.chat.id,
                                  'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
@@ -113,7 +113,7 @@ class Command(BaseCommand):
 
             if message.text == '1 месяц - 1000р':
                 bot.send_message(message.chat.id,
-                                 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                 'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 # bot.send_invoice(chat_id=message.chat.id, title='Оплата', description='Описание оплаты',
                 #                  invoice_payload='papay', provider_token=paytok, currency='RUB',
@@ -123,7 +123,7 @@ class Command(BaseCommand):
 
             if message.text == '3 месяца - 2700р':
                 bot.send_message(message.chat.id,
-                                 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                 'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 bot.send_message(message.chat.id,
                                  'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
@@ -138,7 +138,7 @@ class Command(BaseCommand):
 
             if message.text == '6 месяцев - 5000р':
                 bot.send_message(message.chat.id,
-                                 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                 'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 bot.send_message(message.chat.id,
                                  'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
@@ -152,7 +152,7 @@ class Command(BaseCommand):
 
             if message.text == '1 год - 9000р':
                 bot.send_message(message.chat.id,
-                                 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                 'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                                  reply_markup=markuponeper)
                 bot.send_message(message.chat.id,
                                  'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
