@@ -3,11 +3,19 @@ from telebot import types
 from bot import names
 from telebot.types import LabeledPrice, PreCheckoutQuery
 import requests
-from bot.models import Promocodes
+from bot.models import Botset
 from django.core.management.base import BaseCommand
 
+
+
 # Создаем экземпляр бота
-bot = telebot.TeleBot(names.bottoken)
+bot = telebot.TeleBot(Botset.objects.get(pk=1))
+paytok = Botset.objects.get(pk=2)
+starttext = Botset.objects.get(pk=3)
+if Botset.objects.get(pk=4) == 'Да':
+    paytg = False
+else:
+    paytg = True
 
 markuponeper = types.ReplyKeyboardMarkup(resize_keyboard=True)
 item1 = types.KeyboardButton("В начало")
@@ -21,6 +29,9 @@ class Command(BaseCommand):
     help = 'Implemented to Django application telegram bot setup command'
 
     def handle(self, *args, **options):
+
+        import requests
+        from bot.models import Promocodes
         # Получение сообщений от юзера
         @bot.pre_checkout_query_handler(func=lambda query: True)
         def checkout(pre_checkout_query):
@@ -92,25 +103,7 @@ class Command(BaseCommand):
                                  'индивидуальный выделенный IP адрес, страны Казахстан, '
                                  'что подойдет для игры на PokerStars и других румах.',
                                  reply_markup=markup)
-
-            if Promocodes.objects.filter(name=message.text.lower()).exists():
-                prom = Promocodes.objects.get(name=message.text.lower())
-                if prom.aktive:
-                    bot.send_message(message.chat.id,
-                                     'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
-                                     reply_markup=markuponeper)
-                    bot.send_message(message.chat.id,
-                                     'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
-                                     'Стабильно работает оплата через кошелек Юмани и SberPay. '
-                                     'Мы работаем над увеличением количества способов оплаты.')
-                    text = 'Ссылка на оплату: ' + prom.linkpay
-                    bot.send_message(message.chat.id, text)
-                else:
-                    bot.send_message(message.chat.id, 'Промокод не действующий', reply_markup=markuponeper)
-
-                # bot.send_invoice(chat_id=message.chat.id, title='Оплата2', description='Описание оплаты2',
-                #                  invoice_payload='papay2', provider_token=names.kassatoken, currency='RUB',
-                #                  start_parameter='test2', prices=[LabeledPrice(label='Working Time Machine2', amount=150000)])
+                return True
 
             if message.text == 'Оплата подключения к сервису':
                 bot.send_message(message.chat.id,
@@ -124,6 +117,7 @@ class Command(BaseCommand):
                 #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=200000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/meMJlG')
+                return True
 
             if message.text == '1 месяц - 1000р':
                 bot.send_message(message.chat.id,
@@ -133,6 +127,8 @@ class Command(BaseCommand):
                 #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=1000000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/zaOYA5')
+
+                return True
 
             if message.text == '3 месяца - 2700р':
                 bot.send_message(message.chat.id,
@@ -147,6 +143,8 @@ class Command(BaseCommand):
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=270000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/ELjG1g')
 
+                return True
+
             if message.text == '6 месяцев - 5000р':
                 bot.send_message(message.chat.id,
                                  'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
@@ -159,6 +157,7 @@ class Command(BaseCommand):
                 #                  invoice_payload='papay', provider_token=names.kassatoken, currency='RUB',
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=500000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/l0KlJn')
+                return True
 
             if message.text == '1 год - 9000р':
                 bot.send_message(message.chat.id,
@@ -173,6 +172,8 @@ class Command(BaseCommand):
                 #                  start_parameter='test', prices=[LabeledPrice(label='Working Time Machine', amount=900000)])
                 bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/NDNPR2')
 
+                return True
+
             if message.text == 'Подключение к сервису':
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
                 item2 = types.KeyboardButton("Оплата подключения к сервису")
@@ -182,6 +183,7 @@ class Command(BaseCommand):
                 markup.add(item2)
                 markup.add(item3)
                 bot.send_message(message.chat.id, 'Варианты оплаты ', reply_markup=markup)
+                return True
 
             if message.text == 'Ежемесячная абонентская плата':
                 markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -196,14 +198,38 @@ class Command(BaseCommand):
                 markup.add(item4)
                 markup.add(item5)
                 bot.send_message(message.chat.id, 'Варианты оплаты ', reply_markup=markup)
+                return True
 
             if message.text == 'Оплата подключения к сервису с промокодом':
                 bot.send_message(message.chat.id, 'Введите промокод учитывая регистр', reply_markup=markuponeper)
-
+                return True
             if message.text == 'Связаться с нами':
                 bot.send_message(message.chat.id,
                                  'Связаться с нами можно с помощью этого бота t.me/Comebackstarssupport_bot',
                                  reply_markup=markuponeper)
+                return True
+
+            if Promocodes.objects.filter(name=message.text.lower()).exists():
+                prom = Promocodes.objects.get(name=message.text.lower())
+                if prom.aktive:
+                    bot.send_message(message.chat.id,
+                                     'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
+                                     reply_markup=markuponeper)
+                    bot.send_message(message.chat.id,
+                                     'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
+                                     'Стабильно работает оплата через кошелек Юмани и SberPay. '
+                                     'Мы работаем над увеличением количества способов оплаты.')
+                    text = 'Ссылка на оплату: ' + prom.linkpay
+                    bot.send_message(message.chat.id, text)
+                else:
+                    bot.send_message(message.chat.id, 'Промокод не действителен', reply_markup=markuponeper)
+            else:
+                bot.send_message(message.chat.id, 'Такого промокода не существует', reply_markup=markuponeper)
+
+                # bot.send_invoice(chat_id=message.chat.id, title='Оплата2', description='Описание оплаты2',
+                #                  invoice_payload='papay2', provider_token=names.kassatoken, currency='RUB',
+                #                  start_parameter='test2', prices=[LabeledPrice(label='Working Time Machine2', amount=150000)])
+
 
         # Запускаем бота
         bot.polling(none_stop=True, interval=0)

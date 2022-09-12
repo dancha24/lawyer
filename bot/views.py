@@ -71,3 +71,16 @@ def promo_edit(request, promo_id):
     }
 
     return render(request, 'bot/promoadd.html', context)
+
+# Список всех промокодов
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
+def botset(request):
+    promokods = Promocodes.objects.select_related()
+    context = {
+        'titlepage': 'Все промокоды',
+        'for_table': promokods,
+        'menu': "poker",
+        'submenu': "promokods",
+    }
+
+    return render(request, 'bot/promokods_all.html', context)
