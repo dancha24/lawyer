@@ -55,7 +55,7 @@ def search_name(search):
 #     paytg = True
 
 # Создаем экземпляр бота
-bot = telebot.TeleBot('5794747089:AAEsaLZHK5ILp-Lgka5dpk9r_HB3Zoq_xMA')
+bot = telebot.TeleBot('5673950717:AAFxVZaURoUVMzkcO_YKrY_FygRiNKPtC3Y')
 paytok = '390540012:LIVE:26527'
 starttext = 'О нашей услуге: Приобретая наш продукт, вы получаете индивидуальный выделенный IP адрес, страны Казахстан, что подойдет для игры на PokerStars и других румах.'
 # if Botset.objects.get(pk=4).set == 'Да':
