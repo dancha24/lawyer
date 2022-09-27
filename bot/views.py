@@ -77,9 +77,9 @@ def promo_edit(request, promo_id):
 @permission_required('finansy.add_invoicespaids', raise_exception=True)
 def botset(request):
     botsets = Botset.objects.select_related()
-    if 'reloadbot' in request.POST and request.POST['reloadbot']:
-        call_command('bot')
-        return redirect('botset')
+    # if 'reloadbot' in request.POST and request.POST['reloadbot']:
+    #     call_command('bot')
+    #     return redirect('botset')
     context = {
         'titlepage': 'Все промокоды',
         'for_table': botsets,
