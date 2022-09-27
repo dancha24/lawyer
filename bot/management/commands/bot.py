@@ -31,7 +31,7 @@ def search_name_is(search):
 
 
 def search_name(search):
-    my_req = 'promo/search/name/' + str(search.lower())
+    my_req = 'promo/search/name/' + str(search)
     if req(my_req).status_code == 200:
         try:
             promo = req(my_req).json()['promo'][0]

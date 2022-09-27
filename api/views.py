@@ -7,6 +7,6 @@ from .serializers import PromoSerializer
 class PromoSearchByNameView(APIView):
 
     def get(self, request, search):
-        promo = Promocodes.objects.filter(name__iexact=str(search))
+        promo = Promocodes.objects.filter(name=str(search.lower()))
         serializer = PromoSerializer(promo, many=True)
         return Response({"promo": serializer.data})
