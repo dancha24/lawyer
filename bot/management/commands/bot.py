@@ -1,14 +1,9 @@
 import telebot
 from telebot import types
-from bot import names
-from telebot.types import LabeledPrice, PreCheckoutQuery
-from bot.models import Botset
-from django.core.management.base import BaseCommand
 import requests
-from bot.models import Promocodes
 
 
-def text(promo):
+def textgo(promo):
     texts = 'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie\n'
     texts += 'По независящим от нас причинам, при оплате картами банка происходит ошибка. \n'
     texts += 'Стабильно работает оплата через кошелек Юмани и SberPay. \n'
@@ -17,7 +12,7 @@ def text(promo):
     return texts
 
 def req(my_req):
-    server = 'http://blacklist42.ru/api/'
+    server = 'https://кабинет.методика1.рф/api/'
     # server = 'http://127.0.0.1:8000/api/'
     return requests.get(server + my_req)
 
@@ -25,9 +20,16 @@ def req(my_req):
 def search_name_is(search):
     my_req = 'promo/search/name/' + str(search.lower())
     if req(my_req).status_code == 200:
-        return True
+        try:
+            promo = req(my_req).json()['promo'][0]
+            if promo['aktive']:
+                return 'aktive'
+            else:
+                return 'notaktive'
+        except:
+            return 'none'
     else:
-        return False
+        return 'none'
 
 
 def search_name(search):
@@ -36,30 +38,11 @@ def search_name(search):
         try:
             promo = req(my_req).json()['promo'][0]
         except:
-            return 'Не найдено'
+            return False
         else:
-            if promo['aktive']:
-                return text(promo)
-            else:
-                return 'Промокод не действителен'
+            return promo
     else:
-        return 'Не найдено'
-
-
-def search_name_link(search):
-    my_req = 'promo/search/name/' + str(search.lower())
-    if req(my_req).status_code == 200:
-        try:
-            promo = req(my_req).json()['promo'][0]
-        except:
-            return 'Не найдено'
-        else:
-            if promo['aktive']:
-                return text(promo)
-            else:
-                return 'Промокод не действителен'
-    else:
-        return 'Не найдено'
+        return False
 
 
 # Создаем экземпляр бота
@@ -72,7 +55,7 @@ def search_name_link(search):
 #     paytg = True
 
 # Создаем экземпляр бота
-bot = telebot.TeleBot('5673950717:AAHouTFraLdFFYbV4aPrpoCbYPAMGdITRr0')
+bot = telebot.TeleBot('5794747089:AAEsaLZHK5ILp-Lgka5dpk9r_HB3Zoq_xMA')
 paytok = '390540012:LIVE:26527'
 starttext = 'О нашей услуге: Приобретая наш продукт, вы получаете индивидуальный выделенный IP адрес, страны Казахстан, что подойдет для игры на PokerStars и других румах.'
 # if Botset.objects.get(pk=4).set == 'Да':
@@ -83,8 +66,6 @@ starttext = 'О нашей услуге: Приобретая наш проду�
 markuponeper = types.ReplyKeyboardMarkup(resize_keyboard=True)
 item1 = types.KeyboardButton("В начало")
 markuponeper.add(item1)
-
-markuponeper = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 
 # Получение сообщений от юзера
@@ -250,7 +231,7 @@ def handle_text(message):
         return True
 
     if message.text == 'Оплата подключения к сервису с промокодом':
-        bot.send_message(message.chat.id, 'Введите промокод учитывая регистр', reply_markup=markuponeper)
+        bot.send_message(message.chat.id, 'Введите промокод', reply_markup=markuponeper)
         return True
     if message.text == 'Связаться с нами':
         bot.send_message(message.chat.id,
@@ -258,18 +239,9 @@ def handle_text(message):
                          reply_markup=markuponeper)
         return True
 
-    if search_name(message.text):
-        prom = Promocodes.objects.get(name=message.text.lower())
-        if prom.aktive:
-            bot.send_message(message.chat.id,
-                             'Оплачива вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
-                             reply_markup=markuponeper)
-            bot.send_message(message.chat.id,
-                             'По независящим от нас причинам, при оплате картами банка происходит ошибка. '
-                             'Стабильно работает оплата через кошелек Юмани и SberPay. '
-                             'Мы работаем над увеличением количества способов оплаты.')
-            text = 'Ссылка на оплату: ' + prom.linkpay
-            bot.send_message(message.chat.id, text)
+    if search_name_is(message.text) != 'none':
+        if search_name_is(message.text) == 'aktive':
+            bot.send_message(message.chat.id, textgo(search_name(message.text)), reply_markup=markuponeper)
         else:
             bot.send_message(message.chat.id, 'Промокод не действителен', reply_markup=markuponeper)
     else:
