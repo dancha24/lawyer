@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'index',
     'settings',
     'bot',
+    'api',
 ]
 
 MIDDLEWARE = [
