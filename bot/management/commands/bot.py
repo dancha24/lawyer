@@ -150,7 +150,7 @@ def handle_text(message):
         bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/meMJlG')
         return True
 
-    if message.text == '1 месяц - 1000р':
+    if message.text == '1 месяц - 1500р':
         bot.send_message(message.chat.id,
                          'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                          reply_markup=markuponeper)
@@ -160,7 +160,7 @@ def handle_text(message):
         bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/zaOYA5')
         return True
 
-    if message.text == '3 месяца - 2700р':
+    if message.text == '3 месяца - 4000р':
         bot.send_message(message.chat.id,
                          'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                          reply_markup=markuponeper)
@@ -175,7 +175,7 @@ def handle_text(message):
 
         return True
 
-    if message.text == '6 месяцев - 5000р':
+    if message.text == '6 месяцев - 7000р':
         bot.send_message(message.chat.id,
                          'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                          reply_markup=markuponeper)
@@ -189,7 +189,7 @@ def handle_text(message):
         bot.send_message(message.chat.id, 'Ссылка на оплату: https://inlnk.ru/l0KlJn')
         return True
 
-    if message.text == '1 год - 9000р':
+    if message.text == '1 год - 12000р':
         bot.send_message(message.chat.id,
                          'Оплачивая вы соглашаетесь с условием использовния https://xn--b1aaeeocmc7adp0a2e.xn--p1ai/ispolsovanie',
                          reply_markup=markuponeper)
@@ -217,10 +217,10 @@ def handle_text(message):
 
     if message.text == 'Ежемесячная абонентская плата':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        item1 = types.KeyboardButton("1 месяц - 1000р")
-        item2 = types.KeyboardButton("3 месяца - 2700р")
-        item3 = types.KeyboardButton("6 месяцев - 5000р")
-        item4 = types.KeyboardButton("1 год - 9000р")
+        item1 = types.KeyboardButton("1 месяц - 1500р")
+        item2 = types.KeyboardButton("3 месяца - 400р")
+        item3 = types.KeyboardButton("6 месяцев - 7000р")
+        item4 = types.KeyboardButton("1 год - 12000р")
         item5 = types.KeyboardButton("В начало")
         markup.add(item1)
         markup.add(item2)
