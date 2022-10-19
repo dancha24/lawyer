@@ -218,7 +218,7 @@ def handle_text(message):
     if message.text == 'Ежемесячная абонентская плата':
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         item1 = types.KeyboardButton("1 месяц - 1500р")
-        item2 = types.KeyboardButton("3 месяца - 400р")
+        item2 = types.KeyboardButton("3 месяца - 4000р")
         item3 = types.KeyboardButton("6 месяцев - 7000р")
         item4 = types.KeyboardButton("1 год - 12000р")
         item5 = types.KeyboardButton("В начало")
