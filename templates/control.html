@@ -128,6 +128,11 @@
                         <li>{% endif %}
                     <a href="{% url 'botset' %}"><span>Настройки бота</span></a></li>
 
+                    {% if submenu == 'gendokaren' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'gendokaren' %}"><span>Настройки бота</span></a></li>
+
 
 
                 </ul>

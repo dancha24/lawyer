@@ -13,6 +13,7 @@ from django.shortcuts import render
 from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from bot.models import Promocodes, Botset
+from bot import defs
 
 
 # Список всех промокодов
@@ -111,4 +112,38 @@ def set_edit(request, set_id):
         'next': False,
     }
 
+    return render(request, 'bot/promoadd.html', context)
+
+
+# Добавление Промокода
+@permission_required('affairs.add_affairs', raise_exception=True)
+def gendokaren(request):
+    if request.method == "POST":
+        form = forms.GendocDorm(request.POST)
+        if form.is_valid():
+            gen = {
+                'surnameadt': request.POST['surnameadt'],
+                'nameadt': request.POST['nameadt'],
+                'patronymicadt': request.POST['patronymicadt'],
+                'datadradt': request.POST['datadradt'],
+                'passeradt': request.POST['passeradt'],
+                'pasnoadt': request.POST['pasnoadt'],
+                'pasvidanadt': request.POST['pasvidanadt'],
+                'pascodpadt': request.POST['pascodpadt'],
+                'pasdataadt': request.POST['pasdataadt'],
+                'propiskaadt': request.POST['propiskaadt'],
+                'adress': request.POST['adress'],
+                'city': request.POST['city'],
+            }
+            return defs.gen_dog(gen)
+    else:
+        form = forms.GendocDorm()
+
+    context = {
+        'menu': 'poker',
+        'submenu': 'gendokaren',
+        'form': form,
+        'titlepage': 'Добавление договора и справки по покеру',
+        'next': False,
+    }
     return render(request, 'bot/promoadd.html', context)
