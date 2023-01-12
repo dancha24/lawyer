@@ -116,7 +116,6 @@ def set_edit(request, set_id):
 
 
 # Добавление Промокода
-@permission_required('affairs.add_affairs', raise_exception=True)
 def gendokaren(request):
     if request.method == "POST":
         form = forms.GendocDorm(request.POST)
