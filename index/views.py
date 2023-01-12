@@ -26,7 +26,7 @@ def overview(request):
 
 def login(request):
     if request.user.is_authenticated:
-        return redirect('control_overview')
+        return redirect('overview')
     context = {
         'titlepage': 'Вход',
     }
