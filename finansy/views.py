@@ -166,6 +166,7 @@ def spending_edit(request, spending_id):
     return render(request, 'finansy/add_spending.html', context)
 
 
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
 def finansy_today_date(request, y=timezone.datetime.now().year, m=timezone.datetime.now().month,
                        d=timezone.datetime.now().day):
     date = str(y) + '-' + str(m) + '-' + str(d)
@@ -223,6 +224,7 @@ def finansy_today_date(request, y=timezone.datetime.now().year, m=timezone.datet
     return render(request, 'finansy/receiptspending_all.html', context)
 
 
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
 def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.datetime.now().month,
                          d=timezone.datetime.now().day, y2=timezone.datetime.now().year,
                          m2=timezone.datetime.now().month,
@@ -298,6 +300,7 @@ def finansy_today_period(request, y=timezone.datetime.now().year, m=timezone.dat
     return render(request, 'finansy/receiptspending_period.html', context)
 
 
+@permission_required('finansy.add_invoicespaids', raise_exception=True)
 def dealreports(request, y=timezone.datetime.now().year, m=timezone.datetime.now().month,
                 d=timezone.datetime.now().day, y2=timezone.datetime.now().year, m2=timezone.datetime.now().month,
                 d2=timezone.datetime.now().day, ):
