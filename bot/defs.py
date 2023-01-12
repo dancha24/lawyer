@@ -67,4 +67,5 @@ def gen_dog(gen):
     doc = DocxTemplate("static/DocTemp/Шаблон аренды Квартиры.docx")  # Подгрузка шаблона Договора
     doc.render(context)
     doc.save("static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
-    return redirect("/static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
+    redirect("/static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
+    redirect("/static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
