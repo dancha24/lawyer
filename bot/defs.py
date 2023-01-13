@@ -5,10 +5,31 @@ import requests
 from django.shortcuts import redirect
 
 
-def namesand(x):
+def namesand(pol, x):
     otvet = requests.post("https://randomall.ru/api/gens/5437").json()['msg']
     name = str(otvet).replace('.', '').replace('(Женское) ', '').replace(';', '').replace('(Мужское) ', '')
-    return name.split('\n')[random.randint(0, 1)].split(' ')[x]
+    return name.split('\n')[pol].split(' ')[x]
+
+
+def iingen(dr, pol):
+    sryaz = 0
+    peyaz = dr.strftime('%Y')[2:4] + dr.strftime('%m') + dr.strftime('%d')
+    if int(dr.year) < 1900:  # родившихся в XIX веке
+        if pol == 0:  # Мужчины
+            sryaz = 1
+        else:
+            sryaz = 2
+    if 2000 > int(dr.year) > 1900:  # родившихся в XX веке
+        if pol == 0:  # Мужчины
+            sryaz = 3
+        else:
+            sryaz = 4
+    if int(dr.year) > 2000:  # родившихся в XXI веке
+        if pol == 0:  # Мужчины
+            sryaz = 5
+        else:
+            sryaz = 6
+    return peyaz + str(sryaz) + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
 
 
 def gen_dog(gen):
@@ -16,10 +37,12 @@ def gen_dog(gen):
     datain = datetime.now() - timedelta(days=random.randint(20, 60))
     dataout = datain.strftime('%d') + '.12.' + datain.strftime('%Y')
 
-    surnameadd = namesand(1)
-    nameadd = namesand(0)
+    pols = random.randint(0, 1)
+    surnameadd = namesand(pols, 1)
+    nameadd = namesand(pols, 0)
     datadradd = datetime.now() - timedelta(days=random.randint(12053, 19358))
-    iinadd = datadradd.strftime('%Y')[2:4] + datadradd.strftime('%m') + datadradd.strftime('%d') + '3' + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
+
+    iinadd = iingen(datadradd, pols)
 
     surnameadt = gen['surnameadt']
     nameadt = gen['nameadt']
