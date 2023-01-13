@@ -58,7 +58,8 @@ class GendocDorm(forms.Form):
         self.fields['surnameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['nameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['patronymicadt'].widget.attrs.update({'class': 'form-control'})
-        self.fields['datadradt'].widget.attrs.update({'class': 'mask-date form-control'})
+        self.fields['datadradt'].widget.attrs.update(
+            {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         self.fields['passeradt'].widget.attrs.update({'class': 'form-control'})
         self.fields['pasnoadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['pasvidanadt'].widget.attrs.update({'class': 'form-control'})
