@@ -100,7 +100,7 @@ def gen_dog(gen):
 
 
 def gen_sprav(gen):
-    datain = datetime.now() - timedelta(days=random.randint(5, 10))
+    datain = datetime.now() - timedelta(days=random.randint(2, 5))
 
     surnameadt = gen['surnameadt']
     nameadt = gen['nameadt']
