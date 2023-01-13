@@ -48,7 +48,7 @@ class GendocDorm(forms.Form):
     city = forms.CharField(label='Город')
     pol = forms.ChoiceField(
         required=True,
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.Select,
         choices=POLS,
         label='Пол арендатора'
     )
