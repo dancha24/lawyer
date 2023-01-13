@@ -11,6 +11,12 @@ def namesand(pol, x):
     return name.split('\n')[pol].split(' ')[x]
 
 
+def strmonthrod(month):
+    mon = ['0', 'Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня',
+           'Июля', 'Августа', 'Сентября', 'Октября', 'Ноября', 'Декабря', ]
+    return mon[month]
+
+
 def iingen(dr, pol):
     sryaz = 0
     peyaz = dr.strftime('%Y')[2:4] + dr.strftime('%m') + dr.strftime('%d')
@@ -89,5 +95,43 @@ def gen_dog(gen):
     # Генерация документов по варианту документа
     doc = DocxTemplate("static/DocTemp/Шаблон аренды Квартиры.docx")  # Подгрузка шаблона Договора
     doc.render(context)
-    doc.save("static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
-    return redirect("/static/DocEx/Аренды Квартиры" + surnameadd + ".docx")
+    doc.save("static/DocEx/Аренды Квартиры " + surnameadt + ".docx")
+    return redirect("/static/DocEx/Аренды Квартиры " + surnameadt + ".docx")
+
+
+def gen_sprav(gen):
+    datain = datetime.now() - timedelta(days=random.randint(5, 10))
+
+    surnameadt = gen['surnameadt']
+    nameadt = gen['nameadt']
+    patronymicadt = gen['patronymicadt']
+    datadradt = gen['datadradt']
+    pols = 0
+
+    iinadd = iingen(datetime.strptime(datadradt, '%d.%m.%Y'), pols)
+
+    adress = gen['adress']
+    noschet = str(random.randint(10000, 80000))
+    nosprav = str(random.randint(1000, 5000))
+
+    context = {
+        'd': datain.strftime('%d'),
+        'monthrod': strmonthrod(datain.month),
+        'y': datain.year,
+
+        'iinadd': iinadd,
+
+        'surnameadt': surnameadt,
+        'nameadt': nameadt,
+        'patronymicadt': patronymicadt,
+        'noschet': noschet,
+        'nosprav': nosprav,
+
+        'adress': adress,
+    }
+
+    # Генерация документов по варианту документа
+    doc = DocxTemplate("static/DocTemp/Шаблон каспи.docx")  # Подгрузка шаблона Договора
+    doc.render(context)
+    doc.save("static/DocEx/Готовая справка каспи " + surnameadt + ".docx")
+    return redirect("/static/DocEx/Готовая справка каспи " + surnameadt + ".docx")

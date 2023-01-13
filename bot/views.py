@@ -135,7 +135,10 @@ def gendokaren(request):
                 'adress': request.POST['adress'],
                 'city': request.POST['city'],
             }
-            return defs.gen_dog(gen)
+            if 'dog' in request.POST and request.POST['dog']:
+                return defs.gen_dog(gen)
+            if 'sprav' in request.POST and request.POST['sprav']:
+                return defs.gen_sprav(gen)
     else:
         form = forms.GendocDorm()
 
@@ -146,4 +149,4 @@ def gendokaren(request):
         'titlepage': 'Добавление договора и справки по покеру',
         'next': False,
     }
-    return render(request, 'bot/promoadd.html', context)
+    return render(request, 'bot/gendoc.html', context)
