@@ -113,8 +113,10 @@ def gen_sprav(gen):
     adress = gen['adress']
     noschet = str(random.randint(10000, 80000))
     nosprav = str(random.randint(1000, 5000))
+    nork = str(random.randint(1000, 5000))
 
     context = {
+        'prover': pols,
         'd': datain.strftime('%d'),
         'monthrod': strmonthrod(datain.month),
         'y': datain.year,
@@ -126,6 +128,7 @@ def gen_sprav(gen):
         'patronymicadt': patronymicadt,
         'noschet': noschet,
         'nosprav': nosprav,
+        'nork': nork,
 
         'adress': adress,
     }
