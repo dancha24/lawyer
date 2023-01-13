@@ -106,7 +106,7 @@ def gen_sprav(gen):
     nameadt = gen['nameadt']
     patronymicadt = gen['patronymicadt']
     datadradt = gen['datadradt']
-    pols = gen['pol']
+    pols = int(gen['pol'])
 
     iinadd = iingen(datetime.strptime(datadradt, '%d.%m.%Y'), pols)
 
