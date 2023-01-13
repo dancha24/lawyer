@@ -38,8 +38,20 @@ class SetEditForm(forms.ModelForm):
         self.fields['set'].widget.attrs.update({'class': 'form-control'})
 
 
+POLS = [
+    ('Мужской', '0'),
+    ('Женский', '1'),
+]
+
+
 class GendocDorm(forms.Form):
     city = forms.CharField(label='Город')
+    pol = forms.MultipleChoiceField(
+        required=True,
+        widget=forms.CheckboxSelectMultiple,
+        choices=POLS,
+        label='Пол арендатора'
+    )
     surnameadt = forms.CharField(label='Фамилия арендатора')
     nameadt = forms.CharField(label='Имя арендатора')
     patronymicadt = forms.CharField(label='Отчество арендатора')
@@ -55,6 +67,7 @@ class GendocDorm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(GendocDorm, self).__init__(*args, **kwargs)
         self.fields['city'].widget.attrs.update({'class': 'form-control'})
+        self.fields['pol'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['surnameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['nameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['patronymicadt'].widget.attrs.update({'class': 'form-control'})

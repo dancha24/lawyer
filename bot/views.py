@@ -134,6 +134,7 @@ def gendokaren(request):
                 'propiskaadt': request.POST['propiskaadt'],
                 'adress': request.POST['adress'],
                 'city': request.POST['city'],
+                'pol': request.POST['pol'],
             }
             if 'dog' in request.POST and request.POST['dog']:
                 return defs.gen_dog(gen)
