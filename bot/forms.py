@@ -67,7 +67,7 @@ class GendocDorm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(GendocDorm, self).__init__(*args, **kwargs)
         self.fields['city'].widget.attrs.update({'class': 'form-control'})
-        self.fields['pol'].widget.attrs.update({'class': 'form-control select2_1'})
+        # self.fields['pol'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['surnameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['nameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['patronymicadt'].widget.attrs.update({'class': 'form-control'})
