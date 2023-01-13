@@ -39,14 +39,14 @@ class SetEditForm(forms.ModelForm):
 
 
 POLS = [
-    ('Мужской', '0'),
-    ('Женский', '1'),
+    ('0', 'Мужской'),
+    ('1', 'Женский'),
 ]
 
 
 class GendocDorm(forms.Form):
     city = forms.CharField(label='Город')
-    pol = forms.MultipleChoiceField(
+    pol = forms.ChoiceField(
         required=True,
         widget=forms.CheckboxSelectMultiple,
         choices=POLS,
