@@ -46,12 +46,6 @@ POLS = [
 
 class GendocDorm(forms.Form):
     city = forms.CharField(label='Город')
-    pol = forms.ChoiceField(
-        required=True,
-        widget=forms.Select,
-        choices=POLS,
-        label='Пол арендатора'
-    )
     surnameadt = forms.CharField(label='Фамилия арендатора')
     nameadt = forms.CharField(label='Имя арендатора')
     patronymicadt = forms.CharField(label='Отчество арендатора')
@@ -67,7 +61,6 @@ class GendocDorm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(GendocDorm, self).__init__(*args, **kwargs)
         self.fields['city'].widget.attrs.update({'class': 'form-control'})
-        self.fields['pol'].widget.attrs.update({'class': 'form-control select2_1'})
         self.fields['surnameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['nameadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['patronymicadt'].widget.attrs.update({'class': 'form-control'})
@@ -80,4 +73,30 @@ class GendocDorm(forms.Form):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
         self.fields['pascodpadt'].widget.attrs.update({'class': 'form-control'})
         self.fields['propiskaadt'].widget.attrs.update({'class': 'form-control'})
+        self.fields['adress'].widget.attrs.update({'class': 'form-control'})
+
+
+class GenSpravDorm(forms.Form):
+    pol = forms.ChoiceField(
+        required=True,
+        widget=forms.Select,
+        choices=POLS,
+        label='Пол арендатора'
+    )
+    surnameadt = forms.CharField(label='Фамилия арендатора')
+    nameadt = forms.CharField(label='Имя арендатора')
+    patronymicadt = forms.CharField(label='Отчество арендатора')
+    datadradt = forms.CharField(label='Дата рождения арендатора')
+    allpas = forms.CharField(label='Полная информация о паспорте')
+    adress = forms.CharField(label='Адрес')
+
+    def __init__(self, *args, **kwargs):
+        super(GenSpravDorm, self).__init__(*args, **kwargs)
+        self.fields['pol'].widget.attrs.update({'class': 'form-control select2_1'})
+        self.fields['surnameadt'].widget.attrs.update({'class': 'form-control'})
+        self.fields['nameadt'].widget.attrs.update({'class': 'form-control'})
+        self.fields['patronymicadt'].widget.attrs.update({'class': 'form-control'})
+        self.fields['datadradt'].widget.attrs.update(
+            {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
+        self.fields['allpas'].widget.attrs.update({'class': 'form-control'})
         self.fields['adress'].widget.attrs.update({'class': 'form-control'})

@@ -131,7 +131,12 @@
                     {% if submenu == 'gendokaren' %}
                         <li class="current">{% else %}
                         <li>{% endif %}
-                    <a href="{% url 'gendokaren' %}"><span>Генерация договора</span></a></li>
+                    <a href="{% url 'gendokaren' %}"><span>Договор аренды</span></a></li>
+
+                    {% if submenu == 'gensprav' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'gensprav' %}"><span>Справка каспи</span></a></li>
 
 
 

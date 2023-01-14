@@ -8,5 +8,6 @@ urlpatterns = [
     path('botset/', views.botset, name='botset'),
     path('botset/edit/<set_id>', views.set_edit, name='set_edit'),
     path('gendokaren', views.gendokaren, name='gendokaren'),
+    path('gensprav', views.gensprav, name='gensprav'),
     # path('botset/reload', views.botreload, name='botreload'),
     ]

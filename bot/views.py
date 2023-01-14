@@ -115,7 +115,7 @@ def set_edit(request, set_id):
     return render(request, 'bot/promoadd.html', context)
 
 
-# Добавление Промокода
+# Генерация договора аренды жилья
 @permission_required('bot.view_botset', raise_exception=True)  # Проверка прав
 def gendokaren(request):
     if request.method == "POST":
@@ -134,12 +134,8 @@ def gendokaren(request):
                 'propiskaadt': request.POST['propiskaadt'],
                 'adress': request.POST['adress'],
                 'city': request.POST['city'],
-                'pol': request.POST['pol'],
             }
-            if 'dog' in request.POST and request.POST['dog']:
-                return defs.gen_dog(gen)
-            if 'sprav' in request.POST and request.POST['sprav']:
-                return defs.gen_sprav(gen)
+            return defs.gen_dog(gen)
     else:
         form = forms.GendocDorm()
 
@@ -147,7 +143,36 @@ def gendokaren(request):
         'menu': 'poker',
         'submenu': 'gendokaren',
         'form': form,
-        'titlepage': 'Добавление договора и справки по покеру',
+        'titlepage': 'Добавление договора по покеру',
+        'next': False,
+    }
+    return render(request, 'bot/gendoc.html', context)
+
+
+# Генерация справки
+@permission_required('bot.view_botset', raise_exception=True)  # Проверка прав
+def gensprav(request):
+    if request.method == "POST":
+        form = forms.GenSpravDorm(request.POST)
+        if form.is_valid():
+            gen = {
+                'surnameadt': request.POST['surnameadt'],
+                'nameadt': request.POST['nameadt'],
+                'patronymicadt': request.POST['patronymicadt'],
+                'datadradt': request.POST['datadradt'],
+                'allpas': request.POST['allpas'],
+                'adress': request.POST['adress'],
+                'pol': request.POST['pol'],
+            }
+            return defs.gen_sprav(gen)
+    else:
+        form = forms.GenSpravDorm()
+
+    context = {
+        'menu': 'poker',
+        'submenu': 'gensprav',
+        'form': form,
+        'titlepage': 'Добавление справки по покеру',
         'next': False,
     }
     return render(request, 'bot/gendoc.html', context)
