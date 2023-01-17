@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>{% if titlepage %}{{ titlepage }}{% else %}{{ 'Без названия' }}{% endif %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/static/favicon.ico">
+    {#    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"#}
+    {#          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">#}
+    <!-- Main Styles -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/styles/style.min.css" %}">
+    <link rel="stylesheet" href="{% static "styles.css" %}">
+
+    <!-- Material Design Icon -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/fonts/material-design/css/materialdesignicons.css" %}">
+
+    <!-- mCustomScrollbar -->
+    <link rel="stylesheet"
+          href="{% static "darkadmin/assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.min.css" %}">
+
+    <!-- Waves Effect -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/waves/waves.min.css" %}">
+
+    <!-- Sweet Alert -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/sweet-alert/sweetalert.css" %}">
+
+    <!-- Percent Circle -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/percircle/css/percircle.css" %}">
+
+    <!-- Chartist Chart -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/chart/chartist/chartist.min.css" %}">
+
+    <!-- FlexDatalist -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/flexdatalist/jquery.flexdatalist.min.css" %}">
+
+    <!-- Popover -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/popover/jquery.popSelect.min.css" %}">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/select2/css/select2.min.css" %}">
+
+    <!-- Timepicker -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/timepicker/bootstrap-timepicker.min.css" %}">
+
+    <!-- Touch Spin -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/touchspin/jquery.bootstrap-touchspin.min.css" %}">
+
+    <!-- Colorpicker -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/colorpicker/css/bootstrap-colorpicker.min.css" %}">
+
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/datepicker/css/bootstrap-datepicker.min.css" %}">
+
+    <!-- Dropify -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/dropify/css/dropify.min.css" %}">
+
+    <!-- DateRangepicker -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/daterangepicker/daterangepicker.css" %}">
+
+    <!-- FullCalendar -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/fullcalendar/fullcalendar.min.css" %}">
+    <link rel="stylesheet" href="{% static "darkadmin/assets/plugin/fullcalendar/fullcalendar.print.css" %}"
+          media='print'>
+
+    <!-- Dark Themes -->
+    <link rel="stylesheet" href="{% static "darkadmin/assets/styles/style-dark.min.css" %}">
+
+    <!-- Data Tables -->
+    <link rel="stylesheet"
+          href="{% static "darkadmin/assets/plugin/datatables/media/css/dataTables.bootstrap.min.css" %}">
+    <link rel="stylesheet"
+          href="{% static "darkadmin/assets/plugin/datatables/extensions/Responsive/css/responsive.bootstrap.min.css" %}">
+    {% block head %} {% endblock %}
+</head>
+
+<body>
+<div id="wrapper">
+    <div class="main-content">
+        {% block content %} {% endblock %}
+    </div>
+    <!-- /.main-content -->
+</div><!--/#wrapper -->
+
+
+{% block modal %}{% endblock %}
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+		<script src="{% static "darkadmin/assets/script/html5shiv.min.js" %}"></script>
+		<script src="{% static "darkadmin/assets/script/respond.min.js" %}"></script>
+	<![endif]-->
+<!--
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static "darkadmin/assets/scripts/jquery.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/modernizr.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/bootstrap/js/bootstrap.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/nprogress/nprogress.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/sweet-alert/sweetalert.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/waves/waves.min.js" %}"></script>
+
+
+<script src="{% static "darkadmin/assets/scripts/sweetalert.init.js" %}"></script>
+
+<!-- Data Tables -->
+<script src="{% static "darkadmin/assets/plugin/datatables/media/js/jquery.dataTables.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/datatables/media/js/dataTables.bootstrap.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/datatables/extensions/Responsive/js/dataTables.responsive.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/datatables/extensions/Responsive/js/responsive.bootstrap.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/datatables.demo.js" %}"></script>
+
+<!-- Google Chart -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<!-- chart.js Chart -->
+<script src="{% static "darkadmin/assets/plugin/chart/chartjs/Chart.bundle.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/chart.chartjs.init.min.js" %}"></script>
+
+<!-- FullCalendar -->
+<script src="{% static "darkadmin/assets/plugin/moment/moment.js" %}"></script>
+<script src="{% static "darkadmin/assets/plugin/fullcalendar/fullcalendar.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/fullcalendar.init.js" %}"></script>
+
+<!-- Sparkline Chart -->
+<script src="{% static "darkadmin/assets/plugin/chart/sparkline/jquery.sparkline.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/chart.sparkline.init.min.js" %}"></script>
+{##}
+<script src="{% static "darkadmin/assets/scripts/main.min.js" %}"></script>
+
+<!-- Flex Datalist -->
+<script src="{% static "darkadmin/assets/plugin/flexdatalist/jquery.flexdatalist.min.js" %}"></script>
+
+<!-- Popover -->
+<script src="{% static "darkadmin/assets/plugin/popover/jquery.popSelect.min.js" %}"></script>
+
+<!-- Multi Select -->
+<script src="{% static "darkadmin/assets/plugin/multiselect/multiselect.min.js" %}"></script>
+
+<!-- Touch Spin -->
+<script src="{% static "darkadmin/assets/plugin/touchspin/jquery.bootstrap-touchspin.min.js" %}"></script>
+
+<!-- Timepicker -->
+<script src="{% static "darkadmin/assets/plugin/timepicker/bootstrap-timepicker.min.js" %}"></script>
+
+<!-- Colorpicker -->
+<script src="{% static "darkadmin/assets/plugin/colorpicker/js/bootstrap-colorpicker.min.js" %}"></script>
+
+<!-- Datepicker -->
+<script src="{% static "darkadmin/assets/plugin/datepicker/js/bootstrap-datepicker.js" %}"></script>
+
+<!-- Moment -->
+<script src="{% static "darkadmin/assets/plugin/moment/moment.js" %}"></script>
+
+<!-- DateRangepicker -->
+<script src="{% static "darkadmin/assets/plugin/daterangepicker/daterangepicker.js" %}"></script>
+
+<!-- Maxlength -->
+<script src="{% static "darkadmin/assets/plugin/maxlength/bootstrap-maxlength.min.js" %}"></script>
+
+<!-- Макски -->
+<script src="{% static "myplug/mask/jquery.maskedinput.min.js" %}"></script>
+<script src="{% static "myplug/mask/mymask.js" %}"></script>
+
+<!-- Dropify -->
+<script src="{% static "darkadmin/assets/plugin/dropify/js/dropify.min.js" %}"></script>
+<script src="{% static "darkadmin/assets/scripts/fileUpload.demo.min.js" %}"></script>
+
+<!-- Jquery UI -->
+{#<script src="{% static "darkadmin/assets/plugin/jquery-ui/jquery-ui.min.js" %}"></script>#}
+{#<script src="{% static "darkadmin/assets/plugin/jquery-ui/jquery.ui.touch-punch.min.js" %}"></script>#}
+
+<!-- Select2 -->
+<script src="{% static "darkadmin/assets/plugin/select2/js/select2.min.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+<script type="text/javascript">
+    $(".search").chosen({search_contains: true});
+</script>
+
+<!-- Demo Scripts -->
+<script src="{% static "darkadmin/assets/scripts/form.demo.js" %}"></script>
+{% block script %} {% endblock %}
+</body>
+</html>
