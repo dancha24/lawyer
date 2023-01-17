@@ -4,16 +4,16 @@
     }
 @media screen and (max-width: 645px) {
      .fortablechart {
-        font-size: 10px;
+        font-size: 8px;
     }
    }
 @media screen and (max-width: 486px) {
      .fortablechart {
-        font-size: 8px;
+        font-size: 6px;
     }
    }
 @media screen and (max-width: 403px) {
      .fortablechart {
-        font-size: 6px;
+        font-size: 4px;
     }
    }
