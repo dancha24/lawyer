@@ -14,6 +14,9 @@
    }
 @media screen and (max-width: 403px) {
      .fortablechart {
-        font-size: 4px;
+        font-size: 3px;
     }
    }
+.tab-content {
+    padding: 5px !important;
+}
