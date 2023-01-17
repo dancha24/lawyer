@@ -138,6 +138,11 @@
                         <li>{% endif %}
                     <a href="{% url 'gensprav' %}"><span>Справка каспи</span></a></li>
 
+                    {% if submenu == 'charts' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'charts' %}"><span>Чарты</span></a></li>
+
 
 
                 </ul>

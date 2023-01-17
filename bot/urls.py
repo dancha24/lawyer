@@ -9,5 +9,6 @@ urlpatterns = [
     path('botset/edit/<set_id>', views.set_edit, name='set_edit'),
     path('gendokaren', views.gendokaren, name='gendokaren'),
     path('gensprav', views.gensprav, name='gensprav'),
+    path('charts', views.charts, name='charts'),
     # path('botset/reload', views.botreload, name='botreload'),
     ]

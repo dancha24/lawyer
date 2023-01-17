@@ -176,3 +176,13 @@ def gensprav(request):
         'next': False,
     }
     return render(request, 'bot/gendoc.html', context)
+
+
+# Чарты
+def charts(request):
+    context = {
+        'menu': 'poker',
+        'submenu': 'charts',
+        'titlepage': 'Чарты',
+    }
+    return render(request, 'bot/charts.html', context)
