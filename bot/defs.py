@@ -38,9 +38,18 @@ def iingen(dr, pol):
     return peyaz + str(sryaz) + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
 
 
+def dataingen(x, y):
+    weekday = 6
+    dataa = datetime.now()
+    while weekday == 6 or weekday == 5:
+        dataa = datetime.now() - timedelta(days=random.randint(x, y))
+        weekday = dataa.weekday()
+    return dataa
+
+
 def gen_dog(gen):
     city = gen['city']
-    datain = datetime.now() - timedelta(days=random.randint(20, 60))
+    datain = dataingen(20, 60)
     dataout = datain.strftime('%d') + '.12.' + datain.strftime('%Y')
 
     pols = random.randint(0, 1)
@@ -100,7 +109,7 @@ def gen_dog(gen):
 
 
 def gen_sprav(gen):
-    datain = datetime.now() - timedelta(days=random.randint(2, 5))
+    datain = dataingen(2, 5)
 
     surnameadt = gen['surnameadt']
     nameadt = gen['nameadt']
