@@ -1,4 +1,19 @@
 .fortablechart {
-        vertical-align: middle;
+        vertical-align: middle !important;
         padding: 2px !important;
     }
+@media screen and (max-width: 645px) {
+     .fortablechart {
+        font-size: 10px;
+    }
+   }
+@media screen and (max-width: 486px) {
+     .fortablechart {
+        font-size: 8px;
+    }
+   }
+@media screen and (max-width: 403px) {
+     .fortablechart {
+        font-size: 6px;
+    }
+   }
