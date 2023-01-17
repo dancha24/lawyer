@@ -20,9 +20,16 @@ class Customers(models.Model):
         (URFACE, 'Юридическое лицо'),
         (FIZFACE, 'Физическое лицо'),
     )
+    MAN = 'UR'
+    WMAN = 'FI'
+    POL = (
+        (MAN, 'Мужской'),
+        (WMAN, 'Женский'),
+    )
     type = models.CharField(max_length=2, choices=FACE, default=FIZFACE, verbose_name='Тип')
     name = models.CharField(max_length=200, verbose_name='Имя')
     surname = models.CharField(max_length=200, verbose_name='Фамилия')
+    pol = models.CharField(max_length=2, choices=POL, verbose_name='Пол', blank=True, null=True)
     patronymic = models.CharField(max_length=200, verbose_name='Отчество')
     dr = models.DateField(verbose_name='День рождения', blank=True, null=True)
     pasno = models.CharField(max_length=200, verbose_name='Серия и номер паспорта', blank=True, null=True)
@@ -32,6 +39,9 @@ class Customers(models.Model):
     address = models.CharField(max_length=200, verbose_name='Прописан', blank=True, null=True)
     tel = models.CharField(max_length=200, verbose_name='Телефон')
     whereknow = models.ForeignKey(WhereInfo, on_delete=models.SET_NULL, null=True, verbose_name='Источник информации')
+    # Для покера
+    adresfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный адрес для договора и справок', blank=True, null=True)
+    cityfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный город для договора и справок', blank=True, null=True)
 
     # Всего сделок
     def all_deals(self):
