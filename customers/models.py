@@ -13,6 +13,18 @@ class WhereInfo(models.Model):
         verbose_name_plural = 'Источники информации'
 
 
+class SpravKaspiVarVipis(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Детали')
+    oper = models.CharField(max_length=200, verbose_name='Операция')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Вариант для выписки'
+        verbose_name_plural = 'Варианты для выписки'
+
+
 class Customers(models.Model):
     URFACE = 'UR'
     FIZFACE = 'FI'
