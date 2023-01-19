@@ -5,8 +5,8 @@ import requests
 from django.shortcuts import redirect
 from .models import Customers
 from docx2pdf import convert
-import os
-import win32com.client
+# import os
+# import win32com.client
 
 
 def namesand(pol, x):
