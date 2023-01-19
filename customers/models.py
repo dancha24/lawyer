@@ -16,6 +16,9 @@ class WhereInfo(models.Model):
 class SpravKaspiVarVipis(models.Model):
     name = models.CharField(max_length=200, verbose_name='Детали')
     oper = models.CharField(max_length=200, verbose_name='Операция')
+    minprise = models.FloatField(verbose_name='Минимальная цена', blank=True, null=True)
+    maxprise = models.FloatField(verbose_name='Максимальная цена', blank=True, null=True)
+    krat = models.FloatField(verbose_name='Кратность', blank=True, null=True)
 
     def __str__(self):
         return self.name
