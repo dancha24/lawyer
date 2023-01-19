@@ -98,11 +98,10 @@ def gen_sprav_kaspi_one(customer_id):
 
     datain = dataingen(2, 5)
 
-    datadradt = customer.dr
-    allpas = 'Паспорт № ' + customer.pasno + ' Выдан: ' + customer.pasby + ' Код подразделения ' + customer.paskod + ' Дача выдачи: ' + customer.pasdate
+    allpas = 'Паспорт № ' + customer.pasno + ' Выдан: ' + customer.pasby + ' Код подразделения ' + customer.paskod + ' Дача выдачи: ' + customer.pasdate.strftime('%d.%m.%Y')
     pols = customer.pol
 
-    iinadd = iingen(datetime.strptime(datadradt, '%d.%m.%Y'), pols)
+    iinadd = iingen(customer.dr, pols)
 
     context = {
         'prover': pols,

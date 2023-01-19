@@ -5,6 +5,7 @@ from finansy.models import Spending
 from . import forms
 from django.shortcuts import redirect
 from .defs import gen_dog_arenda, gen_sprav_kaspi_one
+from django.contrib import messages
 
 
 # Список всех клиентов
@@ -26,7 +27,7 @@ def customers_all(request):
 def customers_info(request, customers_id):
     customers = Customers.objects.get(pk=customers_id)
     spending = Spending.objects.filter(performers_id=customers_id)
-    if request.method == "POST":
+    if request.method == "POST" and 'doppolya' in request.POST:
         form = forms.CustomerDopPoleForm(request.POST, request.FILES, instance=customers)
         if form.is_valid():
             send = form.save(commit=False)
@@ -35,9 +36,21 @@ def customers_info(request, customers_id):
     else:
         form = forms.CustomerDopPoleForm(instance=customers)
     if request.method == "POST" and 'spravkaspione' in request.POST:
-        return gen_sprav_kaspi_one(customers_id)
+        if customers.cityfiktiv is None:
+            messages.info(request, 'Не заполнен фиктивный город в дополнительных полях')
+        else:
+            if customers.adresfiktiv is None:
+                messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
+            else:
+                return gen_sprav_kaspi_one(customers_id)
     if request.method == "POST" and 'dogadenda' in request.POST:
-        return gen_dog_arenda(customers_id)
+        if customers.cityfiktiv is None:
+            messages.info(request, 'Не заполнен фиктивный город в дополнительных полях')
+        else:
+            if customers.adresfiktiv is None:
+                messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
+            else:
+                return gen_dog_arenda(customers_id)
     context = {
         'info': customers,
         'form': form,
