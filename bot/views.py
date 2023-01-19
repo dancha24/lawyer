@@ -23,7 +23,7 @@ def promokods_all(request):
     context = {
         'titlepage': 'Все промокоды',
         'for_table': promokods,
-        'menu': "poker",
+        'menu': "bot",
         'submenu': "promokods",
     }
 
@@ -84,7 +84,7 @@ def botset(request):
     context = {
         'titlepage': 'Все промокоды',
         'for_table': botsets,
-        'menu': "poker",
+        'menu': "bot",
         'submenu': "promokods",
     }
 

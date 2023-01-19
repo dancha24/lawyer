@@ -1,11 +1,21 @@
 from django import forms
-from .models import Customers
+from .models import Customers, WhereInfo
 
 
 class CustomersForm(forms.ModelForm):
     class Meta:
         model = Customers
         exclude = ['dr', 'pasdate']
+
+
+class InfoAddForm(forms.ModelForm):
+    class Meta:
+        model = WhereInfo
+        exclude = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super(InfoAddForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
 
 
 class CustomerAddForm(forms.ModelForm):
@@ -33,3 +43,14 @@ class CustomerAddForm(forms.ModelForm):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         # self.fields['date_out'].widget.attrs.update(
         # {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+
+
+class CustomerDopPoleForm(forms.ModelForm):
+    class Meta:
+        model = Customers
+        fields = ['adresfiktiv', 'cityfiktiv']
+
+    def __init__(self, *args, **kwargs):
+        super(CustomerDopPoleForm, self).__init__(*args, **kwargs)
+        self.fields['adresfiktiv'].widget.attrs.update({'class': 'form-control'})
+        self.fields['cityfiktiv'].widget.attrs.update({'class': 'form-control'})

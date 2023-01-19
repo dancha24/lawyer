@@ -40,8 +40,8 @@ class Customers(models.Model):
     tel = models.CharField(max_length=200, verbose_name='Телефон')
     whereknow = models.ForeignKey(WhereInfo, on_delete=models.SET_NULL, null=True, verbose_name='Источник информации')
     # Для покера
-    adresfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный адрес для договора и справок', blank=True, null=True)
-    cityfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный город для договора и справок', blank=True, null=True)
+    adresfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный адрес для договора аренды', blank=True, null=True)
+    cityfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный город для справок', blank=True, null=True)
 
     # Всего сделок
     def all_deals(self):

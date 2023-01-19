@@ -92,75 +92,6 @@
                 <a class="waves-effect" href=""><i
                         class="menu-icon mdi mdi-view-dashboard"></i><span>Обзор</span></a>
 
-
-                {% if menu == 'affairs' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-animation"></i><span>Дела</span><span
-                        class="menu-arrow fa fa-angle-down"></span></a>
-                <ul class="sub-menu js__content">
-
-                    {% if submenu == 'affairs_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'affairs_all' %}"><span>Все дела</span></a></li>
-
-                    {% if submenu == 'extra_affairs_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'extra_affairs_all' %}"><span>Допники</span></a></li>
-                </ul>
-                {% if menu == 'poker' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-multiple"></i><span>Покер</span><span
-                        class="menu-arrow fa fa-angle-down"></span></a>
-                <ul class="sub-menu js__content">
-
-                    {% if submenu == 'promokods' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'promokodes_all' %}"><span>Промокоды бота</span></a></li>
-
-                    {% if submenu == 'botset' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'botset' %}"><span>Настройки бота</span></a></li>
-
-                    {% if submenu == 'gendokaren' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'gendokaren' %}"><span>Договор аренды</span></a></li>
-
-                    {% if submenu == 'gensprav' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'gensprav' %}"><span>Справка каспи</span></a></li>
-
-                    {% if submenu == 'charts' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'charts' %}"><span>Чарты</span></a></li>
-
-
-
-                </ul>
-                {% if menu == 'performers' %}
-                    <li class="current active">{% else %}
-                    <li>{% endif %}
-                <a class="waves-effect parent-item js__control" href="#"><i
-                        class="menu-icon mdi mdi-account-settings-variant"></i><span>Исполнители</span><span
-                        class="menu-arrow fa fa-angle-down"></span></a>
-                <ul class="sub-menu js__content">
-
-                    {% if submenu == 'performers_all' %}
-                        <li class="current">{% else %}
-                        <li>{% endif %}
-                    <a href="{% url 'performers_all' %}"><span>Все Исполнители</span></a></li>
-                </ul>
-
                 {% if menu == 'customers' %}
                     <li class="current active">{% else %}
                     <li>{% endif %}
@@ -178,6 +109,82 @@
                         <li class="current">{% else %}
                         <li>{% endif %}
                     <a href="{% url 'informations_all' %}"><span>Источники информации</span></a></li>
+                </ul>
+
+
+{#                {% if menu == 'affairs' %}#}
+{#                    <li class="current active">{% else %}#}
+{#                    <li>{% endif %}#}
+{#                <a class="waves-effect parent-item js__control" href="#"><i#}
+{#                        class="menu-icon mdi mdi-animation"></i><span>Дела</span><span#}
+{#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+{#                <ul class="sub-menu js__content">#}
+{##}
+{#                    {% if submenu == 'affairs_all' %}#}
+{#                        <li class="current">{% else %}#}
+{#                        <li>{% endif %}#}
+{#                    <a href="{% url 'affairs_all' %}"><span>Все дела</span></a></li>#}
+{##}
+{#                    {% if submenu == 'extra_affairs_all' %}#}
+{#                        <li class="current">{% else %}#}
+{#                        <li>{% endif %}#}
+{#                    <a href="{% url 'extra_affairs_all' %}"><span>Допники</span></a></li>#}
+{#                </ul>#}
+                {% if menu == 'poker' %}
+                    <li class="current active">{% else %}
+                    <li>{% endif %}
+                <a class="waves-effect parent-item js__control" href="#"><i
+                        class="menu-icon mdi mdi-account-multiple"></i><span>Покер</span><span
+                        class="menu-arrow fa fa-angle-down"></span></a>
+                <ul class="sub-menu js__content">
+
+                    {% if submenu == 'gendokaren' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'gendokaren' %}"><span>Договор аренды</span></a></li>
+
+                    {% if submenu == 'gensprav' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'gensprav' %}"><span>Справка каспи</span></a></li>
+
+                    {% if submenu == 'charts' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'charts' %}"><span>Чарты</span></a></li>
+                </ul>
+
+{#                {% if menu == 'performers' %}#}
+{#                    <li class="current active">{% else %}#}
+{#                    <li>{% endif %}#}
+{#                <a class="waves-effect parent-item js__control" href="#"><i#}
+{#                        class="menu-icon mdi mdi-account-settings-variant"></i><span>Исполнители</span><span#}
+{#                        class="menu-arrow fa fa-angle-down"></span></a>#}
+{#                <ul class="sub-menu js__content">#}
+{##}
+{#                    {% if submenu == 'performers_all' %}#}
+{#                        <li class="current">{% else %}#}
+{#                        <li>{% endif %}#}
+{#                    <a href="{% url 'performers_all' %}"><span>Все Исполнители</span></a></li>#}
+{#                </ul>#}
+
+            {% if menu == 'bot' %}
+                    <li class="current active">{% else %}
+                    <li>{% endif %}
+                <a class="waves-effect parent-item js__control" href="#"><i
+                        class="menu-icon mdi mdi-account-multiple"></i><span>Боты</span><span
+                        class="menu-arrow fa fa-angle-down"></span></a>
+                <ul class="sub-menu js__content">
+
+                    {% if submenu == 'promokods' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'promokodes_all' %}"><span>Промокоды бота</span></a></li>
+
+                    {% if submenu == 'botset' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'botset' %}"><span>Настройки бота</span></a></li>
                 </ul>
 
                 {% if menu == 'finansy' %}

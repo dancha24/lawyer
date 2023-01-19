@@ -4,6 +4,7 @@ from .models import Customers, WhereInfo
 from finansy.models import Spending
 from . import forms
 from django.shortcuts import redirect
+from .defs import gen_dog_arenda, gen_sprav_kaspi_one
 
 
 # Список всех клиентов
@@ -25,8 +26,21 @@ def customers_all(request):
 def customers_info(request, customers_id):
     customers = Customers.objects.get(pk=customers_id)
     spending = Spending.objects.filter(performers_id=customers_id)
+    if request.method == "POST":
+        form = forms.CustomerDopPoleForm(request.POST, request.FILES, instance=customers)
+        if form.is_valid():
+            send = form.save(commit=False)
+            send.save()
+            return redirect('customers_info', customers_id=customers_id)
+    else:
+        form = forms.CustomerDopPoleForm(instance=customers)
+    if request.method == "POST" and 'spravkaspione' in request.POST:
+        return gen_sprav_kaspi_one(customers_id)
+    if request.method == "POST" and 'dogadenda' in request.POST:
+        return gen_dog_arenda(customers_id)
     context = {
         'info': customers,
+        'form': form,
         'spending': spending,
         # 'extra_affairs': extra_affairs,
         # 'performers': performers_with_prise,
@@ -59,6 +73,7 @@ def customers_add(request):
 
     return render(request, 'customers/customers_add.html', context)
 
+
 @permission_required('customers.change_customers', raise_exception=True)
 def customers_edit(request, customers_id):
     customers = Customers.objects.get(pk=customers_id)
@@ -85,19 +100,29 @@ def informations_del(uid):
     for_del.delete()
 # Список всех источников информации
 
+
 @permission_required('customers.view_informations', raise_exception=True)  # Проверка прав
 def informations_all(request):
     where = WhereInfo.objects.all()
+    if request.method == "POST":
+        form = forms.InfoAddForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('informations_all')
+    else:
+        form = forms.InfoAddForm()
+
+    if request.method == "POST" and 'informations_del' in request.POST:
+        uid = request.POST['id']
+        informations_del(uid)
+
     context = {
         'for_table': where,
+        'form': form,
         'menu': 'customers',
         'submenu': 'informations_all',
         'titlepage': 'Источники информации',
     }
-    if request.method == "POST" and 'informations_del' in request.POST:
-        uid = request.POST['id']
-        informations_del(uid)
-        return render(request, 'customers/informations_all.html', context)
 
     return render(request, 'customers/informations_all.html', context)
 
