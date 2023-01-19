@@ -4,6 +4,9 @@ import random
 import requests
 from django.shortcuts import redirect
 from .models import Customers
+from docx2pdf import convert
+import os
+import win32com.client
 
 
 def namesand(pol, x):
@@ -48,6 +51,24 @@ def dataingen(x, y):
     return dataa
 
 
+def savedoc(temp, context):
+    doc = DocxTemplate(temp)  # Подгрузка шаблона Договора
+    doc.render(context)
+    fulldocname = "static/DocEx/" + context['namedoc']
+    doc.save(fulldocname + ".docx")
+    # wdFormatPDF = 17
+    # inputFile = os.path.abspath(fulldocname + ".docx")
+    # outputFile = os.path.abspath(fulldocname + ".pdf")
+    # word = win32com.client.Dispatch('Word.Application')
+    # doc = word.Documents.Open(inputFile)
+    # doc.SaveAs(outputFile, FileFormat=wdFormatPDF)
+    # doc.Close()
+    # word.Quit()
+    convert(fulldocname.replace("/", "\\") + ".docx", fulldocname + ".pdf")
+    # convert("static\DocEx\Справка.docx")
+    return redirect(fulldocname + ".pdf")
+
+
 def gen_dog_arenda(customer_id):
     customer = Customers.objects.get(pk=customer_id)
     datain = dataingen(20, 60)
@@ -63,13 +84,11 @@ def gen_dog_arenda(customer_id):
         'city': customer.cityfiktiv,
         'datain': datain.strftime('%d.%m.%Y'),
         'dataout': datain.strftime('%d') + '.12.' + datain.strftime('%Y'),
-
         'surnameadd': namesand(pols, 1),
         'nameadd': nameadd,
         'nameaddk': nameadd[0],
         'datadradd': datadradd.strftime('%d.%m.%Y'),
         'iinadd': iingen(datadradd, pols),
-
         'surnameadt': customer.surname,
         'nameadt': customer.name,
         'nameadtk': customer.name[0],
@@ -81,16 +100,14 @@ def gen_dog_arenda(customer_id):
         'pascodpadt': customer.paskod,
         'pasdataadt': customer.pasdate,
         'propiskaadt': customer.address,
-
         'adress': adress,
         'stage': stage,
+        'namedoc': 'Договор аренды Квартиры',
+
     }
 
     # Генерация документов по варианту документа
-    doc = DocxTemplate("static/DocTemp/Шаблон аренды Квартиры.docx")  # Подгрузка шаблона Договора
-    doc.render(context)
-    doc.save("static/DocEx/Аренды Квартиры " + customer.surname + ".docx")
-    return redirect("/static/DocEx/Аренды Квартиры " + customer.surname + ".docx")
+    return savedoc("static/DocTemp/Шаблон аренды Квартиры.docx", context)
 
 
 def gen_sprav_kaspi_one(customer_id):
@@ -120,10 +137,6 @@ def gen_sprav_kaspi_one(customer_id):
         'allpas': allpas,
 
         'adress': customer.adresfiktiv,
+        'namedoc': 'Справка',
     }
-
-    # Генерация документов по варианту документа
-    doc = DocxTemplate("static/DocTemp/Шаблон каспи.docx")  # Подгрузка шаблона Договора
-    doc.render(context)
-    doc.save("static/DocEx/Готовая справка каспи " + customer.surname + ".docx")
-    return redirect("/static/DocEx/Готовая справка каспи " + customer.surname + ".docx")
+    return savedoc("static/DocTemp/Шаблон каспи.docx", context)
