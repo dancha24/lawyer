@@ -4,7 +4,7 @@ import random
 import requests
 from django.shortcuts import redirect
 from .models import Customers
-from docx2pdf import convert
+# from docx2pdf import convert
 # import os
 # import win32com.client
 
@@ -64,9 +64,9 @@ def savedoc(temp, context):
     # doc.SaveAs(outputFile, FileFormat=wdFormatPDF)
     # doc.Close()
     # word.Quit()
-    convert(fulldocname.replace("/", "\\") + ".docx", fulldocname + ".pdf")
+    # convert(fulldocname.replace("/", "\\") + ".docx", fulldocname + ".pdf")
     # convert("static\DocEx\Справка.docx")
-    return redirect(fulldocname + ".pdf")
+    return redirect(fulldocname + ".docx")
 
 
 def gen_dog_arenda(customer_id):
