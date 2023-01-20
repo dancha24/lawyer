@@ -62,20 +62,10 @@ def dataingen(x, y):
 
 
 def savedoc(temp, context):
+    fulldocname = "/static/DocEx/" + context['namedoc'] + ".docx"
     doc = DocxTemplate(temp)  # Подгрузка шаблона Договора
     doc.render(context)
-    fulldocname = "static/DocEx/" + context['namedoc']
-    doc.save(fulldocname + ".docx")
-    # wdFormatPDF = 17
-    # inputFile = os.path.abspath(fulldocname + ".docx")
-    # outputFile = os.path.abspath(fulldocname + ".pdf")
-    # word = win32com.client.Dispatch('Word.Application')
-    # doc = word.Documents.Open(inputFile)
-    # doc.SaveAs(outputFile, FileFormat=wdFormatPDF)
-    # doc.Close()
-    # word.Quit()
-    # convert(fulldocname.replace("/", "\\") + ".docx", fulldocname + ".pdf")
-    # convert("static\DocEx\Справка.docx")
+    doc.save(fulldocname)
     return redirect(fulldocname + ".docx")
 
 
