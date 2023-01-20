@@ -16,7 +16,7 @@ locale._override_localeconv = {'mon_thousands_sep': '.'}
 
 
 def locformat(sumap):
-    return locale.format_string('%.2f', sumap, grouping=True, monetary=True).replace('.', ' ')
+    return "{:,.2f}".format(sumap).replace('.', ' ')
 
 
 def namesand(pol, x):
