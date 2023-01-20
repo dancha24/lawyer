@@ -254,5 +254,7 @@ def gen_sprav_kaspi_two(customer_id):
         'adress': customer.adresfiktiv,
         'namedoc': 'Справка каспи 2',
     }
-    context = context_now | datatable
+    context = context_now.copy()  # Copy the dict1 into the dict3 using copy() method
+    for key, value in datatable.items():  # use for loop to iterate dict2 into the dict3 dictionary
+        context[key] = value
     return savedoc("static/DocTemp/Шаблон каспи 2.docx", context)
