@@ -62,11 +62,11 @@ def dataingen(x, y):
 
 
 def savedoc(temp, context):
-    fulldocname = "/static/DocEx/" + context['namedoc'] + ".docx"
+    fulldocname = "static/DocEx/" + context['namedoc'] + ".docx"
     doc = DocxTemplate(temp)  # Подгрузка шаблона Договора
     doc.render(context)
     doc.save(fulldocname)
-    return redirect(fulldocname + ".docx")
+    return redirect('/' + fulldocname + ".docx")
 
 
 def get_exchange_list_xrates(currency, amount=1, target=None):
