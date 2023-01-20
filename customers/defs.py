@@ -66,7 +66,7 @@ def savedoc(temp, context):
     doc = DocxTemplate(temp)  # Подгрузка шаблона Договора
     doc.render(context)
     doc.save(fulldocname)
-    return redirect('/' + fulldocname + ".docx")
+    return redirect('/' + fulldocname)
 
 
 def get_exchange_list_xrates(currency, amount=1, target=None):
