@@ -3,10 +3,20 @@ from datetime import datetime, timedelta
 import random
 import requests
 from django.shortcuts import redirect
-from .models import Customers
-# from docx2pdf import convert
-# import os
-# import win32com.client
+from .models import Customers, SpravKaspiVarVipis
+from bs4 import BeautifulSoup as bs
+from dateutil.parser import parse
+from pprint import pprint
+from django.db.models import Max
+import locale
+
+
+locale.setlocale(locale.LC_ALL, '')
+locale._override_localeconv = {'mon_thousands_sep': '.'}
+
+
+def locformat(sumap):
+    return locale.format_string('%.2f', sumap, grouping=True, monetary=True).replace('.', ' ')
 
 
 def namesand(pol, x):
@@ -67,6 +77,40 @@ def savedoc(temp, context):
     # convert(fulldocname.replace("/", "\\") + ".docx", fulldocname + ".pdf")
     # convert("static\DocEx\Справка.docx")
     return redirect(fulldocname + ".docx")
+
+
+def get_exchange_list_xrates(currency, amount=1, target=None):
+    # make the request to x-rates.com to get current exchange rates for common currencies
+    content = requests.get(f"https://www.x-rates.com/table/?from={currency}&amount={amount}").content
+    # initialize beautifulsoup
+    soup = bs(content, "html.parser")
+    # get the last updated time
+    price_datetime = parse(soup.find_all("span", attrs={"class": "ratesTimestamp"})[1].text)
+    # get the exchange rates tables
+    exchange_tables = soup.find_all("table")
+    exchange_rates = {}
+    for exchange_table in exchange_tables:
+        for tr in exchange_table.find_all("tr"):
+            # for each row in the table
+            tds = tr.find_all("td")
+            if tds:
+                currency = tds[0].text
+                # get the exchange rate
+                exchange_rate = float(tds[1].text)
+                exchange_rates[currency] = exchange_rate
+    if target is not None:
+        return exchange_rates[target]
+    else:
+        return price_datetime, exchange_rates
+
+
+def get_random_vipis():
+    max_id = SpravKaspiVarVipis.objects.all().aggregate(max_id=Max("id"))['max_id']
+    while True:
+        pk = random.randint(1, max_id)
+        category = SpravKaspiVarVipis.objects.filter(pk=pk).first()
+        if category:
+            return category
 
 
 def gen_dog_arenda(customer_id):
@@ -140,3 +184,75 @@ def gen_sprav_kaspi_one(customer_id):
         'namedoc': 'Справка',
     }
     return savedoc("static/DocTemp/Шаблон каспи.docx", context)
+
+
+def gen_sprav_kaspi_two(customer_id):
+
+    customer = Customers.objects.get(pk=customer_id)
+    dataout = dataingen(2, 5)
+    datain = dataout - timedelta(days=31)
+    pols = customer.pol
+    iinadd = iingen(customer.dr, pols)
+
+    pokupki = 0
+    sumtenge = random.randrange(80000, 350000, 1000)
+    calendar = {}
+    datatable = {}
+    i = 1
+    while i != 21:
+        calendar[str(i)] = datain + (dataout - datain) * random.random()
+        i += 1
+    sorted_values = sorted(calendar.values())  # Sort the values
+    sorted_dict = {}
+
+    for i in sorted_values:
+        for k in calendar.keys():
+            if calendar[k] == i:
+                sorted_dict[k] = calendar[k]
+                break
+    sorted_dict2 = list(sorted_dict.items())
+
+    i = 1
+    while i != 21:
+        cur = get_random_vipis()
+        summatab = random.randrange(int(cur.minprise), int(cur.maxprise), int(cur.krat))
+        datatable['datatapb' + str(i)] = sorted_dict2[i-1][1].strftime('%d.%m.%y')
+        datatable['summatab' + str(i)] = '- ' + locformat(summatab)
+        datatable['poraciatab' + str(i)] = cur.oper
+        datatable['detali' + str(i)] = cur.name
+        pokupki += summatab
+        i += 1
+    dostupno = sumtenge + pokupki
+    context_now = {
+        'dataout': dataout.strftime('%d.%m.%y'),
+        'datain': datain.strftime('%d.%m.%y'),
+        'd': dataout.strftime('%d'),
+        'monthrod': strmonthrod(dataout.month),
+        'y': dataout.year,
+
+        'iinadd': iinadd,
+
+        'surnameadt': customer.surname,
+        'nameadt': customer.name,
+        'patronymicadt': customer.patronymic,
+
+        'noschet': 'KZ29722C0000' + str(random.randint(70000000, 90000000)),
+        'nosprav': str(random.randint(1000, 5000)),
+        'sumtenge': locformat(sumtenge),
+        'sumuds': locformat(get_exchange_list_xrates('KZT', sumtenge, 'US Dollar')),
+        'sumeur': locformat(get_exchange_list_xrates('KZT', sumtenge, 'Euro')),
+        'focard': str(random.randint(2000, 9800)),
+        'poplnenia': locformat(0),
+        'perevodi': locformat(0),
+        'pokupki': locformat(pokupki),
+        'syat': locformat(0),
+        'raznoe': locformat(0),
+        'ostatok': locformat(0),
+        'drugoepop': locformat(300000),
+        'dostupno': locformat(dostupno),
+
+        'adress': customer.adresfiktiv,
+        'namedoc': 'Справка каспи 2',
+    }
+    context = context_now | datatable
+    return savedoc("static/DocTemp/Шаблон каспи 2.docx", context)

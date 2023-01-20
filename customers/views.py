@@ -4,7 +4,7 @@ from .models import Customers, WhereInfo
 from finansy.models import Spending
 from . import forms
 from django.shortcuts import redirect
-from .defs import gen_dog_arenda, gen_sprav_kaspi_one
+from .defs import gen_dog_arenda, gen_sprav_kaspi_one, gen_sprav_kaspi_two
 from django.contrib import messages
 
 
@@ -51,6 +51,14 @@ def customers_info(request, customers_id):
                 messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
             else:
                 return gen_dog_arenda(customers_id)
+    if request.method == "POST" and 'spravkaspitwo' in request.POST:
+        if customers.cityfiktiv is None:
+            messages.info(request, 'Не заполнен фиктивный город в дополнительных полях')
+        else:
+            if customers.adresfiktiv is None:
+                messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
+            else:
+                return gen_sprav_kaspi_two(customers_id)
     context = {
         'info': customers,
         'form': form,
