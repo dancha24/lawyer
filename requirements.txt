@@ -11,3 +11,6 @@ pyTelegramBotAPI
 djangorestframework~=3.14.0
 docxtpl
 docx2pdf
+transliterate
+bs4
+python-dateutil

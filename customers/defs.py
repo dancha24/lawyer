@@ -9,6 +9,8 @@ from dateutil.parser import parse
 from pprint import pprint
 from django.db.models import Max
 import locale
+from transliterate import translit
+from dateutil.relativedelta import relativedelta
 
 
 locale.setlocale(locale.LC_ALL, '')
@@ -180,7 +182,7 @@ def gen_sprav_kaspi_two(customer_id):
 
     customer = Customers.objects.get(pk=customer_id)
     dataout = dataingen(2, 5)
-    datain = dataout - timedelta(days=31)
+    datain = dataout - relativedelta(months=1)
     pols = customer.pol
     iinadd = iingen(customer.dr, pols)
 
@@ -248,3 +250,33 @@ def gen_sprav_kaspi_two(customer_id):
     for key, value in datatable.items():  # use for loop to iterate dict2 into the dict3 dictionary
         context[key] = value
     return savedoc("static/DocTemp/Шаблон каспи 2.docx", context)
+
+
+def gen_sprav_bel(customer_id):
+    locale.setlocale(
+        category=locale.LC_ALL,
+        locale="en-US"  # Note: do not use "de_DE" as it doesn't work
+    )
+    customer = Customers.objects.get(pk=customer_id)
+
+    datain = dataingen(2, 5)
+    datapre = datain - relativedelta(months=1)
+    dataposle = datain + relativedelta(months=1)
+
+    context = {
+        'datain': datain.strftime('%d %B %y'),
+        'datapre': datapre.strftime('%d %B %y'),
+        'dataposle': dataposle.strftime('%d/%m/%y'),
+        'dataposlep': dataposle.strftime('%d %B %y'),
+
+        'surnameadt': str(translit(customer.surname, language_code='ru', reversed=True)).upper(),
+        'nameadt': str(translit(customer.name, language_code='ru', reversed=True)).upper(),
+
+        'allsum': '141,82',
+
+        'accnum': str(random.randint(200, 500)) + ' ' + str(random.randint(1000, 2000)),
+
+        'address': translit(customer.adresfiktiv, language_code='ru', reversed=True),
+        'namedoc': 'Справка бел',
+    }
+    return savedoc("static/DocTemp/Шаблон белорусской справки.docx", context)
