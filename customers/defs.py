@@ -253,10 +253,10 @@ def gen_sprav_kaspi_two(customer_id):
 
 
 def gen_sprav_bel(customer_id):
-    locale.setlocale(
-        category=locale.LC_ALL,
-        locale="en-US"  # Note: do not use "de_DE" as it doesn't work
-    )
+    # locale.setlocale(
+    #     category=locale.LC_ALL,
+    #     locale="en-US"  # Note: do not use "de_DE" as it doesn't work
+    # )
     customer = Customers.objects.get(pk=customer_id)
 
     datain = dataingen(2, 5)
