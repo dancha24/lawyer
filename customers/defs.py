@@ -108,6 +108,7 @@ def get_random_vipis():
 def gen_dog_arenda(customer_id):
     customer = Customers.objects.get(pk=customer_id)
     datain = dataingen(20, 60)
+    dataout = datain + relativedelta(months=12)
 
     pols = random.randint(0, 1)
     nameadd = namesand(pols, 0)
@@ -119,7 +120,7 @@ def gen_dog_arenda(customer_id):
     context = {
         'city': customer.cityfiktiv,
         'datain': datain.strftime('%d.%m.%Y'),
-        'dataout': datain + relativedelta(months=12),
+        'dataout': dataout.strftime('%d.%m.%Y'),
         'surnameadd': namesand(pols, 1),
         'nameadd': nameadd,
         'nameaddk': nameadd[0],
