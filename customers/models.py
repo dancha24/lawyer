@@ -1,5 +1,8 @@
 from django.db import models
 from django.db.models import Sum
+from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.db.models.signals import post_save, post_delete
 
 
 class WhereInfo(models.Model):
@@ -44,19 +47,21 @@ class Customers(models.Model):
     type = models.CharField(max_length=2, choices=FACE, default=FIZFACE, verbose_name='Тип')
     name = models.CharField(max_length=200, verbose_name='Имя')
     surname = models.CharField(max_length=200, verbose_name='Фамилия')
-    pol = models.CharField(max_length=2, choices=POL, verbose_name='Пол', blank=True, null=True)
-    patronymic = models.CharField(max_length=200, verbose_name='Отчество')
-    dr = models.DateField(verbose_name='День рождения', blank=True, null=True)
-    pasno = models.CharField(max_length=200, verbose_name='Серия и номер паспорта', blank=True, null=True)
-    pasby = models.CharField(max_length=200, verbose_name='Кем выдан', blank=True, null=True)
-    pasdate = models.DateField(verbose_name='Дата выдачи паспорта', blank=True, null=True)
+    pol = models.CharField(max_length=2, choices=POL, verbose_name='Пол')
+    patronymic = models.CharField(max_length=200, verbose_name='Отчество', blank=True, null=True)
+    dr = models.DateField(verbose_name='День рождения')
+    paswhat = models.CharField(max_length=200, verbose_name='Удостоверение личности (прим: Паспорт РФ', default='Паспорт РФ')
+    pasno = models.CharField(max_length=200, verbose_name='Серия и номер документа')
+    pasby = models.CharField(max_length=200, verbose_name='Кем выдан')
+    pasdate = models.DateField(verbose_name='Дата выдачи паспорта')
     paskod = models.CharField(max_length=200, verbose_name='Код подразделения паспорта', blank=True, null=True)
     address = models.CharField(max_length=200, verbose_name='Прописан', blank=True, null=True)
     tel = models.CharField(max_length=200, verbose_name='Телефон')
-    whereknow = models.ForeignKey(WhereInfo, on_delete=models.SET_NULL, null=True, verbose_name='Источник информации')
+    whereknow = models.ForeignKey(WhereInfo, on_delete=models.SET_NULL, verbose_name='Источник информации', blank=True, null=True)
     # Для покера
-    adresfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный адрес для договора аренды', blank=True, null=True)
-    cityfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный город для справок', blank=True, null=True)
+    adresfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный адрес для договоров и справок', blank=True, null=True)
+    cityfiktiv = models.CharField(max_length=200, verbose_name='Фиктивный город для договоров и справок', blank=True, null=True)
+    byuser = models.ForeignKey(User, default=1, verbose_name='Кто добавил в программу', on_delete=models.PROTECT)
 
     # Всего сделок
     def all_deals(self):
@@ -114,3 +119,17 @@ class Customers(models.Model):
     class Meta:
         verbose_name = 'Клиент'
         verbose_name_plural = 'Клиенты'
+
+
+# @receiver(post_save, sender=Customers)
+# def edit_balanse_add_rec(instance, created, **kwargs):
+#     if created:
+#         instance.byuser =
+#         balance_now = FinansyBalance.objects.get(type=instance.type)
+#         balance_now.sum += instance.sum
+#         balance_now.save()
+#         if instance.deal:
+#             deal = Affairs.objects.get(id=instance.deal.id)
+#             if deal.all_rec_sum() >= deal.prise:
+#                 deal.prise_status = 'YE'
+#                 deal.save()

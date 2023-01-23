@@ -11,7 +11,10 @@ from django.contrib import messages
 # Список всех клиентов
 @permission_required('customers.view_customers', raise_exception=True)  # Проверка прав
 def customers_all(request):
-    customers = Customers.objects.all()
+    if request.user.is_superuser:
+        customers = Customers.objects.all()
+    else:
+        customers = Customers.objects.filter(byuser=request.user)
     context = {
         'for_table': customers,
         'menu': 'customers',
@@ -81,12 +84,15 @@ def customers_info(request, customers_id):
     return render(request, 'customers/customers_info.html', context)
 
 # Добавление записи расхода
-@permission_required('cutomers.add_customers', raise_exception=True)
+@permission_required('customers.add_customers', raise_exception=True)
 def customers_add(request):
     if request.method == "POST":
         form = forms.CustomerAddForm(request.POST)
         if form.is_valid():
             form.save()
+            customers = Customers.objects.get(pk=form.instance.id)
+            customers.byuser = request.user
+            customers.save()
             if 'add' in request.POST and request.POST['add']:
                 return redirect('customers_add')
             else:

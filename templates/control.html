@@ -401,11 +401,11 @@
     <!-- /.pull-left -->
     <div class="pull-right">
         <div class="ico-item">
-            <img src="http://placehold.it/80x80" alt="" class="ico-img">
-            <ul class="sub-ico-item">
-                <li><a href="">Вы - {{ user }}</a></li>
-                <li><a class="text-danger" href="{% url 'log_out' %}">Выйти</a></li>
-            </ul>
+           <a href="">Вы - {{ user }}</a><a class="text-danger" href="{% url 'log_out' %}"> Выйти </a><a class="text-success" href="/admin"> админка</a>
+{#            <ul class="sub-ico-item">#}
+{#                <li><a href="">Вы - {{ user }}</a></li>#}
+{#                <li><a class="text-danger" href="{% url 'log_out' %}">Выйти</a></li>#}
+{#            </ul>#}
             <!-- /.sub-ico-item -->
         </div>
         {#		<!-- /.ico-item -->#}
