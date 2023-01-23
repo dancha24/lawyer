@@ -119,7 +119,7 @@ def gen_dog_arenda(customer_id):
     context = {
         'city': customer.cityfiktiv,
         'datain': datain.strftime('%d.%m.%Y'),
-        'dataout': datain.strftime('%d') + '.12.' + datain.strftime('%Y'),
+        'dataout': datain + relativedelta(months=12),
         'surnameadd': namesand(pols, 1),
         'nameadd': nameadd,
         'nameaddk': nameadd[0],
