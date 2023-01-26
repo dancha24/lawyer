@@ -152,7 +152,7 @@ def gen_sprav_kaspi_one(customer_id):
 
     datain = dataingen(2, 5)
 
-    allpas = 'Паспорт № ' + str(customer.pasno) + ' Выдан: ' + str(customer.pasby) + ' Код подразделения ' + str(customer.paskod) + ' Дача выдачи: ' + customer.pasdate.strftime('%d.%m.%Y')
+    allpas = 'Паспорт № ' + str(customer.pasno) + ' Выдан: ' + str(customer.pasby) + ' Код подразделения ' + str(customer.paskod) + ' Дата выдачи: ' + customer.pasdate.strftime('%d.%m.%Y')
     pols = customer.pol
 
     iinadd = iingen(customer.dr, pols)
