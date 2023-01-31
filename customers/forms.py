@@ -1,5 +1,5 @@
 from django import forms
-from .models import Customers, WhereInfo
+from .models import Customers, WhereInfo, TildaInSum
 
 
 class CustomersForm(forms.ModelForm):
@@ -43,6 +43,18 @@ class CustomerAddForm(forms.ModelForm):
             {'class': 'form-control', 'id': 'datepicker-autoclose-iso', 'autocomplete': 'off'})
         # self.fields['date_out'].widget.attrs.update(
         # {'class': 'form-control', 'id': 'datepicker-autoclose-iso2', 'autocomplete': 'off'})
+
+
+class TildaInSumAdd(forms.ModelForm):
+    class Meta:
+        model = TildaInSum
+        fields = ['name', 'phone', 'summa']
+
+    def __init__(self, *args, **kwargs):
+        super(TildaInSumAdd, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({'class': 'form-control'})
+        self.fields['phone'].widget.attrs.update({'class': 'form-control'})
+        self.fields['summa'].widget.attrs.update({'class': 'form-control'})
 
 
 class CustomerDopPoleForm(forms.ModelForm):

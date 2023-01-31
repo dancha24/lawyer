@@ -6,6 +6,9 @@ from . import forms
 from django.shortcuts import redirect
 from .defs import gen_dog_arenda, gen_sprav_kaspi_one, gen_sprav_kaspi_two, gen_sprav_bel
 from django.contrib import messages
+from bitrix24 import *
+from api.bitrixdefs import phoneisorcreate
+import pprint
 
 
 # Список всех клиентов
@@ -160,4 +163,22 @@ def informations_all(request):
     }
 
     return render(request, 'customers/informations_all.html', context)
+
+
+def infocashin(request):
+    if request.method == "POST":
+        form = forms.TildaInSumAdd(request.POST)
+        if form.is_valid():
+            form.save()
+    else:
+        form = forms.TildaInSumAdd()
+
+    context = {
+        'form': form,
+        'menu': 'customers',
+        'submenu': 'informations_all',
+        'titlepage': "Принять оплату",
+    }
+
+    return render(request, 'customers/bitisanddeals.html', context)
 

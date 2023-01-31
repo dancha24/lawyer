@@ -31,6 +31,20 @@ class SpravKaspiVarVipis(models.Model):
         verbose_name_plural = 'Варианты для выписки'
 
 
+class TildaInSum(models.Model):
+    name = models.CharField(max_length=200, verbose_name='Имя')
+    phone = models.CharField(max_length=200, verbose_name='Телефон')
+    summa = models.FloatField(verbose_name='Сумма', blank=True, null=True)
+    incrm = models.BooleanField(max_length=200, verbose_name='Есть ли в црм', blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Оплата через тильду'
+        verbose_name_plural = 'Оплаты через тильду'
+
+
 class Customers(models.Model):
     URFACE = 'UR'
     FIZFACE = 'FI'
