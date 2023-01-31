@@ -10,3 +10,11 @@ class PromoSearchByNameView(APIView):
         promo = Promocodes.objects.filter(name=str(search.lower()))
         serializer = PromoSerializer(promo, many=True)
         return Response({"promo": serializer.data})
+
+
+class Cashin(APIView):
+
+    def get(self, request, search):
+        promo = Promocodes.objects.filter(name=str(search.lower()))
+        serializer = PromoSerializer(promo, many=True)
+        return Response({"promo": serializer.data})
