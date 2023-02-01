@@ -3,12 +3,14 @@ from django.contrib.auth.decorators import login_required, permission_required
 from .models import Customers, WhereInfo
 from finansy.models import Spending
 from . import forms
-from django.shortcuts import redirect
+from django.shortcuts import redirect, HttpResponse
 from .defs import gen_dog_arenda, gen_sprav_kaspi_one, gen_sprav_kaspi_two, gen_sprav_bel
 from django.contrib import messages
 from bitrix24 import *
 from api.bitrixdefs import phoneisorcreate
 import pprint
+from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Список всех клиентов
@@ -165,20 +167,14 @@ def informations_all(request):
     return render(request, 'customers/informations_all.html', context)
 
 
-def infocashin(request):
-    if request.method == "POST":
-        form = forms.TildaInSumAdd(request.POST)
-        if form.is_valid():
-            form.save()
-    else:
-        form = forms.TildaInSumAdd()
-
-    context = {
-        'form': form,
-        'menu': 'customers',
-        'submenu': 'informations_all',
-        'titlepage': "Принять оплату",
-    }
-
-    return render(request, 'customers/bitisanddeals.html', context)
-
+@csrf_exempt
+def cashintilda(request):
+    pp = pprint.PrettyPrinter(indent=4)
+    if request.method == 'POST':
+        print("Data received from Webhook is: ", request.body)
+        if 'test' in request.POST:
+            return HttpResponse("test")
+        else:
+            # pp.pprint(request.POST['Name'])
+            # funcneed
+            return HttpResponse(200)

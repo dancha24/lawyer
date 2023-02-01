@@ -33,4 +33,4 @@ def dealsfromcontact(phone):
 #     if iss:
 #     pass
 
-pp.pprint(dealsfromcontact('995557947579'))
+# pp.pprint(dealsfromcontact('995557947579'))
