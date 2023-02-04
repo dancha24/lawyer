@@ -128,7 +128,7 @@ class Customers(models.Model):
 
     # ФИО
     def __str__(self):
-        return self.surname + ' ' + self.name + ' ' + self.patronymic
+        return self.surname + ' ' + self.name
 
     class Meta:
         verbose_name = 'Клиент'
