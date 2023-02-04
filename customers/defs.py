@@ -109,6 +109,10 @@ def gen_dog_arenda(customer_id):
     customer = Customers.objects.get(pk=customer_id)
     datain = dataingen(20, 60)
     dataout = datain + relativedelta(months=12)
+    if customer.patronymic:
+        patronymic = customer.patronymic
+    else:
+        patronymic = ""
 
     pols = random.randint(0, 1)
     nameadd = namesand(pols, 0)
@@ -129,8 +133,8 @@ def gen_dog_arenda(customer_id):
         'surnameadt': customer.surname,
         'nameadt': customer.name,
         'nameadtk': customer.name[0],
-        'patronymicadt': customer.patronymic,
-        'patronymicadtk': customer.patronymic[0],
+        'patronymicadt': patronymic,
+        'patronymicadtk': patronymic[0],
         'datadradt': customer.dr,
         'pasnoadt': customer.pasno,
         'pasvidanadt': customer.pasby,
@@ -149,6 +153,10 @@ def gen_dog_arenda(customer_id):
 
 def gen_sprav_kaspi_one(customer_id):
     customer = Customers.objects.get(pk=customer_id)
+    if customer.patronymic:
+        patronymic = customer.patronymic
+    else:
+        patronymic = ""
 
     datain = dataingen(2, 5)
 
@@ -167,7 +175,7 @@ def gen_sprav_kaspi_one(customer_id):
 
         'surnameadt': customer.surname,
         'nameadt': customer.name,
-        'patronymicadt': customer.patronymic,
+        'patronymicadt': patronymic,
         'noschet': str(random.randint(10000, 80000)),
         'nosprav': str(random.randint(1000, 5000)),
         'nork': str(random.randint(1000, 5000)),
@@ -182,6 +190,10 @@ def gen_sprav_kaspi_one(customer_id):
 def gen_sprav_kaspi_two(customer_id):
 
     customer = Customers.objects.get(pk=customer_id)
+    if customer.patronymic:
+        patronymic = customer.patronymic
+    else:
+        patronymic = ""
     dataout = dataingen(2, 5)
     datain = dataout - relativedelta(months=1)
     pols = customer.pol
@@ -227,7 +239,7 @@ def gen_sprav_kaspi_two(customer_id):
 
         'surnameadt': customer.surname,
         'nameadt': customer.name,
-        'patronymicadt': customer.patronymic,
+        'patronymicadt': patronymic,
 
         'noschet': 'KZ29722C0000' + str(random.randint(70000000, 90000000)),
         'nosprav': str(random.randint(1000, 5000)),
