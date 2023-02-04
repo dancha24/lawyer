@@ -111,8 +111,10 @@ def gen_dog_arenda(customer_id):
     dataout = datain + relativedelta(months=12)
     if customer.patronymic:
         patronymic = customer.patronymic
+        patronymic0 = customer.patronymic[0]
     else:
         patronymic = ""
+        patronymic0 = ""
 
     pols = random.randint(0, 1)
     nameadd = namesand(pols, 0)
@@ -134,7 +136,7 @@ def gen_dog_arenda(customer_id):
         'nameadt': customer.name,
         'nameadtk': customer.name[0],
         'patronymicadt': patronymic,
-        'patronymicadtk': patronymic[0],
+        'patronymicadtk': patronymic0,
         'datadradt': customer.dr,
         'pasnoadt': customer.pasno,
         'pasvidanadt': customer.pasby,
