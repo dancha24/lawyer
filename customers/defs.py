@@ -318,13 +318,21 @@ def gen_sprav_kaspi_komuna(customer_id):
 
 def gen_sprav_halykbank(customer_id):
     customer = Customers.objects.get(pk=customer_id)
+    if customer.patronymic:
+        patronymic = customer.patronymic
+    else:
+        patronymic = ""
+    schet = random.randint(600000, 950000)
     context = {
         'card': str(random.randint(6000, 9999)),
+        'schet': str(schet),
+        'schet2': str(schet + 1),
+        'schet3': str(schet + 2),
         'address': str(customer.adresfiktiv),
         'iin': iingen(customer.dr, customer.pol),
         'datain': dataingen(1, 3).strftime('%w %B %Y'),
         'dataschet': dataingen(30, 45).strftime('%d.%m.%Y'),
-        'fio': "{0} {1} {2}".format(customer.surname, customer.name, customer.patronymic).upper(),
+        'fio': "{0} {1} {2}".format(customer.surname, customer.name, patronymic).upper(),
 
         'namedoc': 'Справка Халик',
     }
