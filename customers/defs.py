@@ -14,7 +14,7 @@ from dateutil.relativedelta import relativedelta
 
 locale.setlocale(locale.LC_ALL, '')
 locale._override_localeconv = {'mon_thousands_sep': '.'}
-pp = pprint.PrettyPrinter(indent=4)
+# pp = pprint.PrettyPrinter(indent=4)
 
 
 def locformat(sumap):
