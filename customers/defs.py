@@ -6,7 +6,6 @@ from django.shortcuts import redirect
 from .models import Customers, SpravKaspiVarVipis
 from bs4 import BeautifulSoup as bs
 from dateutil.parser import parse
-from pprint import pprint
 from django.db.models import Max
 import locale
 from transliterate import translit
@@ -15,10 +14,15 @@ from dateutil.relativedelta import relativedelta
 
 locale.setlocale(locale.LC_ALL, '')
 locale._override_localeconv = {'mon_thousands_sep': '.'}
+pp = pprint.PrettyPrinter(indent=4)
 
 
 def locformat(sumap):
     return "{:,.2f}".format(sumap).replace(',', ' ')
+
+
+def locformat2(sumap):
+    return "{:,.2f}".format(sumap).replace(',', ' ').replace('.', ',')
 
 
 def namesand(pol, x):
@@ -317,7 +321,7 @@ def gen_sprav_halykbank(customer_id):
     context = {
         'card': str(random.randint(6000, 9999)),
         'address': str(customer.adresfiktiv),
-        'iin': iingen(customer.dr, customer.pols),
+        'iin': iingen(customer.dr, customer.pol),
         'datain': dataingen(1, 3).strftime('%w %B %Y'),
         'dataschet': dataingen(30, 45).strftime('%d.%m.%Y'),
         'fio': "{0} {1} {2}".format(customer.surname, customer.name, customer.patronymic).upper(),
