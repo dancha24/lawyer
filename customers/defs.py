@@ -323,14 +323,16 @@ def gen_sprav_halykbank(customer_id):
     else:
         patronymic = ""
     schet = random.randint(600000, 950000)
+    datain = dataingen(1, 3)
+    mon = strmonthrod(datain.month)
     context = {
         'card': str(random.randint(6000, 9999)),
-        'schet': str(schet),
+        'schet1': str(schet),
         'schet2': str(schet + 1),
         'schet3': str(schet + 2),
         'address': str(customer.adresfiktiv),
         'iin': iingen(customer.dr, customer.pol),
-        'datain': dataingen(1, 3).strftime('%w %B %Y'),
+        'datain': "{0} {1} {2}".format(datain.strftime('%w'), mon, datain.strftime('%Y')),
         'dataschet': dataingen(30, 45).strftime('%d.%m.%Y'),
         'fio': "{0} {1} {2}".format(customer.surname, customer.name, patronymic).upper(),
 
