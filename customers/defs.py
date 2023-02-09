@@ -295,3 +295,33 @@ def gen_sprav_bel(customer_id):
         'namedoc': 'Справка бел',
     }
     return savedoc("static/DocTemp/Шаблон белорусской справки.docx", context)
+
+
+def gen_sprav_kaspi_komuna(customer_id):
+    customer = Customers.objects.get(pk=customer_id)
+    context = {
+        'kvitanceno1': '1007' + str(random.randint(60000, 80000)),
+        'allsum': locformat2(random.uniform(15000, 30000)),
+        'kvitanceno2': '302704' + str(random.randint(500000, 700000)),
+        'address': str(customer.adresfiktiv),
+        'datain': dataingen(2, 3).strftime('%d.%m.%Y %H:%M:%S'),
+        'fio': str(translit(customer.surname, language_code='ru', reversed=True)) + ' ' + str(translit(customer.name, language_code='ru', reversed=True)).upper()[0],
+
+        'namedoc': 'Чек Каспи Комуналка',
+    }
+    return savedoc("static/DocTemp/Шаблон справки по оплате комунакли.docx", context)
+
+
+def gen_sprav_halykbank(customer_id):
+    customer = Customers.objects.get(pk=customer_id)
+    context = {
+        'card': str(random.randint(6000, 9999)),
+        'address': str(customer.adresfiktiv),
+        'iin': iingen(customer.dr, customer.pols),
+        'datain': dataingen(1, 3).strftime('%w %B %Y'),
+        'dataschet': dataingen(30, 45).strftime('%d.%m.%Y'),
+        'fio': "{0} {1} {2}".format(customer.surname, customer.name, customer.patronymic).upper(),
+
+        'namedoc': 'Справка Халик',
+    }
+    return savedoc("static/DocTemp/Шаблон справки банка Халик.docx", context)

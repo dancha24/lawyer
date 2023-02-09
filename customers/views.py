@@ -4,7 +4,7 @@ from .models import Customers, WhereInfo
 from finansy.models import Spending
 from . import forms
 from django.shortcuts import redirect, HttpResponse
-from .defs import gen_dog_arenda, gen_sprav_kaspi_one, gen_sprav_kaspi_two, gen_sprav_bel
+from .defs import gen_dog_arenda, gen_sprav_kaspi_one, gen_sprav_kaspi_two, gen_sprav_bel, gen_sprav_kaspi_komuna, gen_sprav_halykbank
 from django.contrib import messages
 from bitrix24 import *
 from api.bitrixdefs import phoneisorcreate
@@ -75,6 +75,16 @@ def customers_info(request, customers_id):
                 messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
             else:
                 return gen_sprav_bel(customers_id)
+    if request.method == "POST" and 'spravkaspicomuna' in request.POST:
+        if customers.adresfiktiv is None:
+            messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
+        else:
+            return gen_sprav_kaspi_komuna(customers_id)
+    if request.method == "POST" and 'spravhalyk' in request.POST:
+        if customers.adresfiktiv is None:
+            messages.info(request, 'Не заполнен фиктивный адрес в дополнительных полях')
+        else:
+            return gen_sprav_halykbank(customers_id)
     context = {
         'info': customers,
         'form': form,
