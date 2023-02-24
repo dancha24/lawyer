@@ -200,13 +200,13 @@ def alladmin(request):
         'submenu': "alladmin",
     }
 
-    return render(request, 'bot/alladmin.html', context)
+    return render(request, 'bot/alladmins.html', context)
 
 
 # Список всех админов
 @permission_required('finansy.add_invoicespaids', raise_exception=True)
 def alluser(request):
-    user = Users.select()
+    user = UsersBots.select()
     context = {
         'titlepage': 'Все администраторы',
         'for_table': user,
@@ -214,4 +214,4 @@ def alluser(request):
         'submenu': "alluser",
     }
 
-    return render(request, 'bot/alluser.html', context)
+    return render(request, 'bot/allusers.html', context)
