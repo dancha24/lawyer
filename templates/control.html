@@ -176,6 +176,16 @@
                         class="menu-arrow fa fa-angle-down"></span></a>
                 <ul class="sub-menu js__content">
 
+                    {% if submenu == 'alladmin' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'alladmin' %}"><span>Админы ботов</span></a></li>
+
+                    {% if submenu == 'alluser' %}
+                        <li class="current">{% else %}
+                        <li>{% endif %}
+                    <a href="{% url 'alluser' %}"><span>Пользователи ботов</span></a></li>
+
                     {% if submenu == 'promokods' %}
                         <li class="current">{% else %}
                         <li>{% endif %}
