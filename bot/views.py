@@ -14,7 +14,6 @@ from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from bot.models import Promocodes, Botset
 from bot import defs
-from bot.pwmod import Users, UsersBots
 
 
 # Список всех промокодов
@@ -189,29 +188,3 @@ def charts(request):
     return render(request, 'bot/charts.html', context)
 
 
-# Список всех админов
-@permission_required('finansy.add_invoicespaids', raise_exception=True)
-def alladmin(request):
-    admins = Users.select()
-    context = {
-        'titlepage': 'Все администраторы',
-        'for_table': admins,
-        'menu': "bot",
-        'submenu': "alladmin",
-    }
-
-    return render(request, 'bot/alladmins.html', context)
-
-
-# Список всех админов
-@permission_required('finansy.add_invoicespaids', raise_exception=True)
-def alluser(request):
-    user = UsersBots.select()
-    context = {
-        'titlepage': 'Все администраторы',
-        'for_table': user,
-        'menu': "bot",
-        'submenu': "alluser",
-    }
-
-    return render(request, 'bot/allusers.html', context)
