@@ -14,7 +14,7 @@ from django.views.generic import DetailView, ListView, CreateView
 from django.views.generic.edit import UpdateView, DeleteView
 from bot.models import Promocodes, Botset
 from bot import defs
-from pwmod import Users, UsersBots
+from bot.pwmod import Users, UsersBots
 
 
 # Список всех промокодов
