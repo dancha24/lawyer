@@ -10,7 +10,7 @@ urlpatterns = [
     path('gendokaren', views.gendokaren, name='gendokaren'),
     path('gensprav', views.gensprav, name='gensprav'),
     path('charts', views.charts, name='charts'),
-    path('alladmin', views.alladmin, name='alladmin'),
-    path('alluser', views.alluser, name='alluser'),
+    # path('alladmin', views.alladmin, name='alladmin'),
+    # path('alluser', views.alluser, name='alluser'),
     # path('botset/reload', views.botreload, name='botreload'),
     ]
