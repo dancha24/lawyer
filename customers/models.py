@@ -59,6 +59,7 @@ class Customers(models.Model):
         (WMAN, 'Женский'),
     )
     type = models.CharField(max_length=2, choices=FACE, default=FIZFACE, verbose_name='Тип')
+    iin = models.CharField(max_length=20, verbose_name='ИИН', blank=True, null=True)
     name = models.CharField(max_length=200, verbose_name='Имя')
     surname = models.CharField(max_length=200, verbose_name='Фамилия')
     pol = models.CharField(max_length=2, choices=POL, verbose_name='Пол')
