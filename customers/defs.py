@@ -41,17 +41,17 @@ def iingen(dr, pol):
     sryaz = 0
     peyaz = dr.strftime('%Y')[2:4] + dr.strftime('%m') + dr.strftime('%d')
     if int(dr.year) < 1900:  # родившихся в XIX веке
-        if pol == 0:  # Мужчины
+        if pol == 'UR':  # Мужчины
             sryaz = 1
         else:
             sryaz = 2
     if 2000 > int(dr.year) > 1900:  # родившихся в XX веке
-        if pol == 0:  # Мужчины
+        if pol == 'UR':  # Мужчины
             sryaz = 3
         else:
             sryaz = 4
     if int(dr.year) > 2000:  # родившихся в XXI веке
-        if pol == 0:  # Мужчины
+        if pol == 'UR':  # Мужчины
             sryaz = 5
         else:
             sryaz = 6
