@@ -3,6 +3,7 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import post_save, post_delete
+import random
 
 
 class WhereInfo(models.Model):
@@ -126,6 +127,32 @@ class Customers(models.Model):
         return summ
 
     all_debt.short_description = 'Общий долг'
+
+    def iingen(self):
+        if self.iin is None:
+            sryaz = 0
+            peyaz = self.dr.strftime('%Y')[2:4] + self.dr.strftime('%m') + self.dr.strftime('%d')
+            if int(self.dr.year) < 1900:  # родившихся в XIX веке
+                if self.pol == 'UR':  # Мужчины
+                    sryaz = 1
+                else:
+                    sryaz = 2
+            if 2000 > int(self.dr.year) > 1900:  # родившихся в XX веке
+                if self.pol == 'UR':  # Мужчины
+                    sryaz = 3
+                else:
+                    sryaz = 4
+            if int(self.dr.year) > 2000:  # родившихся в XXI веке
+                if self.pol == 'UR':  # Мужчины
+                    sryaz = 5
+                else:
+                    sryaz = 6
+            iing = str(peyaz) + str(sryaz) + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
+            self.iin = iing
+            self.save()
+            return iing
+        else:
+            return self.iin
 
     # ФИО
     def __str__(self):

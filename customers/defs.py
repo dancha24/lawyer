@@ -37,32 +37,26 @@ def strmonthrod(month):
     return mon[month]
 
 
-def iingen(idc, dr, pol):
-    customer = Customers.objects.get(pk=idc)
-    if customer.iin is None:
-        sryaz = 0
-        peyaz = dr.strftime('%Y')[2:4] + dr.strftime('%m') + dr.strftime('%d')
-        if int(dr.year) < 1900:  # родившихся в XIX веке
-            if pol == 'UR':  # Мужчины
-                sryaz = 1
-            else:
-                sryaz = 2
-        if 2000 > int(dr.year) > 1900:  # родившихся в XX веке
-            if pol == 'UR':  # Мужчины
-                sryaz = 3
-            else:
-                sryaz = 4
-        if int(dr.year) > 2000:  # родившихся в XXI веке
-            if pol == 'UR':  # Мужчины
-                sryaz = 5
-            else:
-                sryaz = 6
-        iing = str(peyaz) + str(sryaz) + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
-        customer.iin = iing
-        customer.save()
-        return iing
-    else:
-        return customer.iin
+def iingen(dr, pol):
+    sryaz = 0
+    peyaz = dr.strftime('%Y')[2:4] + dr.strftime('%m') + dr.strftime('%d')
+    if int(dr.year) < 1900:  # родившихся в XIX веке
+        if pol == 'UR':  # Мужчины
+            sryaz = 1
+        else:
+            sryaz = 2
+    if 2000 > int(dr.year) > 1900:  # родившихся в XX веке
+        if pol == 'UR':  # Мужчины
+            sryaz = 3
+        else:
+            sryaz = 4
+    if int(dr.year) > 2000:  # родившихся в XXI веке
+        if pol == 'UR':  # Мужчины
+            sryaz = 5
+        else:
+            sryaz = 6
+    iing = str(peyaz) + str(sryaz) + str(random.randint(1000, 5000)) + str(random.randint(1, 9))
+    return iing
 
 
 
@@ -143,7 +137,7 @@ def gen_dog_arenda(customer_id):
         'nameadd': nameadd,
         'nameaddk': nameadd[0],
         'datadradd': datadradd.strftime('%d.%m.%Y'),
-        'iinadd': iingen(customer_id, datadradd, pols),
+        'iinadd': iingen(datadradd, pols),
         'surnameadt': customer.surname,
         'nameadt': customer.name,
         'nameadtk': customer.name[0],
@@ -177,15 +171,13 @@ def gen_sprav_kaspi_one(customer_id):
     allpas = 'Паспорт № ' + str(customer.pasno) + ' Выдан: ' + str(customer.pasby) + ' Код подразделения ' + str(customer.paskod) + ' Дата выдачи: ' + customer.pasdate.strftime('%d.%m.%Y')
     pols = customer.pol
 
-    iinadd = iingen(customer_id, customer.dr, pols)
-
     context = {
         'prover': pols,
         'd': datain.strftime('%d'),
         'monthrod': strmonthrod(datain.month),
         'y': datain.year,
 
-        'iinadd': iinadd,
+        'iinadd': customer.iingen(),
 
         'surnameadt': customer.surname,
         'nameadt': customer.name,
@@ -211,7 +203,7 @@ def gen_sprav_kaspi_two(customer_id):
     dataout = dataingen(2, 5)
     datain = dataout - relativedelta(months=1)
     pols = customer.pol
-    iinadd = iingen(customer_id, customer.dr, pols)
+    iinadd = customer.iingen()
 
     pokupki = 0
     sumtenge = random.randrange(80000, 350000, 1000)
@@ -339,7 +331,7 @@ def gen_sprav_halykbank(customer_id):
         'schet2': str(schet + 1),
         'schet3': str(schet + 2),
         'address': str(customer.adresfiktiv),
-        'iin': iingen(customer_id, customer.dr, customer.pol),
+        'iin': customer.iingen(),
         'datain': "{0} {1} {2}".format(datain.strftime('%w'), mon, datain.strftime('%Y')),
         'dataschet': dataingen(30, 45).strftime('%d.%m.%Y'),
         'fio': "{0} {1} {2}".format(customer.surname, customer.name, patronymic).upper(),
